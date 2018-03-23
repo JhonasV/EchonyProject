@@ -1,0 +1,199 @@
+﻿@model EchonyCore.Models.Usuario
+@{
+/**/
+    @using Microsoft.AspNetCore.Http
+    @inject IHttpContextAccessor HttpContextAccessor
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.title = "Echony: Perfil";
+    if (this.HttpContextAccessor.HttpContext.Session.GetString("email") == null)
+    {
+
+        this.HttpContextAccessor.HttpContext.Response.Redirect(Url.Action("Index", "Login"));
+    }
+}
+@{
+        string perfilNick = this.HttpContextAccessor.HttpContext.Request.Query["NickName"];
+    if (perfilNick !=  this.HttpContextAccessor.HttpContext.Session.GetString("nick"))
+    {
+        <main class="perfil_wrapper">
+            <input id="idPerfil" type="text" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
+            <input id="Nick" type="text" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetString("nick")" />
+            <section class="ventana_perfil_izquierda">
+                <div class="foto-perfil-wrapper">
+                    <img class="foto-perfil" src="@Model.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("id")" />
+                    <div class="arriba">
+
+                    </div>
+                    <div class="abajo">
+
+                        <div class="nombre-usuario-perfil"><span>@Model.Nombre </span><span>@Model.Apellido</span></div>
+
+
+                    </div>
+                </div>
+                <div class="usuario-perfil-info">
+                    <p>Menu de Navegación</p>
+                </div>
+                <div class="menu">
+                    <ul>
+                        <li>
+
+                            <img src="~/fotos/IconosEchony/News_48px.png" />   Noticias
+                        </li>
+                        <li>
+
+                            <img src="~/fotos/IconosEchony/Notification_48px.png" />  Notificaciones <span>10</span>
+                        </li>
+                        <li>
+
+                            <img src="~/fotos/IconosEchony/Chat_48px.png" />  Chat
+                        </li>
+                        <li>
+
+                            <img src="~/fotos/IconosEchony/User Group_48px.png" /> Amigos
+                        </li>
+                        <li>Seguidores</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="principal" class="ventana_perfil_central">
+
+
+
+                <div id="post_container" class="post_container">
+
+                    <img id="loadContainer" src="~/fotos/ajax-loader.gif" alt="Cargando..." />
+                </div>
+
+
+            </section>
+            <section class="ventana_perfil_derecha">
+                ventana derecha
+            </section>
+        </main>
+    }
+    else
+    {
+        <dialog id="modal_foto" class="modal_foto">
+            <div class="titulo_modal">
+                <div>
+                    <h3>Actualización de Foto</h3>
+                </div>
+                <div>
+                    <span id="cerrar_modal">X</span>
+                </div>
+            </div>
+            <div class="cuerpo_modal">
+                <span style="text-align:center;">Foto Actual</span>
+                <img class="foto_modal" src="~/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="Alternate Text" />
+                <form id="form-fotos" action="AddFotoPublicacion/Perfil" method="post" enctype="multipart/form-data">
+                    <!--enctype="multipart/form-data"-->
+                    <input type="hidden" name="foto_id" value="@Model.Id" />
+                    <div class="botones-modal">
+                        <input class="subir-foto" required id="subir-foto" type="file" name="foto" value="Subir Foto" accept="image/*" />
+                        <input type="submit" name="subir" value="Actualizar Foto" />
+                    </div>
+                    <div class="modal_footer">
+                        <input type="button" name="cancelar" value="Cancelar" />
+                    </div>
+
+                </form>
+            </div>
+
+        </dialog>
+        <main class="perfil_wrapper">
+
+            <input id="idPerfil" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
+            <input id="Nick" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Request.Query["NickName"]" />
+            <section class="ventana_perfil_izquierda">
+                <div class="foto-perfil-wrapper">
+                   
+                    <img class="btnFoto" id="btnFoto" src="~/images/fotos/photo-camera.png" />
+                    <img class="foto-perfil" src="~/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("nick")" />
+                    <div class="arriba">
+
+                    </div>
+                    <div class="abajo">
+                        <div class="nombre-usuario-perfil"><span>@Model.Nombre </span><span>@Model.Apellido</span></div>
+
+
+
+
+                    </div>
+                </div>
+                <div class="usuario-perfil-info">
+                    <p>Menu de Navegación</p>
+                </div>
+                <div class="menu">
+                    <ul>
+                        <li>
+
+
+                            <img src="~/images/fotos/IconosEchony/News_48px.png" /> Noticias
+                        </li>
+                        <li>
+
+
+                            <img src="~/images/fotos/IconosEchony/Notification_48px.png" /> Notificaciones <span>10</span>
+                        </li>
+                        <li>
+
+
+                            <img src="~/images/fotos/IconosEchony/Chat_48px.png" />  Chat
+                        </li>
+                        <li>
+
+
+                            <img src="~/images/fotos/IconosEchony/Add User Male_48px.png" />  Amigos
+                        </li>
+                        <li>Seguidores</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="principal" class="ventana_perfil_central">
+
+                <article class="estado">
+                    <div class="menu_estado">
+                        <div class="menu_estado_wrapper">
+                            <p>...</p>
+                        </div>
+                    </div>
+                    <div class="post__wrapper">
+
+                        <div>
+                            <textarea class="text-estado" placeholder="Escribe algo, @Model.Nombre" id="contenido-post"></textarea>
+                            <div class="estado-botonera">
+                                <div class="botones-publicar">
+                                    <button class="btn" id="publicar-post">Publicar</button>
+                                    <input type="file" id="foto-post" value="Subir Foto..." />
+
+                                </div>
+
+
+                                <img id="load" style="display:inline-flex; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                </article>
+
+                <div id="post_container" class="post_container">
+
+                    <img id="loadContainer" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+                </div>
+
+
+            </section>
+            <section class="ventana_perfil_derecha">
+                ventana derecha
+            </section>
+        </main>
+    }
+}

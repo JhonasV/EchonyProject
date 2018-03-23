@@ -1,0 +1,243 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+img{
+    display: block;
+    max-width: 100%;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    letter-spacing: 1.5px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.titulo__nav {
+    font-size: 50px;
+    color: #00CBF0;
+}
+
+.header {
+    width: 100%;
+    height: auto;
+    background-color: #2c3e50;
+    border-bottom: 2px solid black;
+    box-shadow: 0 1px 1em grey;
+}
+
+.nav {
+    width: 95%;
+    margin: 0 auto;
+    height: 4em;
+    background-color: #2c3e50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.nav_enlaces {
+    display: block;
+   
+}
+
+    .nav_enlaces a {
+        text-decoration: none;
+        margin-right: 1em;
+        color: white;
+        font-size: 20px;
+    }
+
+        .nav_enlaces a:hover {
+            color: #00CBF0;
+        }
+.body{
+    display:flex;
+    height:83vh;
+}
+
+.index_izquierda {
+    flex: 0.7;
+    border-right:1px solid #eee;
+}
+
+.img-login {
+    position:relative;
+    width: 100%;
+    height:100%;
+  
+
+} 
+.container {
+    flex: 0.5;
+    display: flex;
+    justify-content: flex-end;
+    background-color: white;
+    padding: 5em 5em 0 0;
+}
+
+.login-container{
+    
+    text-align:center;
+}
+
+
+.formulario {
+    width: 70%;
+    height: 60%;
+   
+}
+
+
+
+.form_titulo {
+    height: 2em;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 10px;
+    margin-left: 1.6em;
+    color: #00CBF0;
+}
+
+.form_body {
+    padding-bottom: 10px;
+}
+
+.fila {
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.columna {
+    font-weight: bold;
+    
+    margin: 0 auto;
+    margin-left: 2em;
+    flex: 0.5;
+}
+
+.columna_inline{
+    display:inline-block;
+}
+
+.input-login {
+   
+    padding: 13px 0 13px 8px;
+    border-radius: 3px;
+    border: 1px solid #00CBF0;
+    font-size:15px;
+}
+
+.input-size-m{
+    width:20em;
+}
+
+.input-login-large {
+    width: 30em;
+}
+
+.form_footer {
+    
+    width: 100%;
+    
+}
+
+.boton {
+    margin: 10px 10px;
+}
+
+.btn {
+    border: 2px solid #00CBF0;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: #00CBF0;
+    padding: 12px 12px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+ .btn:hover {
+        background-color: white;
+        color: #00CBF0;
+        border: 2px solid #00CBF0;
+    }
+
+.footer-registrar {
+    font-size: 15px;
+    color:black;
+}
+
+    .footer-registrar a {
+        text-decoration: none;
+        color: #00CBF0;
+    }
+.btn-registro{
+    margin-left:2em;
+}
+
+
+
+
+.color{
+    color:red;
+}
+
+.mensaje_estilo {
+    width: 30em;
+    background-color: #F04723;
+    color:white;
+    font-weight:bold;
+    
+    height: 3em;
+    border: 1px solid #ff6a00;
+}
+
+.mensaje_estilo h5{
+    padding:10px 0 0 10px;
+    font-size:25px;
+}
+
+.registro_ask{
+    padding-left:15px;
+    font-weight:bold;
+}
+
+.registro_ask a{
+   text-decoration: none;
+   color: #00CBF0;
+}
+
+.registro_ask a:hover {
+    text-decoration:underline;
+    
+}
+
+.container-registro {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: white;
+    width: 40%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin: 3em auto;
+}
+
+.bg-registro {
+    background-color: #F2F2F2;
+}
+

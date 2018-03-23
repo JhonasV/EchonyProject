@@ -1,0 +1,131 @@
+﻿@model EchonyCore.Models.Usuario
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+
+
+    <link href="~/css/estilos.css" rel="stylesheet" />
+    <link href="~/css/LoginStyle.css" rel="stylesheet" />
+    <link href="~/css/PerfilStyles.css" rel="stylesheet" />
+    <link href="~/css/musica.css" rel="stylesheet" />
+    
+
+    <title>@ViewBag.title</title>
+</head>
+<body>
+    @{
+        @using Microsoft.AspNetCore.Http
+        @inject IHttpContextAccessor HttpContextAccessor
+        if (this.HttpContextAccessor.HttpContext.Session.GetString("email") == null)
+        {
+
+
+            <header class="header_home">
+                <div class="logo_home">
+                    <div class="logo__container">
+                        <h1 class="logo"><a href="@Url.Action("Index", "Login")">ECHONY</a></h1>
+                    </div>
+                    <div class="menu_home_container">
+                        <nav class="menu_home">
+                            <ul class="">
+                                <li>
+                                    <a href="@Url.Action("Registro", "Login")" class="botonSecundario">Registrarse</a>
+                                </li>
+                                <li>
+                                    <a id="buttonMusica" href="@Url.Action("Index", "Login")" class="botonSecundario">Inicar Sesion</a>
+
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+
+            </header>
+        }
+        else
+        {
+            //int id = int.Parse(Session["id"].ToString());
+            //string nick = Session["nick"].ToString();
+            string NickName = this.HttpContextAccessor.HttpContext.Session.GetString("nick");
+            string id = this.HttpContextAccessor.HttpContext.Session.GetString("id");
+            string perfilNick = Model.NickName; //Request.QueryString["NickName"].ToString();
+
+            if (perfilNick != NickName)
+            {
+                <header class="header_home">
+                    <div class="logo_home">
+                        <div class="logo__container">
+                            <h1 class="logo"><a href="@Url.Action("Index", "Home")">ECHONY</a></h1>
+                        </div>
+                        <div class="menu_home_container">
+
+                        </div>
+                        <div class="usuario">
+
+
+                            <div class="usuarioContenido">
+                                <h3 class="nombre_usuario"><a href="@Url.Action("Usuario", "Perfil", new {NickName, id})">@NickName</a></h3>
+                                <a class="btnSesion" href="@Url.Action("LogOut", "Login")">LogOut</a>
+                            </div>
+                            <div class="foto_usuario_container">
+                                <img src="@Model.Foto" alt="" class="foto_usuario">
+
+                            </div>
+
+                            <h3 class="opcion">...</h3>
+                        </div>
+                    </div>
+
+                </header>
+            }
+            else
+            {
+                <header class="header_home">
+                    <div class="logo_home">
+                        <div class="logo__container">
+                            <h1 class="logo"><a href="@Url.Action("Index", "Home")">ECHONY</a></h1>
+                        </div>
+                        <div class="menu_home_container">
+
+                        </div>
+                        <div class="usuario">
+
+
+                            <div class="usuarioContenido">
+                                <h3 class="nombre_usuario"><a href="@Url.Action("Usuario", "Perfil", new {Model.NickName})">@Model.NickName</a></h3>
+                                <a class="btnSesion" href="@Url.Action("LogOut", "Login")">LogOut</a>
+                            </div>
+                            <div class="foto_usuario_container">
+                                <img src="@Model.Foto" alt="" class="foto_usuario">
+
+                            </div>
+
+                            <h3 class="opcion">...</h3>
+                        </div>
+                    </div>
+
+                </header>
+            }
+
+        }
+    }
+
+    @RenderBody()
+    <footer>
+        <div class="page-footer"><p>Soy un footer @DateTime.Now.Year</p></div>
+    </footer>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/ScriptsPerfil.js"></script>
+</body>
+</html>

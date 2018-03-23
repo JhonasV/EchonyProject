@@ -1,0 +1,93 @@
+﻿@model EchonyCore.Models.Usuario
+@{
+    @using Microsoft.AspNetCore.Http
+    @inject IHttpContextAccessor HttpContextAccessor
+    if (HttpContextAccessor.HttpContext.Session.GetString("id") != null) { HttpContextAccessor.HttpContext.Response.Redirect(Url.Action("Index", "Home")); }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.title = "Echony: Registro";
+}
+
+<body class="bg-registro">
+    <div class="container-registro">
+
+        @using (Html.BeginForm("AddUsuario", "Login", FormMethod.Post, new { @Class = "formulario_registro" }))
+        {
+            <div class="form_header">
+                <div class="form_titulo">
+                    <h3>UNETE A ECHONY</h3>
+                </div>
+            </div>
+            <div class="form_body">
+                <div class="fila">
+
+                    <div class="columna">
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { placeholder = "Nombre", @Class = "input-login" } })
+
+                    </div>
+                    <div class="columna">
+                        @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { placeholder = "Apellido", @Class = "input-login" } })
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="columna">
+                        <h4>@Html.ValidationMessageFor(model => model.Nombre, "", new { style = "color:red;" })</h4>
+                    </div>
+                    <div class="columna">
+                        <h4>@Html.ValidationMessageFor(model => model.Apellido, "", new { style = "color:red;" })</h4>
+                    </div>
+                </div>
+
+
+                <div class="fila">
+                    <div class="columna">
+                        @Html.EditorFor(model => model.NickName, new { htmlAttributes = new { placeholder = "Nombre de Usuario", @Class = "input-login" } })
+
+                    </div>
+                    <div class="columna">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { placeholder = "Correo Eléctronico", @Class = "input-login" } })
+
+                    </div>
+                </div>
+
+                <div class="fila">
+                    <div class="columna">
+                        <h4>@Html.ValidationMessageFor(model => model.NickName, "", new { style = "color:red;" })</h4>
+                    </div>
+                    <div class="columna">
+                        <h4>@Html.ValidationMessageFor(model => model.Email, "", new { style = "color:red;" })</h4>
+                    </div>
+                </div>
+
+
+                <div class="fila">
+
+                    <div class="columna">
+                        @Html.EditorFor(model => model.Clave, new { htmlAttributes = new { placeholder = "Contraseña", @Class = "input-login" } })
+                    </div>
+                    <div class="columna">
+                        @Html.EditorFor(model => model.ConfirmacionClave, new { htmlAttributes = new { placeholder = "Repetir Contraseña", @Class = "input-login" } })
+                    </div>
+                </div>
+                <div class="fila">
+
+                    <div class="columna">
+                        <h4>@Html.ValidationMessageFor(model => model.Clave, "", new { style = "color:red;" })</h4>
+                    </div>
+                    <div class="columna">
+                        <h4>@Html.ValidationMessageFor(model => model.ConfirmacionClave, "", new { style = "color:red;" })</h4>
+                    </div>
+                </div>
+
+
+            </div>
+            <h2 style="text-align:center;color:red;background-color:#F5DA55;">@Html.DisplayFor(model => model.Mensaje)</h2>
+            <div class="form_footer">
+                <div class="boton">
+                    <button class="btn btn-registro" type="submit">Acceder</button>
+                </div>
+
+            </div>
+        }
+
+    </div>
+</body>

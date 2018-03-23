@@ -1,0 +1,35 @@
+.musica {
+    overflow: auto;
+    width: 100%;
+}
+
+
+
+.album-style {
+    margin: 0.7em;
+    height: 100px;
+    display: flex;
+    width: 97%;
+    align-items: center;
+}
+
+.album-style:hover {
+    background-color: rgba(32, 34, 44, 0.6);
+    cursor: pointer;
+}
+
+.foto-album {
+
+    border: 1px solid black;
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+
+}
+
+.album-info {
+    font-size: 20px;
+
+    margin-left: 10px;
+    display: block;
+}
