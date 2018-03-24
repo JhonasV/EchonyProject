@@ -15,14 +15,14 @@
         string perfilNick = this.HttpContextAccessor.HttpContext.Request.Query["NickName"];
     if (perfilNick !=  this.HttpContextAccessor.HttpContext.Session.GetString("nick"))
     {
-        <main class="perfil_wrapper">
-            <input id="idPerfil" type="text" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
-            <input id="Nick" type="text" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetString("nick")" />
+        <main id="cuerpo-perfil" class="perfil_wrapper">
+            <input id="idPerfil" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
+            <input id="Nick" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Request.Query["NickName"]" />
             <section class="ventana_perfil_izquierda">
                 <div class="foto-perfil-wrapper">
-                    <img class="foto-perfil" src="@Model.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("id")" />
+                    <img class="foto-perfil" src="~/images/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("id")" />
                     <div class="arriba">
-
+                       
                     </div>
                     <div class="abajo">
 
@@ -37,20 +37,22 @@
                 <div class="menu">
                     <ul>
                         <li>
-
-                            <img src="~/fotos/IconosEchony/News_48px.png" />   Noticias
+                            
+                            <img src="~/images/fotos/IconosEchony/News_48px.png" /> Noticias
+                        </li>
+                        <li>
+                            
+                            <img src="~/images/fotos/IconosEchony/Notification_48px.png" />  Notificaciones <span>10</span>
                         </li>
                         <li>
 
-                            <img src="~/fotos/IconosEchony/Notification_48px.png" />  Notificaciones <span>10</span>
+
+                            <img src="~/images/fotos/IconosEchony/Chat_48px.png" />  Chat
                         </li>
                         <li>
 
-                            <img src="~/fotos/IconosEchony/Chat_48px.png" />  Chat
-                        </li>
-                        <li>
 
-                            <img src="~/fotos/IconosEchony/User Group_48px.png" /> Amigos
+                            <img src="~/images/fotos/IconosEchony/User Group_48px.png" />  Amigos
                         </li>
                         <li>Seguidores</li>
                     </ul>
@@ -62,8 +64,8 @@
 
 
                 <div id="post_container" class="post_container">
-
-                    <img id="loadContainer" src="~/fotos/ajax-loader.gif" alt="Cargando..." />
+                    <img  id="loadContainer" src="~/images/fotos/ajax-loader.gif" />
+                   
                 </div>
 
 
@@ -86,7 +88,7 @@
             </div>
             <div class="cuerpo_modal">
                 <span style="text-align:center;">Foto Actual</span>
-                <img class="foto_modal" src="~/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="Alternate Text" />
+                <img class="foto_modal" src="~/images/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="Alternate Text" />
                 <form id="form-fotos" action="AddFotoPublicacion/Perfil" method="post" enctype="multipart/form-data">
                     <!--enctype="multipart/form-data"-->
                     <input type="hidden" name="foto_id" value="@Model.Id" />
@@ -102,15 +104,16 @@
             </div>
 
         </dialog>
-        <main class="perfil_wrapper">
+        <main id="cuerpo-perfil" class="perfil_wrapper">
 
             <input id="idPerfil" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
             <input id="Nick" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Request.Query["NickName"]" />
             <section class="ventana_perfil_izquierda">
                 <div class="foto-perfil-wrapper">
+
                    
                     <img class="btnFoto" id="btnFoto" src="~/images/fotos/photo-camera.png" />
-                    <img class="foto-perfil" src="~/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("nick")" />
+                    <img class="foto-perfil" src="~/images/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("nick")" />
                     <div class="arriba">
 
                     </div>
@@ -166,7 +169,7 @@
                             <textarea class="text-estado" placeholder="Escribe algo, @Model.Nombre" id="contenido-post"></textarea>
                             <div class="estado-botonera">
                                 <div class="botones-publicar">
-                                    <button class="btn" id="publicar-post">Publicar</button>
+                                    <button   class="btn" id="publicar-post">Publicar</button>
                                     <input type="file" id="foto-post" value="Subir Foto..." />
 
                                 </div>

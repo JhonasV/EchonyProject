@@ -73,8 +73,8 @@
                                 <a class="btnSesion" href="@Url.Action("LogOut", "Login")">LogOut</a>
                             </div>
                             <div class="foto_usuario_container">
-                                <img src="@Model.Foto" alt="" class="foto_usuario">
-
+                                <img src="~/images/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="" class="foto_usuario">
+                               
                             </div>
 
                             <h3 class="opcion">...</h3>
@@ -120,12 +120,10 @@
         <div class="page-footer"><p>Soy un footer @DateTime.Now.Year</p></div>
     </footer>
 
-
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/jquery-1.10.2.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
-    <script src="~/js/ScriptsPerfil.js"></script>
+ 
+    <script src="~/js/MiScript.js"></script>
 </body>
 </html>

@@ -1,101 +1,85 @@
 ﻿$('document').ready(() => {
-    $texto = $("#contenido-post");
-    $btn = $("#publicar-post");
-    $idPerfil = $("#idPerfil");
-    $idPerfil.hide();
-
-
-
-    /* $texto.keypress(e => {
-         var code = (e.keyCode ? e.keyCode : e.which);
-         if (code == 13) {
-             guardarPost();
-         }
-     })*/
-
-   /* $("#publicar-post").on("click", () => {
-        guardarPost();
-        mostrarPublicaciones();
-
-    });*/
 
     $("#load").hide();
-    $("#publicar-post").hide();
-    $("#foto-post").hide();
-    $texto.on('click', () => {
-        $("#publicar-post").show();
-        $("#foto-post").show();
-    });
-    var date = new Date();
-    const guardarPost = () => {
-        $publicacion = $texto.val();
-      
-        let Publicacion = {
-            Contenido: $publicacion,
-            Fecha: date,
-            UsuarioId: $idPerfil.val()
-        }
-        console.log(Publicacion);
+    const guardar = () => {
         $("#load").show();
-        console.log("Cargando..");
+        let date = new Date();
+        let datos = {
+            UsuarioId: $("#idPerfil").val(),
+            Contenido: $("#contenido-post").val(),
+            Fecha: date
+        };
         $.ajax({
-            datatype: "json",
-            type: "post",
             url: "/Perfil/AddPublicacion",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(Publicacion),
+            type: "POST",
+            datatype: "JSON",
+            data: datos,
             success: data => {
-              
                 console.log(data);
                 $("#load").hide();
             },
             error: e => {
-                console.log("Termino de cargar..");
                 $("#load").hide();
+                console.log(e);
             }
         });
         $placeholder = $("#contenido-post").attr("placeholder");
 
-        $texto.val('');
-        $texto.attr("placeholder", $placeholder);
-
-        
+        $("#contenido-post").val('');
+        $("#contenido-post").attr("placeholder", $placeholder);
     }
+    $("#load").hide();
+    const Publicacion = () => {
+        $("#load").show();
+        let datos = {
+            UsuarioId: $("#idPerfil").val(),
+            Contenido: $("#contenido-post").val(),
+            Fecha: new Date()
+        };
+        $.post("/Perfil/AddPublicacion", datos).done((data) => {
+            if (data.Ok) {
+                $("#load").hide();
+                console.log(data);
+            } else {
+                $("#load").hide();
+                console.log("error");
+            }
+        }).fail((error) => {
+            $("#load").hide();
+            console.log(error);
+            });
+        $placeholder = $("#contenido-post").attr("placeholder");
 
-    $loadingContainer = $("#loadContainer");
-    $("#Nick").hide();
-    $loadingContainer.hide();
-    mostrarPublicaciones = () => {
-        $loadingContainer.show();
-        let Nick = {
+        $("#contenido-post").val('');
+        $("#contenido-post").attr("placeholder", $placeholder);
+    }
+    $("#loadContainer").hide();
+ 
+
+    const mostrarPublicacionesDos = () => {
+        $("#loadContainer").show();
+        let datos = {
             NickName: $("#Nick").val()
         };
-       
         $.ajax({
-            type: "post",
-            datatype: "json",
-            url: '/Perfil/GetPublicacion',
-            data: JSON.stringify(Nick),
+            url: "/Perfil/GetPublicacion",
+            type: "POST",
+            datatype: "JSON",
+            data: datos,
             success: data => {
-                $loadingContainer.hide();
                 DibujadorPublicacion(JSON.parse(data));
-             
-               /* for (let i = 0; i < data.length; i++) {
-                    console.log(data[i].Post_Usuario);
-                }*/
-                
-               
+                $("#loadContainer").hide();
             },
             error: e => {
-                $loadingContainer.hide();
-                console.log("Error en la peticion AJAX: "+e.error);
+                $("#loadContainer").hide();
+                console.log(e);
             }
         });
     }
 
-    DibujadorPublicacion = (data) => {
+    const DibujadorPublicacion = (data) => {
         $idUsuario = $("#idPerfil").val();
-      
+
         $("#post_container").html("");
 
         if (data.length === 0) {
@@ -110,17 +94,17 @@
 
 
             data.reverse().length
-            for (let i = 0; i < data.reverse().length; i++) {
-                let fecha = JsonDate(data[i].Fecha);
-                
-            let elemento = ` 
+            for (let i = 0; i < data.length; i++) {
+               // let fecha = JsonDate(data[i].Fecha);
+
+                let elemento = ` 
         <div class="post-wrapper">
             
 
             <article id="post" class="post">
                 <div class="post-info">
-                    <img src="../Fotos_Usuarios/${data[i].RutaFoto}" alt="Foto" />
-                    <span>${data[i].Nombre}</span> | <p>${fecha}</p>
+                    <img src="../images/Fotos_Usuarios/${data[i].RutaFoto}" alt="Foto" />
+                    <span>${data[i].Nombre}</span> | <p></p>
                     <div id="btn-post"><a  href="#">Me Gusta</a><a  href="#">Comentar</a></div>
                    
                 </div>
@@ -136,7 +120,7 @@
                         </article>
                 <div class="coment-wrapper">
                 <div id="post-comment" class="post-comment">
-                <img src="..\\wwwroot\\images\\Fotos_Usuarios\\${data[i].RutaFoto}" alt="Foto" />
+                <img src="../images/Fotos_Usuarios/${data[i].RutaFoto}" alt="Foto" />
                 <div class="comment-texarea">
 
                   <div class="contenido-comentario-container"><span>${data[i].Nombre} </span><span>${data[i].Apellido}</span><p>Este es un comentario </p></div>
@@ -149,7 +133,7 @@
             <input type="hidden" name="idPublicacion" value ="${data[i].Id}" />
             <input type="hidden" name="idUsuario" value ="${$idUsuario}" />
             <div id="post-comment" class="post-comment">
-                <img src="#" alt="Foto" />
+                <img src="../images/Fotos_Usuarios/${data[i].RutaFoto}" alt="Foto" />
                 <div class="comment-texarea">
 
                     
@@ -159,49 +143,25 @@
             </div>
              <input id="btnEnviar-comentario" type="submit" value="Enviar" />
             </form>
+        </article>
         </div>
                 
           
         `;
 
-          $("#post_container").append(elemento);
-       
+                $("#post_container").append(elemento);
+
             }
         }
     };
+
     
-
-   //<textarea name="comentario" placeholder="Comenta esta publicación..."></textarea>
-    /*const agregadorComentarios = () => {
-        $.ajax({
-            datatype: "JSON",
-            type: "POST",
-            url: "AddComentario/Perfil",
-            data: $("#comentario_form").serialize(),
-            success: (data) => {
-                console.log(data);
-            },
-            error: (error) => {
-                console.log(error);
-            },
-            complete: (error, data) => {
-                console.log(error, data);
-            }
-        });
-        return false;
-    }
-    $("#btnEnviar-comentario").on("click", agregadorComentarios());
-    */
-
-
-   // $("body").on("load", mostrarPublicaciones());
-
     //Formateador de fechas JSON
     const JsonDate = (jsonDate) => {
         var offset = new Date().getTimezoneOffset() * 60000;
         var parts = /\/Date\((-?\d+)([+-]\d{2})?(\d{2})?.*/.exec(jsonDate);
-        if (parts[2] === undefined) parts[2] = 0;
-        if (parts[3] === undefined) parts[3] = 0;
+        if (parts[2] == undefined) parts[2] = 0;
+        if (parts[3] == undefined) parts[3] = 0;
         d = new Date(+parts[1] + offset + parts[2] * 3600000 + parts[3] * 60000);
         date = d.getDate() + 1;
         date = date < 10 ? "0" + date : date;
@@ -211,6 +171,18 @@
         return (date + "/" + mon + "/" + year);
     };
 
+    $("#publicar-post").on("click", () => {
+       // Publicacion();
+        guardar();
+        mostrarPublicacionesDos()
+       
+    });
+  
+    $("body").on("load", mostrarPublicacionesDos());
+
+
+    /*MODALES*/
+
     $("#btnFoto").on("click", () => {
         $("#modal_foto").attr("open", "true");
     });
@@ -219,7 +191,5 @@
         $("#modal_foto").removeAttr("open");
 
     });
-   
-});
 
-/* */
+});

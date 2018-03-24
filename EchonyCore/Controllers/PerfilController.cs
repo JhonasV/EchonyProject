@@ -73,21 +73,23 @@ namespace EchonyCore.Controllers
                 return Json(lista);
             }
         }*/
-        public JsonResult AddPublicacion(Publicaciones p)
+        [HttpPost]
+        public IActionResult AddPublicacion(Publicaciones p)
         {
-            if (p == null)
+            if (p.UsuarioId == 0)
              {
                  return Json(false);
              }
              else
              {
                  PerfilDAO dao = new PerfilDAO();
+              
                  dao.AddPublicacion(p);
                  return Json("Publicacion agregada");
              }
             
         }
-
+        [HttpPost]
         public JsonResult GetPublicacion(Usuario ux)
         {
             if (ux == null)

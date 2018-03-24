@@ -67,9 +67,12 @@ body {
 }
 
 .post__wrapper {
+   
     display: flex;
     
-} 
+}
+
+
 .estado img {
     width: 48px;
     height: 48px;
@@ -110,7 +113,7 @@ body {
     /*ESTILOS DE LOS POSTS*/
 .post {
     background-color: white;
-    margin: 0 auto;
+    margin: 1em auto;
     border: 1px solid #eee;
     max-width: 100%;
     width: 100%;
@@ -218,11 +221,11 @@ body {
 }
 
 
-.post_container{
-    width:95%;
-    margin:0 auto;
-    display:block;
-    background-color:white;
+.post_container {
+    width: 95%;
+    margin: 0 auto;
+    display: block;
+    background-color: #E6ECF0;
 }
 
 #btn-post{

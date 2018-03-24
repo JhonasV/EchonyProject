@@ -91,12 +91,12 @@ namespace EchonyCore.Models
                 _context.Usuario.Add(user);
                 _context.SaveChanges();
 
-                   
-                        Foto foto = new Foto
-                        {
-                            Id = user.Id,
 
-                            RutaFoto = "https://wordsandvideos.com/wp-content/uploads/2016/12/common.png"
+                    Foto foto = new Foto
+                    {
+                        Id = user.Id,
+
+                        RutaFoto = "ImagenDefault.png"
                         };
 
                     _context.Fotos.Add(foto);
