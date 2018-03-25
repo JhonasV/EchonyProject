@@ -11,9 +11,10 @@ using System;
 namespace EchonyCore.Migrations
 {
     [DbContext(typeof(EchonyEntityContext))]
-    partial class EchonyEntityContextModelSnapshot : ModelSnapshot
+    [Migration("20180325185002_privada")]
+    partial class privada
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

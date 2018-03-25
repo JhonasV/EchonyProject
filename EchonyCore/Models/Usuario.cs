@@ -43,5 +43,7 @@ namespace EchonyCore.Models
         public virtual Foto Foto { get; set; }
 
         public List<Publicaciones> Publicaciones { get; set; }
+
+        public int Privada { get; set; }
     }
 }

@@ -190,13 +190,20 @@ namespace EchonyCore.Controllers
         [HttpGet]
         public ActionResult Busqueda(string r)
         {
-            string nick = HttpContext.Session.GetString("nick");
-            string cadena = r.Trim();
-            PerfilDAO dao = new PerfilDAO();
-            Usuario u = dao.GetUsuario(new Usuario { NickName = nick});
-            List <Usuario> lista =  dao.Busqueda(cadena);
-            ViewBag.data = lista;
-            return View("Busqueda", lista);
+           if(r == null || r== "")
+            {
+
+                return View("Error");
+            }
+            else
+            {
+                PerfilDAO dao = new PerfilDAO();
+                
+                List<Usuario> lista = dao.Busqueda(r);
+                ViewBag.data = lista;
+                return View("Busqueda", lista);
+            }
+          
         }
        
     }
