@@ -27,7 +27,7 @@
 
         $("#contenido-post").val('');
         $("#contenido-post").attr("placeholder", $placeholder);
-    }
+    };
     $("#load").hide();
     const Publicacion = () => {
         $("#load").show();
@@ -47,12 +47,12 @@
         }).fail((error) => {
             $("#load").hide();
             console.log(error);
-            });
+        });
         $placeholder = $("#contenido-post").attr("placeholder");
 
         $("#contenido-post").val('');
         $("#contenido-post").attr("placeholder", $placeholder);
-    }
+    };
     $("#loadContainer").hide();
  
 
@@ -160,8 +160,8 @@
     const JsonDate = (jsonDate) => {
         var offset = new Date().getTimezoneOffset() * 60000;
         var parts = /\/Date\((-?\d+)([+-]\d{2})?(\d{2})?.*/.exec(jsonDate);
-        if (parts[2] == undefined) parts[2] = 0;
-        if (parts[3] == undefined) parts[3] = 0;
+        if (parts[2] === undefined) parts[2] = 0;
+        if (parts[3] === undefined) parts[3] = 0;
         d = new Date(+parts[1] + offset + parts[2] * 3600000 + parts[3] * 60000);
         date = d.getDate() + 1;
         date = date < 10 ? "0" + date : date;
@@ -171,14 +171,14 @@
         return (date + "/" + mon + "/" + year);
     };
 
-    $("#publicar-post").on("click", () => {
+   /* $("#publicar-post").on("click", () => {
        // Publicacion();
         guardar();
         mostrarPublicacionesDos()
        
-    });
+    });*/
   
-    $("body").on("load", mostrarPublicacionesDos());
+    //$("body").on("load", mostrarPublicacionesDos());
 
 
     /*MODALES*/

@@ -20,7 +20,7 @@ namespace EchonyCore.Models
      
 
         public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<Publicaciones> Publiaciones { get; set; }
+        public DbSet<Publicaciones> Publicaciones { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Foto> Fotos { get; set; }
 

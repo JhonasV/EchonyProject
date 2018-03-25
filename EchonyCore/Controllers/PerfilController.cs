@@ -130,25 +130,75 @@ namespace EchonyCore.Controllers
             return Json(false);
         }
 
-        /*public IActionResult AddFotoPublicacion(int foto_id, IFormFile foto)
+        public IActionResult AddFotoPublicacion(int foto_id, IFormFile foto, string nick)
         {
 
-            if (foto != null)
+            
+            PerfilDAO dao = new PerfilDAO();
+            if (!ModelState.IsValid)
             {
-                string ruta = DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetExtension(foto.FileName);
-               
-                foto.SaveAs(System.IO.Path.Combine("~/Fotos_Usuarios/", ruta));
-
-                PerfilDAO dao = new PerfilDAO();
-                string mensaje = dao.AddFotoPerfil(new Foto { Id = foto_id, RutaFoto = ruta });
-                return RedirectToAction("Usuario");
+                return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = nick }));
             }
+            //\wwwroot\images\Fotos_Usuarios\20180321212835.png
+            var ruta = "wwwroot\\images\\Fotos_Usuarios\\" + foto.FileName;
+            using(var stream = new FileStream(ruta, FileMode.Create))
+            {
 
-            return RedirectToAction("Usuario");
+                foto.CopyTo(stream);
+                dao.AddFotoPerfil(new Foto { Id = foto_id, Img = foto , RutaFoto = foto.FileName});
+            }
+            
+            
+            return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = nick }));
+
+        }
 
 
+        public ActionResult AgregarPublicacion(string Contenido, int UsuarioId, string NickName, IFormFile foto)
+        {
+            PerfilDAO dao = new PerfilDAO();
+            DateTime fecha = DateTime.Now;
 
 
-        }*/
+            var ruta = "";
+            if(foto != null)
+            {
+                ruta = "wwwroot\\images\\Fotos_Usuarios\\" + foto.FileName;
+                using (var stream = new FileStream(ruta, FileMode.Create))
+                {
+
+                    foto.CopyTo(stream);
+                  
+                    
+
+                    bool exito = dao.AgregarPublicacion(new Publicaciones { Contenido = Contenido, UsuarioId = UsuarioId, Fecha = fecha, Foto = foto.FileName });
+                }
+            }
+            else
+            {
+                bool exito = dao.AgregarPublicacion(new Publicaciones { Contenido = Contenido, UsuarioId = UsuarioId, Fecha = fecha });
+            }
+            
+            
+            
+            //Perfil / Usuario ? NickName = JhonasV
+           
+           
+            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
+            //return Redirect("Perfil/Usuario?Nickname="+NickName);
+        }
+        [HttpGet]
+        public ActionResult Busqueda(string r)
+        {
+            string nick = HttpContext.Session.GetString("nick");
+            string cadena = r.Trim();
+            PerfilDAO dao = new PerfilDAO();
+            Usuario u = dao.GetUsuario(new Usuario { NickName = nick});
+            List <Usuario> lista =  dao.Busqueda(cadena);
+            ViewBag.data = lista;
+            return View("Busqueda", lista);
+        }
+       
     }
+
 }

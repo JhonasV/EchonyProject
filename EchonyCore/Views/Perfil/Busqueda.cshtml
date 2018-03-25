@@ -1,0 +1,69 @@
+﻿@model List<EchonyCore.Models.Usuario>
+@{
+    @using Microsoft.AspNetCore.Http
+    @inject IHttpContextAccessor HttpContextAccessor
+    Layout = null;
+    string NickName = this.HttpContextAccessor.HttpContext.Session.GetString("nick");
+    
+}
+<title>Echony: Busqueda"</title>
+<link href="~/css/PerfilStyles.css" rel="stylesheet" />
+<link href="~/css/estilos.css" rel="stylesheet" />
+<header class="header_home">
+    <div class="logo_home">
+        <div class="logo__container">
+            <h1 class="logo"><a href="@Url.Action("Index", "Home")">ECHONY</a></h1>
+        </div>
+        <div class="menu_home_container">
+            <form asp-controller="Perfil" asp-action="Busqueda" method="get">
+                <input class="input-busqueda" type="search" name="r" value="" placeholder="Busca a tus amigos..." />
+                <input type="button" name="buscar-btn" value="Buscar" />
+            </form>
+        </div>
+        <div class="usuario">
+
+
+            <div class="usuarioContenido">
+                <h3 class="nombre_usuario"><a href="@Url.Action("Usuario", "Perfil", new {NickName})">@NickName</a></h3>
+                <a class="btnSesion" href="@Url.Action("LogOut", "Login")">LogOut</a>
+            </div>
+            <div class="foto_usuario_container">
+                <img src="~/images/Fotos_Usuarios/" alt="" class="foto_usuario">
+
+            </div>
+
+            <h3 class="opcion">...</h3>
+        </div>
+    </div>
+
+</header>
+<h2>Busqueda</h2>
+<div class="full-container-busqueda">
+
+
+
+    <section>
+        ventana izquierda
+    </section>
+    <section>
+        
+
+            @foreach (var user in Model)
+        {
+            <div class="busqueda-container">
+
+            
+                <div class="perfil">
+                    <div>  <img  /></div>
+                    <div><a href="@Url.Action("Usuario","Perfil", new { user.NickName } )">@user.Nombre @user.Apellido</a></div>
+                    <div><input type="button" name="name" value="Agregar" /></div>
+                </div>
+
+
+
+
+            </div>
+    }
+        
+    </section>
+</div>

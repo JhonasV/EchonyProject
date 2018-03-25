@@ -20,7 +20,7 @@
             <input id="Nick" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Request.Query["NickName"]" />
             <section class="ventana_perfil_izquierda">
                 <div class="foto-perfil-wrapper">
-                    <img class="foto-perfil" src="~/images/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("id")" />
+                    <img class="foto-perfil" src="~/images/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("nick")" />
                     <div class="arriba">
                        
                     </div>
@@ -64,8 +64,68 @@
 
 
                 <div id="post_container" class="post_container">
-                    <img  id="loadContainer" src="~/images/fotos/ajax-loader.gif" />
-                   
+                    @{
+        if (Model.Publicaciones.Count == 0)
+        {
+                <div class="aviso">
+                    <p>No ha hecho su primera publicación</p>
+                </div>
+
+}
+else
+{
+
+                @foreach (var publi in Model.Publicaciones)
+{
+
+                <article id="post" class="post">
+                    <div class="post-info">
+                        <img src="../images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
+                        <span>@publi.Usuario.Nombre </span><span>@publi.Usuario.Apellido </span> | <p>@publi.Fecha</p>
+                        <div id="btn-post"><a href="#">Me Gusta</a><a href="#">Comentar</a></div>
+
+                    </div>
+                    <div class="post-content">
+                        @publi.Contenido
+                    </div>
+                    <div class="botonera-publiacion">
+                        <button>Me Gusta</button>
+                        <button>Compartir</button>
+                        <button id="click-comentar">Comentar</button>
+                    </div>
+                    <input type="hidden" value="@publi.Id" />
+                </article>
+                <div class="coment-wrapper">
+                    <div id="post-comment" class="post-comment">
+                        <img src="../images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
+                        <div class="comment-texarea">
+
+                            <div class="contenido-comentario-container"><span>@publi.Usuario.Nombre </span><span>@publi.Usuario.Apellido</span><p>Este es un comentario </p></div>
+                        </div>
+                    </div>
+
+                </div>
+                <form method="post" id="comentario_form" action="AddComentario/Perfil">
+
+                    <input type="hidden" name="idPublicacion" value="@publi.Id" />
+                    <input type="hidden" name="idUsuario" value="@this.HttpContextAccessor.HttpContext.Session.GetString("id")" />
+                    <div id="post-comment" class="post-comment">
+                        <img src="../images/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="Foto" />
+                        <div class="comment-texarea">
+
+
+                            <input name="comentario" type="text" placeholder="comenta" />
+                        </div>
+
+                    </div>
+                    <input id="btnEnviar-comentario" type="submit" value="Enviar" />
+                </form>
+
+}
+}
+                    }
+                    <img id="loadContainer" src="~/images/fotos/ajax-loader.gif" />
+
                 </div>
 
 
@@ -91,9 +151,11 @@
                 <img class="foto_modal" src="~/images/Fotos_Usuarios/@Model.Foto.RutaFoto" alt="Alternate Text" />
                 <form id="form-fotos" action="AddFotoPublicacion/Perfil" method="post" enctype="multipart/form-data">
                     <!--enctype="multipart/form-data"-->
+                    <input type="hidden" name="nick" value="@this.HttpContextAccessor.HttpContext.Session.GetString("nick")" />
                     <input type="hidden" name="foto_id" value="@Model.Id" />
                     <div class="botones-modal">
                         <input class="subir-foto" required id="subir-foto" type="file" name="foto" value="Subir Foto" accept="image/*" />
+                        <span asp-validation-for="Foto.Img"></span>
                         <input type="submit" name="subir" value="Actualizar Foto" />
                     </div>
                     <div class="modal_footer">
@@ -166,19 +228,23 @@
                     <div class="post__wrapper">
 
                         <div>
-                            <textarea class="text-estado" placeholder="Escribe algo, @Model.Nombre" id="contenido-post"></textarea>
-                            <div class="estado-botonera">
-                                <div class="botones-publicar">
-                                    <button   class="btn" id="publicar-post">Publicar</button>
-                                    <input type="file" id="foto-post" value="Subir Foto..." />
+                            <form asp-action="AgregarPublicacion" method="post"  enctype="multipart/form-data">
+                                <input type="hidden" name="NickName" value="@Model.NickName" />
+                                <input type="hidden" name="UsuarioId" value="@Model.Id" />
+                                <textarea name="Contenido" class="text-estado" placeholder="Escribe algo, @Model.Nombre"></textarea>
+                                <!--id="contenido-post"-->
+                                <div class="estado-botonera">
+                                    <div class="botones-publicar">
+                                        <button type="submit" class="btn" id="publicar-post">Publicar</button>
+                                        <input type="file" name="foto" id="foto-post" value="Subir Foto..." />
+
+                                    </div>
+
+
+                                    <img id="load" style="display:inline-flex; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
 
                                 </div>
-
-
-                                <img id="load" style="display:inline-flex; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
-
-                            </div>
-
+                            </form>
                         </div>
                     </div>
 
@@ -188,8 +254,81 @@
                 </article>
 
                 <div id="post_container" class="post_container">
+                    @{
+        if (Model.Publicaciones.Count == 0)
+        {
+                <div class="aviso">
+                    <p>No ha hecho su primera publicación</p>
+                </div>
 
-                    <img id="loadContainer" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+}
+else
+{
+
+                @foreach (var publi in Model.Publicaciones)
+{
+
+                <article id="post" class="post">
+                    <div class="post-info">
+                        <img src="~/images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
+                        <span>@publi.Usuario.Nombre </span><span>@publi.Usuario.Apellido </span> | | <p>@publi.Fecha</p>
+                        <div id="btn-post"><a href="#">Me Gusta</a><a href="#">Comentar</a></div>
+
+                    </div>
+                    <div class="post-content">
+                        @publi.Contenido
+
+                        @if(publi.Foto == null)
+                        {
+
+
+                        }
+                        else
+                        {
+                        <div style="width:100%;height:40%;border-top:1px solid #eee; margin-top:1em;">
+                            <img style="width:100%; height:100vh; border-radius:0;" src="~/images/Fotos_Usuarios/@publi.Foto" />
+                        </div>
+                        }
+                        
+                    </div>
+                    <div class="botonera-publiacion">
+                        <button>Me Gusta</button>
+                        <button>Compartir</button>
+                        <button id="click-comentar">Comentar</button>
+                    </div>
+                    <input type="hidden" value="@publi.Id" />
+                </article>
+                <div class="coment-wrapper">
+                    <div id="post-comment" class="post-comment">
+                        <img src="../images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
+                        <div class="comment-texarea">
+
+                            <div class="contenido-comentario-container"><span>@publi.Usuario.Nombre </span><span>@publi.Usuario.Apellido</span><p>Este es un comentario </p></div>
+                        </div>
+                    </div>
+
+                </div>
+                <form method="post" id="comentario_form" action="AddComentario/Perfil">
+
+                    <input type="hidden" name="idPublicacion" value="@publi.Id" />
+                    <input type="hidden" name="idUsuario" value="@this.HttpContextAccessor.HttpContext.Session.GetString("id")" />
+                    <div id="post-comment" class="post-comment">
+                        <img src="../images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
+                        <div class="comment-texarea">
+
+
+                            <input name="comentario" type="text" placeholder="comenta" />
+                        </div>
+
+                    </div>
+                    <input id="btnEnviar-comentario" type="submit" value="Enviar" />
+                </form>
+             
+
+}
+                        }
+                    }
+                    <!-- <img id="loadContainer" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />-->
                 </div>
 
 
@@ -198,5 +337,5 @@
                 ventana derecha
             </section>
         </main>
-    }
+                        }
 }

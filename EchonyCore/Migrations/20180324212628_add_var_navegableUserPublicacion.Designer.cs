@@ -11,9 +11,10 @@ using System;
 namespace EchonyCore.Migrations
 {
     [DbContext(typeof(EchonyEntityContext))]
-    partial class EchonyEntityContextModelSnapshot : ModelSnapshot
+    [Migration("20180324212628_add_var_navegableUserPublicacion")]
+    partial class add_var_navegableUserPublicacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,8 +39,6 @@ namespace EchonyCore.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PublicacionesId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Comentarios");
                 });
@@ -115,14 +114,9 @@ namespace EchonyCore.Migrations
 
             modelBuilder.Entity("EchonyCore.Models.Comentarios", b =>
                 {
-                    b.HasOne("EchonyCore.Models.Publicaciones")
+                    b.HasOne("EchonyCore.Models.Publicaciones", "Publicaciones")
                         .WithMany("Comentarios")
                         .HasForeignKey("PublicacionesId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("EchonyCore.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

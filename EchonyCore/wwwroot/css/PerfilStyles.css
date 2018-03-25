@@ -451,3 +451,23 @@ body {
         font-weight: bold;
         margin-right: 5px;
     }
+
+/*BUSQUEDA*/
+
+.full-container-busqueda {
+    margin:1em auto;
+    width:90%;
+    display:flex;
+    border:1px solid #ddd;
+    height:auto;
+    justify-content:center;
+}
+.busqueda-container {
+    border: 2px solid #eee;
+    border-radius: 10px;
+    flex:0.8;
+}
+
+.busqueda-container .perfil{
+    display:flex;
+}

@@ -13,6 +13,7 @@ namespace EchonyCore.Models
         public string Contenido_comentario { get; set; }
         public DateTime Fecha_Publicacion { get; set; }
         public string Foto { get; set; }
-        public virtual Publicaciones Publicaciones { get; set; }
+        public Usuario Usuario { get; set; }
+        
     }
 }

@@ -17,7 +17,7 @@ namespace EchonyCore.Models
             {
                 try
                 {
-                    user = db.Usuario.Where(x => x.NickName == u.NickName).Include(x => x.Foto).FirstOrDefault();
+                    user = db.Usuario.Where(x => x.NickName == u.NickName).Include(x => x.Foto).Include(x => x.Publicaciones ).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -34,7 +34,7 @@ namespace EchonyCore.Models
             {
                 try
                 {
-                    db.Publiaciones.Add(p);
+                    db.Publicaciones.Add(p);
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -52,7 +52,7 @@ namespace EchonyCore.Models
             using (EchonyEntityContext db = new EchonyEntityContext())
             {
                 
-                var listaAux = db.Publiaciones
+                var listaAux = db.Publicaciones
                     .Join(db.Usuario, p => p.UsuarioId, u => u.Id, (p, u) => new { p, u }).Where(x => x.u.NickName == ux.NickName)
                    .Select(s => new
                    {
@@ -83,9 +83,9 @@ namespace EchonyCore.Models
                     lista.Add(c);
                     Publicaciones p = new Publicaciones();
                     p.Id = c.Id;
-                    Publicaciones detalles = db.Publiaciones.Find(p.Id);
+                    Publicaciones detalles = db.Publicaciones.Find(p.Id);
                     detalles.Comentarios = lista;
-                    db.Publiaciones.Add(detalles);
+                    db.Publicaciones.Add(detalles);
                     db.Comentarios.Add(c);
                     db.SaveChanges();
                 }
@@ -132,6 +132,44 @@ namespace EchonyCore.Models
             }
         }*/
 
+        public bool AgregarPublicacion(Publicaciones p)
+        {
+            bool exito = false;
+            try
+            {
+                using (EchonyEntityContext db = new EchonyEntityContext())
+                {
+                    db.Publicaciones.Add(p);
+                    db.SaveChanges();
+                    exito = true;
+                }
+            }
+            catch (Exception e)
+            {
+
+                Console.Write(e);
+            }
+            return exito;
+        }
+        public List<Usuario> Busqueda(string r)
+        {
+            List<Usuario> lista = new List<Usuario>();
+            using (EchonyEntityContext db = new EchonyEntityContext())
+            {
+                try
+                {
+                    
+                    lista = (from u in db.Usuario where u.Nombre.Contains(r) || u.Apellido.Contains(r) select u).ToList();
+                }
+                catch (Exception e)
+                {
+
+                    Console.Write(e);
+                }
+            }
+               
+            return lista;
+        }
 
     }
 }

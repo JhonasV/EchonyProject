@@ -11,9 +11,10 @@ using System;
 namespace EchonyCore.Migrations
 {
     [DbContext(typeof(EchonyEntityContext))]
-    partial class EchonyEntityContextModelSnapshot : ModelSnapshot
+    [Migration("20180325035359_comments")]
+    partial class comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +116,7 @@ namespace EchonyCore.Migrations
 
             modelBuilder.Entity("EchonyCore.Models.Comentarios", b =>
                 {
-                    b.HasOne("EchonyCore.Models.Publicaciones")
+                    b.HasOne("EchonyCore.Models.Publicaciones", "Publicaciones")
                         .WithMany("Comentarios")
                         .HasForeignKey("PublicacionesId")
                         .OnDelete(DeleteBehavior.Cascade);
