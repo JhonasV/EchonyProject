@@ -33,11 +33,52 @@ namespace EchonyCore.Migrations
 
                     b.Property<int>("PublicacionesId");
 
+                    b.Property<int?>("UsuarioId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PublicacionesId");
 
+                    b.HasIndex("UsuarioId");
+
                     b.ToTable("Comentarios");
+                });
+
+            modelBuilder.Entity("EchonyCore.Models.Detalles", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Descripcion");
+
+                    b.Property<DateTime>("Fecha_Nacimiento");
+
+                    b.Property<string>("Pais");
+
+                    b.Property<string>("Sexo");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Detalles");
+                });
+
+            modelBuilder.Entity("EchonyCore.Models.Emisor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("SolicitudAmistadId");
+
+                    b.Property<int>("UsuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SolicitudAmistadId")
+                        .IsUnique();
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Emisor");
                 });
 
             modelBuilder.Entity("EchonyCore.Models.Foto", b =>
@@ -71,6 +112,39 @@ namespace EchonyCore.Migrations
                     b.ToTable("Publicaciones");
                 });
 
+            modelBuilder.Entity("EchonyCore.Models.Receptor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("SolicitudAmistadId");
+
+                    b.Property<int>("UsuarioId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SolicitudAmistadId")
+                        .IsUnique();
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Receptor");
+                });
+
+            modelBuilder.Entity("EchonyCore.Models.SolicitudAmistad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Estado");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SolicitudAmistad");
+                });
+
             modelBuilder.Entity("EchonyCore.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -88,6 +162,8 @@ namespace EchonyCore.Migrations
 
                     b.Property<string>("ConfirmacionClave")
                         .IsRequired();
+
+                    b.Property<int?>("DetallesId");
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -108,6 +184,8 @@ namespace EchonyCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DetallesId");
+
                     b.ToTable("Usuario");
                 });
 
@@ -116,6 +194,23 @@ namespace EchonyCore.Migrations
                     b.HasOne("EchonyCore.Models.Publicaciones")
                         .WithMany("Comentarios")
                         .HasForeignKey("PublicacionesId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EchonyCore.Models.Usuario", "Usuario")
+                        .WithMany("Comentarios")
+                        .HasForeignKey("UsuarioId");
+                });
+
+            modelBuilder.Entity("EchonyCore.Models.Emisor", b =>
+                {
+                    b.HasOne("EchonyCore.Models.SolicitudAmistad")
+                        .WithOne("Emisor")
+                        .HasForeignKey("EchonyCore.Models.Emisor", "SolicitudAmistadId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EchonyCore.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -133,6 +228,26 @@ namespace EchonyCore.Migrations
                         .WithMany("Publicaciones")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("EchonyCore.Models.Receptor", b =>
+                {
+                    b.HasOne("EchonyCore.Models.SolicitudAmistad")
+                        .WithOne("Receptor")
+                        .HasForeignKey("EchonyCore.Models.Receptor", "SolicitudAmistadId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("EchonyCore.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("EchonyCore.Models.Usuario", b =>
+                {
+                    b.HasOne("EchonyCore.Models.Detalles", "Detalles")
+                        .WithMany()
+                        .HasForeignKey("DetallesId");
                 });
 #pragma warning restore 612, 618
         }

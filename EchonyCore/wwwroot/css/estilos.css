@@ -224,13 +224,12 @@ h6 {
 }
 
 /*ESTILOS PAGINA HOME*/
-
-/*.header_home {
-
-    /*width: 100%;
+.header_home {
+    width: 100%;
     height: 75px;
-    background-color: rgba(32, 34, 44, 0.6);*/
-/*}*/
+    background-color: rgba(32, 34, 44, 0.6);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);
+}
 
 .menu_home {
 
@@ -285,6 +284,7 @@ h6 {
     align-items: center;
     padding-left: 2em;
     justify-content: space-between;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .logo__container {

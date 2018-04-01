@@ -1,69 +1,77 @@
-﻿@model List<EchonyCore.Models.Usuario>
+﻿@model EchonyCore.Models.UsuarioViewModel
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     @using Microsoft.AspNetCore.Http
-    @inject IHttpContextAccessor HttpContextAccessor
-    Layout = null;
+   @inject IHttpContextAccessor HttpContextAccessor
+    ViewBag.title = "Echony: Buscador";
     string NickName = this.HttpContextAccessor.HttpContext.Session.GetString("nick");
-    
+
 }
-<title>Echony: Busqueda"</title>
-<link href="~/css/PerfilStyles.css" rel="stylesheet" />
-<link href="~/css/estilos.css" rel="stylesheet" />
-<header class="header_home">
-    <div class="logo_home">
-        <div class="logo__container">
-            <h1 class="logo"><a href="@Url.Action("Index", "Home")">ECHONY</a></h1>
-        </div>
-        <div class="menu_home_container">
-            <form asp-controller="Perfil" asp-action="Busqueda" method="get">
-                <input class="input-busqueda" type="search" name="r" value="" placeholder="Busca a tus amigos..." />
-                <input type="button" name="buscar-btn" value="Buscar" />
-            </form>
-        </div>
-        <div class="usuario">
 
-
-            <div class="usuarioContenido">
-                <h3 class="nombre_usuario"><a href="@Url.Action("Usuario", "Perfil", new {NickName})">@NickName</a></h3>
-                <a class="btnSesion" href="@Url.Action("LogOut", "Login")">LogOut</a>
-            </div>
-            <div class="foto_usuario_container">
-                <img src="~/images/Fotos_Usuarios/" alt="" class="foto_usuario">
-
-            </div>
-
-            <h3 class="opcion">...</h3>
-        </div>
-    </div>
-
-</header>
-<h2>Busqueda</h2>
 <div class="full-container-busqueda">
 
 
 
-    <section>
-        ventana izquierda
-    </section>
-    <section>
-        
+    
 
-            @foreach (var user in Model)
+    <div class="busqueda-container">
+        <div class="titulo_container">
+            <h2></h2>
+        </div>
+        @if (Model.lista.Count == 0)
+    {
+
+            <h3>No pudimos encontrar al usuario</h3>
+    }
+    else
+    {
+
+
+
+        @foreach (var user in Model.lista)
+    {
+        if (user.Id == Model.UsuarioSesion.Id)
         {
-            <div class="busqueda-container">
+            <div class="perfil">
+                <div>  <img src="~/images/Fotos_Usuarios/@user.Foto.RutaFoto" /></div>
+                <div class="info">
+                    <div><a href="@Url.Action("Usuario", "Perfil", new Usuario {NickName = user.NickName})"><span>@user.Nombre </span> <span>@user.Apellido</span></a></div>
 
-            
-                <div class="perfil">
-                    <div>  <img  /></div>
-                    <div><a href="@Url.Action("Usuario","Perfil", new { user.NickName } )">@user.Nombre @user.Apellido</a></div>
-                    <div><input type="button" name="name" value="Agregar" /></div>
                 </div>
 
-
-
-
             </div>
+
     }
+    else
+    {
+        <div class="perfil">
+            <div>  <img src="~/images/Fotos_Usuarios/@user.Foto.RutaFoto" /></div>
+            <div class="info">
+                <div><a href="@Url.Action("Usuario", "Perfil", new Usuario {NickName = user.NickName})"><span>@user.Nombre </span> <span>@user.Apellido</span></a></div>
+                <div> <input type="button" name="name" value="Agregar" />   </div>
+            </div>
+
+        </div>
+}
+
+}
+}
+    </div>
+       
+</div>
+
+<div class="buscador_wrapper">
+    <div>
+        <div class="header_buscador">
+
+        </div>
+        <div class="main_buscador">
+            <div>
+                <div><img src="#" alt="Alternate Text" /></div>
+                <div> <a> Nelson Veras</a> </div>
+            </div>
+        </div>
         
-    </section>
+    </div>
+
 </div>

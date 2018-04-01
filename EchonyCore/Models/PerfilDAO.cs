@@ -17,7 +17,27 @@ namespace EchonyCore.Models
             {
                 try
                 {
-                    user = db.Usuario.Where(x => x.NickName == u.NickName).Include(x => x.Foto).Include(x => x.Publicaciones ).FirstOrDefault();
+                    //_dbmsParentSections.ForEach(x => x.Children = x.Children.OrderBy(y => y.Order).ToList());
+                   
+                   user = db.Usuario.Where(x => x.NickName == u.NickName).Include(x => x.Foto).Include(x => x.Publicaciones ).Include(x=> x.Comentarios).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+                    e.ToString();
+                }
+
+            }
+            return user;
+        }
+
+        public Usuario GetUsuarioById(Usuario u)
+        {
+            Usuario user = new Usuario();
+            using (EchonyEntityContext db = new EchonyEntityContext())
+            {
+                try
+                {
+                    user = db.Usuario.Where(x => x.Id == u.Id).Include(x => x.Foto).Include(x => x.Publicaciones).Include(x => x.Comentarios).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -73,20 +93,47 @@ namespace EchonyCore.Models
             
         }
 
+       public List<Publicaciones> GetPubicacionesDesc(Usuario u)
+        {
+            List<Publicaciones> lista = new List<Publicaciones>();
+            using(EchonyEntityContext db = new EchonyEntityContext())
+            {
+                try
+                {
+                    lista = db.Publicaciones.OrderByDescending(x => x.Id).Where(x=>x.Usuario.NickName == u.NickName).Include(x => x.Usuario).Include(x => x.Comentarios).ToList();
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+            return lista;
+        }
+
         public void AddComentario(Comentarios c)
         {
             using (EchonyEntityContext db = new EchonyEntityContext())
             {
                 try
                 {
-                    List<Comentarios> lista = new List<Comentarios>();
-                    lista.Add(c);
-                    Publicaciones p = new Publicaciones();
-                    p.Id = c.Id;
-                    Publicaciones detalles = db.Publicaciones.Find(p.Id);
-                    detalles.Comentarios = lista;
-                    db.Publicaciones.Add(detalles);
+                    /* List<Comentarios> lista = new List<Comentarios>();
+                     lista.Add(c);
+                     Publicaciones p = new Publicaciones();
+                     p.Id = c.Id;
+                     Publicaciones detalles = db.Publicaciones.Find(p.Id);
+                     detalles.Comentarios = lista;
+                     db.Publicaciones.Add(detalles);
+                     db.Comentarios.Add(c);
+                     db.SaveChanges();*/
+                     if(c.Foto == null)
+                    {
+                        c.Foto = "";
+                    }
+
                     db.Comentarios.Add(c);
+                    
+                    
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -159,7 +206,7 @@ namespace EchonyCore.Models
                 try
                 {
                     
-                    lista = (from u in db.Usuario where u.Nombre.Contains(r) || u.Apellido.Contains(r) select u).ToList();
+                    lista = (from u in db.Usuario where u.Nombre.Contains(r) || u.Apellido.Contains(r) select u).Include(x=> x.Foto).ToList();
                 }
                 catch (Exception e)
                 {
@@ -171,5 +218,88 @@ namespace EchonyCore.Models
             return lista;
         }
 
+        public void Emisor(Emisor e)
+        {
+            int id = 0;
+            using(EchonyEntityContext db = new EchonyEntityContext())
+            {
+                db.Add(e);
+                
+            }
+        }
+
+
+
+        public void NotificacionAmistad(SolicitudAmistad a, Emisor e, Receptor r)
+        {
+            using(EchonyEntityContext db = new EchonyEntityContext())
+            {
+                /*db.Emisor.Add(e);
+                db.SaveChanges();
+
+                db.Receptor.Add(r);
+                db.SaveChanges();*/
+                /* db.Emisor.Add(e);
+                 db.SaveChanges();
+
+                 db.Receptor.Add(r);
+                 db.SaveChanges();*/
+                a.Emisor = e;
+                a.Receptor = r;
+                db.SolicitudAmistad.Add(a);
+                db.SaveChanges();
+            }
+        }
+        
+       public void EliminarNotificacionAmistad(SolicitudAmistad a)
+        {
+            using (EchonyEntityContext db = new EchonyEntityContext())
+            {
+                SolicitudAmistad detalles = db.SolicitudAmistad.Find(a.Receptor.Id);
+                db.SolicitudAmistad.Remove(detalles);
+                db.SaveChanges();
+            }
+        }
+
+       public SolicitudAmistad GetAmigos(int usuario1, int usuario2)
+        {
+            SolicitudAmistad a = new SolicitudAmistad();
+            using (EchonyEntityContext db = new EchonyEntityContext())
+            {
+                try
+                {
+                    a = db.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == usuario1 && x.Emisor.UsuarioId == usuario2 || x.Receptor.UsuarioId == usuario2 && x.Emisor.UsuarioId == usuario1).FirstOrDefault();
+                   // a = db.Amistad.Where(x => x.Receptor == usuario1 && x.Emisor == usuario2 || x.Emisor == usuario1 && x.Receptor == usuario2).FirstOrDefault();
+                    //a = db.SolicitudAmistad.Where(x => x.ReceptorId == usuario1 && x.EmisorId == usuario2 || x.EmisorId == usuario1 && x.ReceptorId == usuario2).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+
+            return a;
+        }
+        
+        public List<SolicitudAmistad> GetNotificacionesAmistad(Receptor r)
+        {
+            List<SolicitudAmistad> lista = new List<SolicitudAmistad>();
+            using (EchonyEntityContext db = new EchonyEntityContext())
+            {
+                try
+                {
+                    //lista = db.SolicitudAmistad.Where(x => x.ReceptorId == a.ReceptorId).ToList();
+                    lista = db.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.Id).Include(x => x.Emisor.Usuario).Include(x=> x.Emisor.Usuario.Foto).ToList();
+                }
+                catch (Exception e)
+                {
+
+                    Console.Write(e);
+                }
+            }
+            return lista;
+        }
+        
     }
 }

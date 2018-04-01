@@ -23,9 +23,9 @@ namespace EchonyCore.Models
             using (SmtpClient servicio = new SmtpClient("smtp-mail.outlook.com", 587))
             {
                 servicio.EnableSsl = true;
-                servicio.Credentials = new System.Net.NetworkCredential("jhonas_724@hotmail.com", "elflow27015");
+                servicio.Credentials = new System.Net.NetworkCredential("echony@outlook.com", "hola1234");
 
-                MailMessage correo = new MailMessage("jhonas_724@hotmail.com", cor.Destino, cor.Asunto, cor.Mensaje);
+                MailMessage correo = new MailMessage("echony@outlook.com", cor.Destino, cor.Asunto, cor.Mensaje);
 
                 correo.IsBodyHtml = true;
                 correo.BodyEncoding = System.Text.Encoding.UTF8;

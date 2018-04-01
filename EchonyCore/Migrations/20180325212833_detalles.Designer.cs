@@ -11,8 +11,8 @@ using System;
 namespace EchonyCore.Migrations
 {
     [DbContext(typeof(EchonyEntityContext))]
-    [Migration("20180325035359_comments")]
-    partial class comments
+    [Migration("20180325212833_detalles")]
+    partial class detalles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,24 @@ namespace EchonyCore.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("EchonyCore.Models.Amistad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Emisor");
+
+                    b.Property<int>("Estado");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<int>("Receptor");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Amistad");
+                });
 
             modelBuilder.Entity("EchonyCore.Models.Comentarios", b =>
                 {
@@ -40,9 +58,25 @@ namespace EchonyCore.Migrations
 
                     b.HasIndex("PublicacionesId");
 
-                    b.HasIndex("UsuarioId");
-
                     b.ToTable("Comentarios");
+                });
+
+            modelBuilder.Entity("EchonyCore.Models.Detalles", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Descripcion");
+
+                    b.Property<DateTime>("Fecha_Nacimiento");
+
+                    b.Property<string>("Pais");
+
+                    b.Property<string>("Sexo");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Detalles");
                 });
 
             modelBuilder.Entity("EchonyCore.Models.Foto", b =>
@@ -94,6 +128,8 @@ namespace EchonyCore.Migrations
                     b.Property<string>("ConfirmacionClave")
                         .IsRequired();
 
+                    b.Property<int?>("DetallesId");
+
                     b.Property<string>("Email")
                         .IsRequired();
 
@@ -109,21 +145,20 @@ namespace EchonyCore.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
+                    b.Property<int>("Privada");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("DetallesId");
 
                     b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("EchonyCore.Models.Comentarios", b =>
                 {
-                    b.HasOne("EchonyCore.Models.Publicaciones", "Publicaciones")
+                    b.HasOne("EchonyCore.Models.Publicaciones")
                         .WithMany("Comentarios")
                         .HasForeignKey("PublicacionesId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("EchonyCore.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -141,6 +176,13 @@ namespace EchonyCore.Migrations
                         .WithMany("Publicaciones")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("EchonyCore.Models.Usuario", b =>
+                {
+                    b.HasOne("EchonyCore.Models.Detalles", "Detalles")
+                        .WithMany()
+                        .HasForeignKey("DetallesId");
                 });
 #pragma warning restore 612, 618
         }

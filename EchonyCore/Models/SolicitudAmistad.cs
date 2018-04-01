@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 
 namespace EchonyCore.Models
 {
-    public class Amistad
+    public class SolicitudAmistad
     {
         public int Id { get; set; }
-        public int Receptor { get; set; }
-        public int Emisor { get; set; }
+   
+        public virtual Emisor Emisor { get; set; }
+      
+        public virtual Receptor Receptor { get; set; }
+       
         public DateTime Fecha { get; set; }
         public int Estado { get; set; }
     }

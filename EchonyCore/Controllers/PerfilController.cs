@@ -22,17 +22,24 @@ namespace EchonyCore.Controllers
         }
 
         [HttpGet]
-        public ActionResult Usuario()
+        public ActionResult Usuario(Usuario user)
         {
 
-             Usuario user = new Usuario();
-             user.NickName = HttpContext.Request.Query["NickName"].ToString();
-             PerfilDAO p = new PerfilDAO();
-             Usuario u = p.GetUsuario(user);
-
-             if (u != null)
+            /*Usuario user = new Usuario();
+            user.NickName = HttpContext.Request.Query["NickName"].ToString();*/
+            UsuarioViewModel model = new UsuarioViewModel();
+            PerfilDAO p = new PerfilDAO();
+            int idSesion = (int)HttpContext.Session.GetInt32("id");
+            model.UsuarioSesion = p.GetUsuarioById(new Models.Usuario { Id = idSesion });
+            model.UsuarioSecundario = p.GetUsuario(user);
+            model.publicacionesDesc = new PerfilDAO().GetPubicacionesDesc(user);
+            Usuario u = p.GetUsuario(user);
+            ViewBag.Amigo = new PerfilDAO().GetAmigos(model.UsuarioSecundario.Id,idSesion);
+           
+            
+            if (model != null)
              {
-                 return View("Perfil", u);
+                 return View("Perfil", model);
              }
              else
              {
@@ -108,7 +115,7 @@ namespace EchonyCore.Controllers
 
         }
 
-        public JsonResult AddComentario(int idUsuario, int idPublicacion, string comentario)
+        public JsonResult AddComentarioFuera(int idUsuario, int idPublicacion, string comentario)
         {
             /* Comentarios com = new Comentarios
              {
@@ -130,6 +137,14 @@ namespace EchonyCore.Controllers
             return Json(false);
         }
 
+
+        public ActionResult AddComentario(Comentarios c, string nick)
+        {
+
+            new PerfilDAO().AddComentario(c);
+
+            return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = nick }));
+        }
         public IActionResult AddFotoPublicacion(int foto_id, IFormFile foto, string nick)
         {
 
@@ -183,7 +198,7 @@ namespace EchonyCore.Controllers
             
             //Perfil / Usuario ? NickName = JhonasV
            
-           
+           //return Redirect(Request.UrlReferrer.ToString());
             return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
             //return Redirect("Perfil/Usuario?Nickname="+NickName);
         }
@@ -198,14 +213,61 @@ namespace EchonyCore.Controllers
             else
             {
                 PerfilDAO dao = new PerfilDAO();
-                
-                List<Usuario> lista = dao.Busqueda(r);
-                ViewBag.data = lista;
-                return View("Busqueda", lista);
+                UsuarioViewModel model = new UsuarioViewModel();
+                PerfilDAO p = new PerfilDAO();
+                int idSesion = (int)HttpContext.Session.GetInt32("id");
+                model.UsuarioSesion = p.GetUsuarioById(new Models.Usuario { Id = idSesion });
+                model.lista = dao.Busqueda(r);
+                //List<Usuario> lista = dao.Busqueda(r);
+                //ViewBag.data = lista;
+                return View("Busqueda", model);
             }
           
         }
+        [HttpPost]
+        public ActionResult EnviarSolicitud(SolicitudAmistad a, string NickName, int EmisorId, int ReceptorId)
+        {
+            Emisor e = new Emisor
+            {
+                UsuarioId = EmisorId
+            };
+
+            Receptor r = new Receptor
+            {
+                UsuarioId = ReceptorId
+            };
+
+            PerfilDAO dao = new PerfilDAO();
+            
+            dao.NotificacionAmistad(a, e, r);
+            
+           
+            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
+        }
+        
+        [HttpPost]
+        public ActionResult EliminarSolicitud(SolicitudAmistad a, string NickName)
+        {
+            new PerfilDAO().EliminarNotificacionAmistad(a);
+            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
+        }
+
+        public IActionResult Notificaciones()
+        {
+            int idUsuario = (int)HttpContext.Session.GetInt32("id");
+            UsuarioViewModel model = new UsuarioViewModel();
+            model.UsuarioSesion = new PerfilDAO().GetUsuarioById(new Usuario { Id=idUsuario});
+            SolicitudAmistad a = new SolicitudAmistad();
+            Receptor r = new Receptor
+            {
+                Id = idUsuario
+            };
+            model.AmistadList = new PerfilDAO().GetNotificacionesAmistad(r);
+            return View("Notificaciones", model);
+        }
        
     }
+
+
 
 }

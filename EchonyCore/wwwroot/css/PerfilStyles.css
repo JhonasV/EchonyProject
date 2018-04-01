@@ -4,38 +4,51 @@
 }
 
 body {
-    background-color: #E6ECF0;
+    /*background-color: #E6ECF0;*/
+    background-color:#F9F9FA;
 }
 
 .perfil_wrapper{
-    margin: 0 auto;
-    width:90%;
+    
+    width:98%;
     margin-top:1em;
     display:flex;
-    height:100vh;
+    height:auto;
+    vertical-align:top;
+
 }
 
 .ventana_perfil_izquierda {
     flex: 0.3;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    overflow: auto;
 }
 
-.ventana_perfil_central{
-    flex:0.9;
+.ventana_perfil_central {
+    flex: 0.8;
+    overflow: auto;
     
-  
 }
 
+.ventana_notificaciones {
+    flex: 0.3;
+    overflow: hidden;
+}
 
-
-
+    .ventana_notificaciones .notificaciones-container {
+        background-color: white;
+        border-top: 3px solid #1DA1F2;
+        border-top-left-radius:5px;
+        border-top-right-radius:5px;
+        padding:5px;
+    }
 /*ELEMENTOS VENTANA CENTRAL*/
 .estado {
-    border-radius:10px;
-    background-color: #00e9d3;
+    border-radius: 10px;
+    background-color: #1DA1F2;
     margin: 0 auto 0 auto;
-    border-bottom:1px solid #eee;
+    border-bottom: 1px solid #eee;
     max-width: 100%;
     width: 95%;
     height: auto;
@@ -199,8 +212,7 @@ body {
     max-width: 100%;
     width: 90%;
     height: auto;
-    display: flex;
-    align-items: center;
+    display:block;
     
 }
 
@@ -208,9 +220,11 @@ body {
     width: 100%;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
-} 
+}
 .coment-wrapper {
     padding: 5px 0;
+    display: flex;
+    align-items: center;
 }
 
 .coment-wrapper img{
@@ -261,7 +275,7 @@ body {
     margin: 0 auto;
     margin-bottom: 1em;
     display: block;
-    background-color: #E6ECF0;
+    background-color: #F9F9FA;
 }
 
 #btn-post{
@@ -297,16 +311,22 @@ body {
 
 
 /*VENTANA IZQUIERDA*/
+.ventana_izquierda_wrapper{
+    overflow:auto;
+}
 .foto-perfil-wrapper {
     position: relative;
     height: auto;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+   
+
 }
 
 .arriba {
     background-color: #1DA1F2;
     height: 6em;
+   
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .abajo {
@@ -326,6 +346,16 @@ body {
     border: 3px solid white;
     width: 80px;
     height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    top: 4em;
+    left: 2em;
+}
+
+.foto-perfil-usuario {
+    border: 3px solid white;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     position: absolute;
     top: 4em;
@@ -406,6 +436,7 @@ body {
     margin: 3em auto;
     border: 1px solid #eee;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    z-index:1000;
 }
 
 .modal_foto .titulo_modal{
@@ -495,12 +526,12 @@ body {
 .menu_home_container{
     display:flex;
     justify-content:flex-start;
-    margin-left:-100em;
+    margin-left:-88em;
 }
 .menu_home_container input[type=search]{
-    padding:5px;
+    padding:7px 3px;
     width:18em;
-    border-radius:10px;
+    border-radius:5px;
     border:0;
 }
     .menu_home_container input[type=submit] {
@@ -524,17 +555,89 @@ body {
 .full-container-busqueda {
     margin:1em auto;
     width:90%;
-    display:flex;
+    
     border:1px solid #ddd;
     height:auto;
-    justify-content:center;
+   
 }
 .busqueda-container {
-    border: 2px solid #eee;
-    border-radius: 10px;
-    flex:0.8;
+   
+    width:70%;
+    margin:1em auto;
+    
+}
+
+.titulo_busqueda{
+    margin:0 auto;
 }
 
 .busqueda-container .perfil{
     display:flex;
+    border:1px solid #eee;
+    height:5em;
+    margin:0 auto;
+    width:50%;
 }
+
+.perfil a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #2C3E50;
+    font-size:18px;
+}
+.perfil a:hover {
+    text-decoration:underline;
+   
+}
+
+.perfil img{
+    width:75px;
+    height:75px;
+}
+
+.buscador_wrapper{
+    width:50%;
+    margin:1em auto;
+}
+
+/*TARJETA SOLICITUD DE AMISTAD*/
+.SolicitudContainer{
+    width:50%;
+    height:auto;
+    margin:2em;
+    background-color:white;
+    border:1px solid #eee;
+    display:flex;
+    align-items:center;
+   
+}
+
+.SolicitudContainer img{
+    width:80px;
+    height:80px;
+}
+
+.SolicitudContainer .info_solicitud{
+    padding:10px;
+}
+
+.SolicitudContainer h3 {
+   font-size:22px;
+}
+
+
+.SolicitudContainer p{
+    color:gray;
+}
+
+    .SolicitudContainer .solicitud_botonera{
+        display:flex;
+        
+    }
+    .SolicitudContainer .solicitud_botonera input{
+        margin-left:10px;
+        width:5em;
+        height:3em;
+        border:0;
+
+    }

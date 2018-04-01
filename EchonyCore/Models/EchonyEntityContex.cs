@@ -23,6 +23,11 @@ namespace EchonyCore.Models
         public DbSet<Publicaciones> Publicaciones { get; set; }
         public DbSet<Comentarios> Comentarios { get; set; }
         public DbSet<Foto> Fotos { get; set; }
+        public DbSet<SolicitudAmistad> SolicitudAmistad { get; set; }
+        public DbSet<Detalles> Detalles { get; set; }
+        public DbSet<Emisor> Emisor { get; set; }
+        public DbSet<Receptor> Receptor { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -7,6 +7,20 @@
   <ItemGroup>
     <Compile Remove="Migrations\20180325184144_privada.cs" />
     <Compile Remove="Migrations\20180325184144_privada.Designer.cs" />
+    <Compile Remove="Migrations\20180325185002_privada.cs" />
+    <Compile Remove="Migrations\20180325185002_privada.Designer.cs" />
+    <Compile Remove="Migrations\20180325185824_cans.cs" />
+    <Compile Remove="Migrations\20180325185824_cans.Designer.cs" />
+    <Compile Remove="Migrations\20180327031936_var_navigacional_usuario_comentarios.cs" />
+    <Compile Remove="Migrations\20180327031936_var_navigacional_usuario_comentarios.Designer.cs" />
+    <Compile Remove="Migrations\20180331202622_emisor_receptor.cs" />
+    <Compile Remove="Migrations\20180331202622_emisor_receptor.Designer.cs" />
+    <Compile Remove="Migrations\20180331225659_re_em.cs" />
+    <Compile Remove="Migrations\20180331225659_re_em.Designer.cs" />
+    <Compile Remove="Migrations\20180331230135_em_re.cs" />
+    <Compile Remove="Migrations\20180331230135_em_re.Designer.cs" />
+    <Compile Remove="Migrations\20180401015111_asf2.cs" />
+    <Compile Remove="Migrations\20180401015111_asf2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

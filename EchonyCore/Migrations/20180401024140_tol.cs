@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace EchonyCore.Migrations
 {
-    public partial class comments2 : Migration
+    public partial class tol : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

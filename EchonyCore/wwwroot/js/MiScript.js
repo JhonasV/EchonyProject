@@ -181,6 +181,100 @@
     //$("body").on("load", mostrarPublicacionesDos());
 
 
+    /*Envío de solicitud*/
+    /*$("#envio_form").submit( (e) => {
+        let form = $(this);
+       
+
+        form.ajaxSubmit({
+            datatype: "JSON",
+            type: "POST",
+            url: form.attr("action"),
+            success: (data) => {
+                console.log(data);
+            },
+            error: (e) => {
+                console.log(e.message);
+            },
+            complete: (e, data) => {
+                console.log(e, data);
+            }
+        });
+        return false;
+
+       /* try {
+
+
+            $.ajax({
+                url: $(this).attr("action").val(),
+                data: $(this).serialize(),
+                datatype: "JSON",
+                type: "POST",
+                success: (data) => {
+                    console.log(data);
+                },
+                error: (e) => {
+                    console.log(e.message);
+                },
+                complete: (e, data) => {
+                    console.log(e, data);
+                }
+            });
+        } catch (ex) {
+            console.log(ex);
+        }
+        
+       
+    });*/
+   /* $("#envio_form").submit(() => {
+        let form = $(this);
+
+        if (form.validate()) {
+            form.ajaxSubmit({
+                dataType: 'JSON',
+                type: 'POST',
+                url: form.attr('action'),
+                success: (r) => {
+                    if (r.respuesta) {
+                        console.log(r);
+                    } else {
+                        console.log(r.error);
+                    }
+                },
+                error: (jqXHR, textStatus, errorThrown) => {
+                    alert(errorThrown);
+                }
+            });
+        }
+        return false;
+    });*/
+
+   
+
+    $("#cancelar_form").on("submit", (e) => {
+        e.preventDefault();
+        try {
+            $.ajax({
+                url: $(this).attr("action"),
+                data: $(this).serialize(),
+                datatype: "JSON",
+                type: "POST",
+                success: (data) => {
+                    console.log(data);
+                },
+                error: (e) => {
+                    console.log(e.message);
+                },
+                complete: (e, data) => {
+                    console.log(e, data);
+                }
+            });
+
+        } catch (x) {
+            console.log(error);
+        }
+       
+    });
     /*MODALES*/
 
     $("#btnFoto").on("click", () => {

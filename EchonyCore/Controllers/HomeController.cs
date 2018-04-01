@@ -15,10 +15,15 @@ namespace EchonyCore.Controllers
         {
            Usuario u = new Usuario();
             u.NickName = HttpContext.Session.GetString("nick");
+            //Usuario que estamos visitando
+           
          if(u.NickName != null)
             {
                 Usuario user = new PerfilDAO().GetUsuario(u);
-                return View(user);
+                UsuarioViewModel model = new UsuarioViewModel();
+                model.UsuarioSesion = user;
+               
+                return View(model);
             }
             else
             {

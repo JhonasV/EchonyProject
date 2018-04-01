@@ -71,21 +71,29 @@ namespace EchonyCore.Controllers
 
 
         [HttpPost]
-        public IActionResult Autorizacion(Usuario u)
+        public IActionResult Autorizacion(UsuarioViewModel user)
         {
+            Usuario u = new Usuario()
+            {
+                Email = user.UsuarioSesion.Email,
+                Clave = user.UsuarioSesion.Clave
+            };
            ConnectionDao con = new ConnectionDao();
             Usuario detalles = con.Verificacion(u);
             if (detalles == null)
             {
                 u.Mensaje = "Email y/o Contraseña inválido";
                 u.Clave = "";
-                return View("Index", u);
+                UsuarioViewModel model = new UsuarioViewModel();
+                model.UsuarioSesion = u;
+                return View("Index", model);
             }
             else
             {
                 HttpContext.Session.SetString("nick", detalles.NickName);
                 HttpContext.Session.SetInt32("id", detalles.Id);
                 HttpContext.Session.SetString("email", detalles.Email);
+                
                
                 return RedirectToAction("Index", "Home");
             }

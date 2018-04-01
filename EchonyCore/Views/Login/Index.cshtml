@@ -1,4 +1,4 @@
-﻿@model EchonyCore.Models.Usuario
+﻿@model EchonyCore.Models.UsuarioViewModel
 @{
     @using Microsoft.AspNetCore.Http
     @inject IHttpContextAccessor HttpContextAccessor
@@ -31,14 +31,14 @@
                         <div class="fila">
 
                             <div class="columna">
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { placeholder = "Correo Eléctronico", @Class = "input-login input-size-m" } })
+                                @Html.EditorFor(model => model.UsuarioSesion.Email, new { htmlAttributes = new { placeholder = "Correo Eléctronico", @Class = "input-login input-size-m" } })
                            
                             </div>
                         </div>
 
                         <div class="fila">
 
-                            <h3 style="text-align:center;">@Html.ValidationMessageFor(model => model.Email, "", new { style = "color:red;" })</h3>
+                            <h3 style="text-align:center;">@Html.ValidationMessageFor(model => model.UsuarioSesion.Email, "", new { style = "color:red;" })</h3>
 
 
                         </div>
@@ -46,7 +46,7 @@
                         <div class="fila">
 
                             <div class="columna">
-                                @Html.EditorFor(model => model.Clave, new { htmlAttributes = new { placeholder = "Contraseña", @Class = "input-login input-size-m" } })
+                                @Html.EditorFor(model => model.UsuarioSesion.Clave, new { htmlAttributes = new { placeholder = "Contraseña", @Class = "input-login input-size-m" } })
 
 
                             </div>
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="fila">
-                            <h3 style="text-align:center;">@Html.ValidationMessageFor(model => model.Clave, "", new { style = "color:red;" })</h3>
+                            <h3 style="text-align:center;">@Html.ValidationMessageFor(model => model.UsuarioSesion.Clave, "", new { style = "color:red;" })</h3>
 
                         </div>
                     </div>
@@ -77,7 +77,7 @@
 
                         <h2 style="text-align:center;color:white;background-color:#F04723;
                         font-size:25px; ">
-                            @Html.DisplayFor(model => model.Mensaje)
+                            @Html.DisplayFor(model => model.UsuarioSesion.Mensaje)
                         </h2>
 
 
