@@ -13,7 +13,7 @@
             url: "/Perfil/AddPublicacion",
             type: "POST",
             datatype: "JSON",
-            data: datos,
+            data: JSON.stringify(datos),
             success: data => {
                 console.log(data);
                 $("#load").hide();
@@ -249,18 +249,21 @@
         return false;
     });*/
 
-   
+    const Cancelar = (e) => {
 
-    $("#cancelar_form").on("submit", (e) => {
-        e.preventDefault();
-        try {
+        $("#cancelar_form").on("submit", function (e) {
+            e.preventDefault();
+            let form = $("#cancelar_form");
+            $("#cancelar_form").hide();
+            $("#envio_form").hide();
             $.ajax({
-                url: $(this).attr("action"),
-                data: $(this).serialize(),
+                url: "/Perfil/EliminarSolicitud",
+                data: form.serialize(),
                 datatype: "JSON",
-                type: "POST",
+                method: "POST",
                 success: (data) => {
-                    console.log(data);
+                    console.log("CANCELAR: " + JSON.parse(data));
+                    dibujarBotonSolicitud(JSON.parse(data), this);
                 },
                 error: (e) => {
                     console.log(e.message);
@@ -270,11 +273,147 @@
                 }
             });
 
-        } catch (x) {
-            console.log(error);
-        }
+        });
+    }
+
+    $("#cancelar_form").on("submit", function (e) {
+        e.preventDefault();
+        let form = $("#cancelar_form");
+        $("#cancelar_form").hide();
+        $("#envio_form").hide();
+        $.ajax({
+            url: "/Perfil/EliminarSolicitud",
+            data: form.serialize(),
+            datatype: "JSON",
+            method: "POST",
+            success: (data) => {
+                console.log("CANCELAR: " + JSON.parse(data));
+                dibujarBotonSolicitud(JSON.parse(data), this);
+            },
+            error: (e) => {
+                console.log(e.message);
+            },
+            complete: (e, data) => {
+                console.log(e, data);
+            }
+        });
+
+    });
+
+    const enviar = (e) => {
+        $("#envio_form").on("submit", function (e) {
+            e.preventDefault();
+            let form = $("#envio_form");
+            let url = form.attr("action");
+            let metodo = form.attr("method");
+
+            $.ajax({
+                method: "POST",
+                url: "/Perfil/NotificacionesJson",
+                data: form.serialize(),
+                datatype: "JSON",
+                success: (data) => {
+                    console.log("ENVIO: " + JSON.parse(data));
+                    dibujarBotonSolicitud(JSON.parse(data), this);
+
+                },
+                error: (error) => {
+                    console.log(error)
+                },
+                complete: (error, resp) => {
+
+                    console.log(resp)
+                }
+            });
+
+        });
+    }
+ 
+    $("#envio_form").on("submit", function (e) {
+        e.preventDefault();
+        let form = $("#envio_form");
+        let url = form.attr("action");
+        let metodo = form.attr("method");
+
+        $.ajax({
+            method: "POST",
+            url: "/Perfil/NotificacionesJson",
+            data: form.serialize(),
+            datatype: "JSON",
+            success: (data) => {
+                console.log("ENVIO: " + JSON.parse(data));
+                dibujarBotonSolicitud(JSON.parse(data), this);
+
+            },
+            error: (error) => {
+                console.log(error)
+            },
+            complete: (error, resp) => {
+               
+                console.log(resp)
+            }
+        });
        
     });
+   
+
+    const dibujarBotonSolicitud = (resp) => {
+        //e.preventDefault();
+        let Emisor = {}
+        let Receptor = {}
+        let contenedor = $("#btn_sol_container");
+        Emisor.EmisorId = $("#EmisorId").val();
+        Receptor.ReceptorId = $("#ReceptorId").val();
+        let NickName = $("#GetNick").val();
+
+       /* $("#cancelar_amigo").addClass("ocultarBoton");
+        $("#cancelar_form").addClass("ocultarBoton");
+        $("#envio_form").addClass("ocultarBoton");*/
+
+       contenedor.html("");
+
+        //$("#cancelar_form").hide();
+        //$("#envio_form").hide();
+
+        let SolicitudEnviada =
+            `
+            <form id="cancelar_form" action="/Perfil/EliminarSolicitud" method="post">
+                  <input type="hidden" name="Id" value="${resp.Id}" />
+                  <input type="submit" onclick="Cancelar(this);" name="agregar" value="Cancelar Solicitud" />
+            </form>
+            `;
+        let SonAmigos =
+            `
+            <form id="cancelar_form" action="/Perfil/EliminarSolicitud" method="post">
+                  <input type="hidden" name="Id" value="${resp.Id}" />
+                  <input type="submit" name="agregar" value="Eliminar amigo" />
+            </form>
+            `;
+       
+        let NoSonAmigos = `
+                            <form id="envio_form" class="envio_form" action="/Perfil/NotificacionesJson" method="post">
+                                <input type="hidden" name="EmisorId" value="${Emisor.EmisorId}" />
+                                <input type="hidden" name="ReceptorId" value="${Receptor.ReceptorId}" />
+                                <input type="hidden" name="NickName" value="${NickName}" />
+                                <input type="hidden" name="Estado" value="0" />
+                                <input id="boton_enviar" type="submit" value="Enviar solicitud de amistad" />
+                            </form>
+                `;
+        console.log(resp.Estado);
+        
+        if (resp.Estado == 5) {
+            contenedor.append(NoSonAmigos);
+            
+        } else if (resp.Estado == 0) {
+            contenedor.append(SolicitudEnviada);
+           
+        } else {
+            contenedor.append(SonAmigos);
+        }
+        
+        return false;
+    }
+
     /*MODALES*/
 
     $("#btnFoto").on("click", () => {
@@ -287,3 +426,4 @@
     });
 
 });
+

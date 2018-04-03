@@ -28,7 +28,7 @@ else
                 <p>@noti.Fecha</p>                
             </div>
             <div class="solicitud_botonera">
-                <input type="button" name="Aceptar" value="Aceptar" />
+                <a href="/Social/AceptarSolicitud/@noti.Id?emisorId=@noti.Emisor.UsuarioId&receptorId=@noti.Receptor.UsuarioId">Aceptar</a>
                 <input type="button" name="Rechazar" value="Rechazar" />
             </div>
         </div>

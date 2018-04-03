@@ -51,44 +51,44 @@
         {
             //int id = int.Parse(Session["id"].ToString());
             //string nick = Session["nick"].ToString();
-           /* string NickName = this.HttpContextAccessor.HttpContext.Session.GetString("nick");
-            string id = this.HttpContextAccessor.HttpContext.Session.GetString("id");
-            string perfilNick = Model.UsuarioSecundario.NickName; //Request.QueryString["NickName"].ToString();*/
+            /* string NickName = this.HttpContextAccessor.HttpContext.Session.GetString("nick");
+             string id = this.HttpContextAccessor.HttpContext.Session.GetString("id");
+             string perfilNick = Model.UsuarioSecundario.NickName; //Request.QueryString["NickName"].ToString();*/
 
-            
-                <header class="header_home">
-                    <div class="logo_home">
-                        <div class="logo__container">
-                            <h1 class="logo"><a href="@Url.Action("Index", "Home")">ECHONY</a></h1>
-                        </div>
-                        <div class="menu_home_container">
-                            <form asp-controller="Perfil" asp-action="Busqueda" method="get">
-                                <input required class="input-busqueda" type="search" name="r" value="" placeholder="Busca a tus amigos..." />
-                                <input type="submit" name="buscar-btn" value="Buscar" />
-                            </form>
-                        </div>
-                        <div class="usuario">
-                            <div>
-                                
-                            </div>
 
-                            <div class="usuarioContenido">
-
-                                <h3 class="nombre_usuario"><a href="@Url.Action("Usuario", "Perfil", new {Model.UsuarioSesion.NickName})">@Model.UsuarioSesion.NickName</a></h3>
-                                <a class="btnSesion" href="@Url.Action("LogOut", "Login")">LogOut</a>
-                            </div>
-                            <div class="foto_usuario_container">
-                               
-                                <img src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Foto.RutaFoto" alt="" class="foto_usuario">
-
-                            </div>
-
-                            <h3 class="opcion">...</h3>
-                        </div>
+            <header class="header_home">
+                <div class="logo_home">
+                    <div class="logo__container">
+                        <h1 class="logo"><a href="@Url.Action("Index", "Home")">ECHONY</a></h1>
                     </div>
+                    <div class="menu_home_container">
+                        <form asp-controller="Perfil" asp-action="Busqueda" method="get">
+                            <input required class="input-busqueda" type="search" name="r" value="" placeholder="Busca a tus amigos..." />
+                            <input type="submit" name="buscar-btn" value="Buscar" />
+                        </form>
+                    </div>
+                    <div class="usuario">
+                        <div>
 
-                </header>
-           
+                        </div>
+
+                        <div class="usuarioContenido">
+
+                            <h3 class="nombre_usuario"><a href="@Url.Action("Usuario", "Perfil", new Usuario {NickName = Model.UsuarioSesion.NickName, Id = Model.UsuarioSesion.Id })">@Model.UsuarioSesion.NickName</a></h3>
+                            <a class="btnSesion" href="@Url.Action("LogOut", "Login")">LogOut</a>
+                        </div>
+                        <div class="foto_usuario_container">
+
+                            <img src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Foto.RutaFoto" alt="" class="foto_usuario">
+
+                        </div>
+
+                        <h3 class="opcion">...</h3>
+                    </div>
+                </div>
+
+            </header>
+
 
         }
     }
@@ -101,6 +101,7 @@
     <script src="~/js/jquery-1.10.2.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="~/js/MiScript.js"></script>
+    <script src="~/js/SocialScript.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 

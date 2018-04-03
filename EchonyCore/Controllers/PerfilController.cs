@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.PlatformAbstractions;
+using Newtonsoft.Json;
 
 namespace EchonyCore.Controllers
 {
@@ -34,7 +35,7 @@ namespace EchonyCore.Controllers
             model.UsuarioSecundario = p.GetUsuario(user);
             model.publicacionesDesc = new PerfilDAO().GetPubicacionesDesc(user);
             Usuario u = p.GetUsuario(user);
-            ViewBag.Amigo = new PerfilDAO().GetAmigos(model.UsuarioSecundario.Id,idSesion);
+            model.EstadoAmistad = new PerfilDAO().GetAmigos(model.UsuarioSecundario.Id,idSesion);
            
             
             if (model != null)
@@ -245,11 +246,14 @@ namespace EchonyCore.Controllers
             return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
         }
         
-        [HttpPost]
-        public ActionResult EliminarSolicitud(SolicitudAmistad a, string NickName)
+       
+        public JsonResult EliminarSolicitud(SolicitudAmistad a)
         {
             new PerfilDAO().EliminarNotificacionAmistad(a);
-            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
+            SolicitudAmistad soli = new SolicitudAmistad();
+             soli.Estado = 5;
+            string solicitud = JsonConvert.SerializeObject(soli);
+            return Json(solicitud);
         }
 
         public IActionResult Notificaciones()
@@ -264,6 +268,66 @@ namespace EchonyCore.Controllers
             };
             model.AmistadList = new PerfilDAO().GetNotificacionesAmistad(r);
             return View("Notificaciones", model);
+        }
+
+        public JsonResult NotificacionesJson(SolicitudAmistad a, string NickName, int EmisorId, int ReceptorId)
+        {
+            a.Fecha = DateTime.Now;
+
+            Emisor e = new Emisor
+            {
+                UsuarioId = EmisorId
+            };
+
+            Receptor r = new Receptor
+            {
+                UsuarioId = ReceptorId
+            };
+
+            PerfilDAO dao = new PerfilDAO();
+            Usuario usuarioReceptor = new Usuario();
+            if (NickName != null || EmisorId != 0 || ReceptorId != 0)
+            {
+                usuarioReceptor = dao.GetUsuario(new Usuario { NickName = NickName });
+                dao.NotificacionAmistad(a, e, r);
+            }
+            if(usuarioReceptor == null)
+            {
+                usuarioReceptor.Id = 0;
+            }
+            int idSesion = 0;
+            if (HttpContext.Session.GetInt32("id") == null)
+            {
+                idSesion = 0;
+            }
+            else
+            {
+                idSesion = (int)HttpContext.Session.GetInt32("id");
+            }
+            
+            SolicitudAmistad sol =  dao.GetAmigos(usuarioReceptor.Id, idSesion);
+            if(sol == null)
+            {
+                SolicitudAmistad estado = new SolicitudAmistad();
+                estado.Estado = 5;
+                sol = estado;
+            }
+            string solicitud = JsonConvert.SerializeObject(sol);
+            return Json(solicitud);
+        }
+
+        public ActionResult Amigos()
+        {
+            PerfilDAO d = new PerfilDAO();
+            UsuarioViewModel model = new UsuarioViewModel();
+
+            int id = (int)HttpContext.Session.GetInt32("id");
+            model.UsuarioSesion = new PerfilDAO().GetUsuarioById(new Usuario { Id = id });
+           
+          
+
+            model.AmistadList = d.GetAmigos(new Receptor { Id = id });
+            return View("Amigos", model);
         }
        
     }

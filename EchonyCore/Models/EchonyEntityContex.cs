@@ -27,7 +27,7 @@ namespace EchonyCore.Models
         public DbSet<Detalles> Detalles { get; set; }
         public DbSet<Emisor> Emisor { get; set; }
         public DbSet<Receptor> Receptor { get; set; }
-
+        public DbSet<Amigos> Amigos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

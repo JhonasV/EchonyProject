@@ -220,7 +220,7 @@ namespace EchonyCore.Models
 
         public void Emisor(Emisor e)
         {
-            int id = 0;
+            
             using(EchonyEntityContext db = new EchonyEntityContext())
             {
                 db.Add(e);
@@ -255,7 +255,7 @@ namespace EchonyCore.Models
         {
             using (EchonyEntityContext db = new EchonyEntityContext())
             {
-                SolicitudAmistad detalles = db.SolicitudAmistad.Find(a.Receptor.Id);
+                SolicitudAmistad detalles = db.SolicitudAmistad.Find(a.Id);
                 db.SolicitudAmistad.Remove(detalles);
                 db.SaveChanges();
             }
@@ -271,6 +271,10 @@ namespace EchonyCore.Models
                     a = db.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == usuario1 && x.Emisor.UsuarioId == usuario2 || x.Receptor.UsuarioId == usuario2 && x.Emisor.UsuarioId == usuario1).FirstOrDefault();
                    // a = db.Amistad.Where(x => x.Receptor == usuario1 && x.Emisor == usuario2 || x.Emisor == usuario1 && x.Receptor == usuario2).FirstOrDefault();
                     //a = db.SolicitudAmistad.Where(x => x.ReceptorId == usuario1 && x.EmisorId == usuario2 || x.EmisorId == usuario1 && x.ReceptorId == usuario2).FirstOrDefault();
+                    if(a == null)
+                    {
+                        a = new SolicitudAmistad { Estado = 5 };
+                    }
                 }
                 catch (Exception)
                 {
@@ -290,7 +294,8 @@ namespace EchonyCore.Models
                 try
                 {
                     //lista = db.SolicitudAmistad.Where(x => x.ReceptorId == a.ReceptorId).ToList();
-                    lista = db.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.Id).Include(x => x.Emisor.Usuario).Include(x=> x.Emisor.Usuario.Foto).ToList();
+                    lista = db.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.Id && x.Estado == 0).Include(x => x.Emisor.Usuario).Include(x=> x.Emisor.Usuario.Foto)
+                        .Include(x => x.Receptor.Usuario).Include(x => x.Receptor.Usuario.Foto).ToList();
                 }
                 catch (Exception e)
                 {
@@ -300,6 +305,26 @@ namespace EchonyCore.Models
             }
             return lista;
         }
-        
+
+        public List<SolicitudAmistad> GetAmigos(Receptor r)
+        {
+            List<SolicitudAmistad> lista = new List<SolicitudAmistad>();
+            using (EchonyEntityContext db = new EchonyEntityContext())
+            {
+                try
+                {
+                    //lista = db.SolicitudAmistad.Where(x => x.ReceptorId == a.ReceptorId).ToList();
+                    lista = db.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.Id || x.Emisor.UsuarioId == r.Id && x.Estado == 1).Include(x => x.Emisor.Usuario).Include(x => x.Emisor.Usuario.Foto)
+                        .Include(x => x.Receptor.Usuario).Include(x => x.Receptor.Usuario.Foto).ToList();
+                }
+                catch (Exception e)
+                {
+
+                    Console.Write(e);
+                }
+            }
+            return lista;
+        }
+
     }
 }

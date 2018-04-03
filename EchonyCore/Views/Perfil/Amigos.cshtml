@@ -1,0 +1,37 @@
+﻿@model EchonyCore.Models.UsuarioViewModel
+@{
+    ViewData["Title"] = "Amigos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.AmistadList.Count == 0)
+{
+    <h3>No tiene ninguna notificacion</h3>
+
+}
+else
+{
+
+    @foreach (var noti in Model.AmistadList)
+    {
+        <div class="SolicitudContainer">
+            <div>
+
+                <img src="~/images/Fotos_Usuarios/@noti.Emisor.Usuario.Foto.RutaFoto" />
+            </div>
+            <div class="info_solicitud">
+
+                <a href="@Url.Action("Usuario", "Perfil", new Usuario { Id = noti.Emisor.Usuario.Id, NickName = noti.Emisor.Usuario.NickName })">
+                    <h3>@noti.Emisor.Usuario.Nombre @noti.Emisor.Usuario.Apellido</h3>
+                </a>
+                <p>@noti.Fecha</p>
+            </div>
+           
+        </div>
+
+
+
+    }
+
+}
+

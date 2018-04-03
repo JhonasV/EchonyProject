@@ -6,13 +6,7 @@
     @inject IHttpContextAccessor HttpContextAccessor
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.title = "Echony: Perfil";
-    if (ViewBag.Amigo == null)
-    {
-        SolicitudAmistad a = new SolicitudAmistad();
-        a.Estado = 5;
-        ViewBag.Amigo = a;
-
-    }
+   
     if (this.HttpContextAccessor.HttpContext.Session.GetString("email") == null)
     {
 
@@ -24,6 +18,9 @@
     if (perfilNick !=  this.HttpContextAccessor.HttpContext.Session.GetString("nick"))
     {
 <main id="cuerpo-perfil" class="perfil_wrapper">
+    <input id="EmisorId" type="hidden" name="name" value="@Model.UsuarioSesion.Id" />
+    <input id="ReceptorId" type="hidden" name="name" value="@Model.UsuarioSecundario.Id" />
+    <input id="GetNick" type="hidden" name="name" value="@Model.UsuarioSecundario.NickName" />
     <input id="idPerfil" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
     <input id="Nick" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Request.Query["NickName"]" />
     <section class="ventana_perfil_izquierda">
@@ -38,38 +35,41 @@
                     <div class="nombre-usuario-perfil">
                         <span>@Model.UsuarioSecundario.Nombre </span>
                         <span>@Model.UsuarioSecundario.Apellido</span>
-                        @if (ViewBag.Amigo.Estado == 5)
-                        {
-                            <form id="envio_form" asp-action="EnviarSolicitud" method="post">
-                                <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
-                                <input type="hidden" name="EmisorId" value="@this.HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
-                                <input type="hidden" name="ReceptorId" value="@Model.UsuarioSecundario.Id" />
-                                <input type="hidden" name="Fecha" value="@DateTime.Now" />
-                                <input type="hidden" name="Estado" value="0" />
-                                <input id="boton_enviar" type="submit" name="agregar" value="Enviar solicitud de amistad" />
-                            </form>
-                        }
+                        <div id="btn_sol_container">
+                            @if (Model.EstadoAmistad.Estado == 5)
+                            {
+                                <form id="envio_form" class="envio_form" asp-action="EnviarSolicitud" method="post">
+                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
+                                    <input type="hidden" name="EmisorId" value="@Model.UsuarioSesion.Id" />
+                                    <input type="hidden" name="ReceptorId" value="@Model.UsuarioSecundario.Id" />
 
-                        else if (ViewBag.Amigo.Estado == 0)
-                        {
+                                    <input type="hidden" name="Estado" value="0" />
+                                    <input id="boton_enviar" type="submit" value="Enviar solicitud de amistad" />
+                                </form>
+                            }
+
+                            else if (Model.EstadoAmistad.Estado == 0)
+                            {
 
 
 
-                            <form id="cancelar_form" asp-action="EliminarSolicitud" method="post">
-                                <input type="hidden" name="Id" value="@ViewBag.Amigo.Id" />
-                                <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
-                                <input type="submit" name="agregar" value="Cancelar Solicitud" />
-                            </form>
-                        }
-                        else if (ViewBag.Amigo.Estado == 1)
-                        {
-                            <form id="cancelar_form" asp-action="EliminarSolicitud" method="post">
-                                <input type="hidden" name="Id" value="@ViewBag.Amigo.Id" />
-                                <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
-                                <input type="submit" name="agregar" value="Son Amigos" />
-                            </form>
+                                <form id="cancelar_form" asp-action="EliminarSolicitud" method="post">
+                                    <input type="hidden" name="Id" value="@Model.EstadoAmistad.Id" />
+                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
+                                    <input id="boton_cancelar" type="submit" name="agregar" value="Cancelar Solicitud" />
+                                </form>
+                            }
+                            else if (Model.EstadoAmistad.Estado == 1)
+                            {
+                                <form id="cancelar_amigo" asp-action="EliminarSolicitud" method="post">
+                                    <input type="hidden" name="Id" value="@Model.EstadoAmistad.Id" />
+                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
+                                    <input id="boton_eliminar_amigo" type="submit" name="agregar" value="Son Amigos" />
+                                </form>
 
-                        }
+                            }
+
+                        </div>
 
                     </div>
                 </div>
@@ -89,7 +89,7 @@
             </div>
         </div>
     </section>
-    @if (Model.UsuarioSecundario.Privada == 0 && ViewBag.Amigo.Estado != 1)
+    @if (Model.UsuarioSecundario.Privada == 0 && Model.EstadoAmistad.Estado != 1)
     {
         <div>Esta cuenta es privada</div>
 
@@ -283,9 +283,9 @@
                                 <img src="~/images/fotos/IconosEchony/News_48px.png" /> Noticias
                             </li>
                             <li>
-
-
-                                <a href="@Url.Action("Notificaciones", "Perfil")"> <img src="~/images/fotos/IconosEchony/Notification_48px.png" /> Notificaciones <span>10</span></a>
+                                <a href="@Url.Action("Notificaciones", "Perfil")"> 
+                                <img src="~/images/fotos/IconosEchony/Notification_48px.png" /> Notificaciones <span>10</span>
+                                </a>
                             </li>
                             <li>
 
@@ -294,8 +294,9 @@
                             </li>
                             <li>
 
-
-                                <img src="~/images/fotos/IconosEchony/Add User Male_48px.png" />  Amigos
+                                <a href="@Url.Action("Amigos", "Perfil")">
+                                    <img src="~/images/fotos/IconosEchony/Add User Male_48px.png" />  Amigos
+                                </a>
                             </li>
                             <li>Seguidores</li>
                         </ul>
