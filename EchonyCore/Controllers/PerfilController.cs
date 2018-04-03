@@ -326,7 +326,7 @@ namespace EchonyCore.Controllers
            
           
 
-            model.AmistadList = d.GetAmigos(new Receptor { Id = id });
+            model.AmistadList = d.GetAmigos(new Receptor { UsuarioId = id });
             return View("Amigos", model);
         }
        

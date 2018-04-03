@@ -14,20 +14,62 @@ else
 
     @foreach (var noti in Model.AmistadList)
     {
-        <div class="SolicitudContainer">
-            <div>
+        if (noti.Emisor.UsuarioId == Model.UsuarioSesion.Id)
+        {
+            if (noti.Estado == 0)
+            {
+                <h3>No tiene ninguna notificacion</h3>
 
-                <img src="~/images/Fotos_Usuarios/@noti.Emisor.Usuario.Foto.RutaFoto" />
-            </div>
-            <div class="info_solicitud">
+            }
+            else
+            {
 
-                <a href="@Url.Action("Usuario", "Perfil", new Usuario { Id = noti.Emisor.Usuario.Id, NickName = noti.Emisor.Usuario.NickName })">
-                    <h3>@noti.Emisor.Usuario.Nombre @noti.Emisor.Usuario.Apellido</h3>
-                </a>
-                <p>@noti.Fecha</p>
-            </div>
-           
-        </div>
+                <div class="SolicitudContainer">
+                    <div>
+
+                        <img src="~/images/Fotos_Usuarios/@noti.Receptor.Usuario.Foto.RutaFoto" />
+                    </div>
+                    <div class="info_solicitud">
+
+                        <a href="@Url.Action("Usuario", "Perfil", new Usuario { Id = noti.Receptor.Usuario.Id, NickName = noti.Receptor.Usuario.NickName })">
+                            <h3>@noti.Receptor.Usuario.Nombre @noti.Receptor.Usuario.Apellido</h3>
+                        </a>
+                        <p>@noti.Fecha</p>
+                    </div>
+
+                </div>
+            }
+
+
+        }
+        else
+        {
+            if (noti.Estado == 0)
+            {
+                <h3>No tiene ninguna notificacion</h3>
+
+            }
+            else
+            {
+                <div class="SolicitudContainer">
+                    <div>
+
+                        <img src="~/images/Fotos_Usuarios/@noti.Emisor.Usuario.Foto.RutaFoto" />
+                    </div>
+                    <div class="info_solicitud">
+
+                        <a href="@Url.Action("Usuario", "Perfil", new Usuario { Id = noti.Emisor.Usuario.Id, NickName = noti.Emisor.Usuario.NickName })">
+                            <h3>@noti.Emisor.Usuario.Nombre @noti.Emisor.Usuario.Apellido</h3>
+                        </a>
+                        <p>@noti.Fecha</p>
+                    </div>
+
+                </div>
+
+            }
+
+        }
+
 
 
 

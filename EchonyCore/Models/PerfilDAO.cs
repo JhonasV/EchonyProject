@@ -314,8 +314,10 @@ namespace EchonyCore.Models
                 try
                 {
                     //lista = db.SolicitudAmistad.Where(x => x.ReceptorId == a.ReceptorId).ToList();
-                    lista = db.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.Id || x.Emisor.UsuarioId == r.Id && x.Estado == 1).Include(x => x.Emisor.Usuario).Include(x => x.Emisor.Usuario.Foto)
+                    lista = db.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.UsuarioId || x.Emisor.UsuarioId == r.UsuarioId && x.Estado == 1)
+                        .Include(x => x.Emisor.Usuario).Include(x => x.Emisor.Usuario.Foto)
                         .Include(x => x.Receptor.Usuario).Include(x => x.Receptor.Usuario.Foto).ToList();
+                 
                 }
                 catch (Exception e)
                 {

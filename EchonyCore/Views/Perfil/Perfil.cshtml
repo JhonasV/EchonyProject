@@ -232,7 +232,7 @@
             <div class="cuerpo_modal">
                 <span style="text-align:center;">Foto Actual</span>
                 <img class="foto_modal" src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Foto.RutaFoto" alt="Alternate Text" />
-                <form id="form-fotos" action="AddFotoPublicacion/Perfil" method="post" enctype="multipart/form-data">
+                <form id="form-fotos" action="/Perfil/AddFotoPublicacion" method="post" enctype="multipart/form-data">
                     <!--enctype="multipart/form-data"-->
                     <input type="hidden" name="nick" value="@Model.UsuarioSesion.NickName" />
                     <input type="hidden" name="foto_id" value="@Model.UsuarioSesion.Id" />
