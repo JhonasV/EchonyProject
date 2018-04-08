@@ -18,8 +18,9 @@ namespace EchonyCore.Models
                 try
                 {
                     //_dbmsParentSections.ForEach(x => x.Children = x.Children.OrderBy(y => y.Order).ToList());
-                   
-                   user = db.Usuario.Where(x => x.NickName == u.NickName).Include(x => x.Foto).Include(x => x.Publicaciones ).Include(x=> x.Comentarios).FirstOrDefault();
+                    Publicaciones p = new Publicaciones();
+                    
+                    user = db.Usuario.Where(x => x.NickName == u.NickName).Include(x => x.Foto).Include(x => x.Publicaciones).Include(x => x.Comentarios).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -37,7 +38,7 @@ namespace EchonyCore.Models
             {
                 try
                 {
-                    user = db.Usuario.Where(x => x.Id == u.Id).Include(x => x.Foto).Include(x => x.Publicaciones).Include(x => x.Comentarios).FirstOrDefault();
+                    user = db.Usuario.Where(x => x.Id == u.Id).Include(x => x.Foto).Include(x => x.Publicaciones).Include(x => x.Comentarios).Include(x=> x.Foto).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -93,14 +94,14 @@ namespace EchonyCore.Models
             
         }
 
-       public List<Publicaciones> GetPubicacionesDesc(Usuario u)
+       public List<Publicaciones> GetPublicacionesPrueba(Usuario u)
         {
             List<Publicaciones> lista = new List<Publicaciones>();
             using(EchonyEntityContext db = new EchonyEntityContext())
             {
                 try
                 {
-                    lista = db.Publicaciones.OrderByDescending(x => x.Id).Where(x=>x.Usuario.NickName == u.NickName).Include(x => x.Usuario).Include(x => x.Comentarios).ToList();
+                    lista = db.Publicaciones.Where(x => x.Usuario.Id == u.Id).Include(x => x.Usuario).Include(x=> x.Usuario.Foto).Include(x => x.Like).Include(x => x.Comentarios).OrderByDescending(x => x.Id).ToList();
                 }
                 catch (Exception)
                 {

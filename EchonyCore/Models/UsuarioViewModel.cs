@@ -11,7 +11,7 @@ namespace EchonyCore.Models
         public Usuario UsuarioSecundario { get; set; }
         public List<Usuario> lista { get; set; }
         public List<SolicitudAmistad> AmistadList { get; set; }
-        public List<Publicaciones> publicacionesDesc { get; set; }
+        public List<Publicaciones> publicaciones { get; set; }
         public SolicitudAmistad EstadoAmistad { get; set; }
     }
 }

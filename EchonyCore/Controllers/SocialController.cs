@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EchonyCore.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace EchonyCore.Controllers
 {
@@ -16,18 +19,54 @@ namespace EchonyCore.Controllers
         }
 
 
-        public JsonResult AceptarSolicitud(SolicitudAmistad a, int emisorId, int receptorId)
+        public JsonResult AceptarSolicitud(SolicitudAmistad a)
         {
             SocialDAO dao = new SocialDAO();
-            dao.AceptarSolicitud(a, new Receptor { UsuarioId = receptorId}, new Emisor { UsuarioId = emisorId});
-            return Json("");
+            dao.AceptarSolicitud(a);
+            return Json("Usuario agregado");
+           // return RedirectToAction("Notificaciones", "Perfil");
         }
 
-        public JsonResult ObtenerAmigos(Emisor em)
+        [HttpPost]
+        public JsonResult ObtenerAmigos()
+        {
+            PerfilDAO dao = new PerfilDAO();
+            if(HttpContext.Session.GetInt32("id") != null)
+            {
+                Receptor e = new Receptor()
+                {
+                    UsuarioId = (int)HttpContext.Session.GetInt32("id")
+                };
+
+                List<SolicitudAmistad> lista = dao.GetAmigos(e);
+                return Json(lista);
+            }
+            else
+            {
+                return Json("Error en obtener los Amigos");
+            }
+            
+            
+            
+        }
+
+        [HttpPost]
+        public JsonResult MeGusta(Likes like)
         {
             SocialDAO dao = new SocialDAO();
-            dao.GetAmigos(em);
-            return Json("");
+            List<Likes> lista = dao.SetMeGusta(like);
+            string json = JsonConvert.SerializeObject(lista);
+            return Json(json);
+        }
+
+        [HttpPost]
+        public JsonResult MegustaInfo(Likes like)
+        {
+            List<Likes> lista = new SocialDAO().getLikes(like);
+           
+
+            string json = JsonConvert.SerializeObject(lista);
+            return Json(json);
         }
     }
 }

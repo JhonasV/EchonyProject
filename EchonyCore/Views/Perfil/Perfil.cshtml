@@ -105,7 +105,7 @@
 
             <div id="post_container" class="post_container">
                 @{
-                    if (Model.UsuarioSecundario.Publicaciones.Count == 0)
+                    if (Model.publicaciones.Count == 0)
                     {
                         <div class="aviso">
                             <p>No ha hecho su primera publicación</p>
@@ -115,7 +115,7 @@
                     else
                     {
 
-                        @foreach (var publi in Model.UsuarioSecundario.Publicaciones)
+                        @foreach (var publi in Model.publicaciones)
                         {
 
                             <article id="post" class="post">
@@ -144,7 +144,12 @@
                                 <div class="botonera-wrapper">
                                     <div class="botonera-publiacion">
 
-                                        <button class="me_gusta_btn">Me Gusta</button>
+                                          @{ 
+                        int contadorLike = 0;
+                        if (publi.Like != null) { contadorLike = publi.Like.Count(); }
+
+                        }
+                    <div><button class="me_gusta_btn" id="@publi.Id" name="@Model.UsuarioSecundario.Id">Me Gusta</button><span class="@publi.Id">(@contadorLike)</span></div>
                                         <p>Comentarios <span>(0)</span></p>
                                     </div>
                                 </div>
@@ -163,24 +168,20 @@
 
                                                 @foreach (var item in publi.Comentarios)
                                                 {
-                                                    <img src="../images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
+                                                    <img src="../images/Fotos_Usuarios/@item.Usuario.Foto.RutaFoto" alt="Foto" />
                                                     <div class="comment-texarea">
 
-                                                        <div class="contenido-comentario-container"><span>@publi.Usuario.Nombre</span><span>@publi.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
+                                                        <div class="contenido-comentario-container"><span>@item.Usuario.Nombre</span><span>@item.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
                                                     </div>
                                                 }
                                             }
-                                            else
-                                            {
-
-
-                                            }
+                                          
                                         }
 
                                     </div>
 
                                 </div>
-                                <form method="post" id="comentario_form" action="AddComentario/Perfil">
+                                <form method="post" id="comentario_form" action="/Perfil/AddComentario">
                                     <input type="hidden" name="nick" value="@Model.UsuarioSecundario.NickName" />
                                     <input type="hidden" name="PublicacionesId" value="@publi.Id" />
                                     <input type="hidden" name="Fecha_publicacion" value="@DateTime.Now" />
@@ -342,18 +343,18 @@
 
                 <div id="post_container" class="post_container">
                     @{
-                if (Model.UsuarioSesion.Publicaciones.Count == 0)
+                if (Model.publicaciones.Count() == 0)
                 {
                     <div class="aviso">
                         <p>No ha hecho su primera publicación</p>
                     </div>
 
-        }
-        else
-        {
+                        }
+                        else
+                        {
 
-            @foreach (var publi in Model.UsuarioSesion.Publicaciones)
-    {
+            @foreach (var publi in Model.publicaciones)
+            {
 
         <article id="post" class="post">
             <div class="post-info">
@@ -366,12 +367,12 @@
                 <p>@publi.Contenido</p>
 
                 @if (publi.Foto == null)
-        {
+                {
 
 
-        }
-        else
-        {
+                }
+                else
+                {
             <div style="width:100%;height:40%; margin-top:1em;">
                 <img style="width:100%; height:100vh; border-radius:0;" src="~/images/Fotos_Usuarios/@publi.Foto" />
             </div>
@@ -380,10 +381,30 @@
             </div>
             <div class="botonera-wrapper">
                 <div class="botonera-publiacion">
-                    <button class="me_gusta_btn">Me Gusta</button>
+                    @{ 
+                        int contadorLike = 0;
+                        if (publi.Like != null) { contadorLike = publi.Like.Count(); }
+                       
+                        }
+                    <div class="sub_botonera">
+                        <button class="me_gusta_btn" id="@publi.Id" name="@Model.UsuarioSesion.Id">Me Gusta</button>
+                        <span class="@publi.Id">(@contadorLike)</span>
+                        <button class="mostrar_likes" name="@publi.Id">Ver Likes</button>
+                        <img id="load_gustaBtn_@publi.Id" style="display:none; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+                    </div>
                     <p>Comentarios <span>(0)</span></p>
+                    <dialog class="dialog_likes" id="mostrar_likes_@publi.Id">
+                        <div class="dialog_likes_header">
+                            <h4>Personas que le han dado like a la publicacion de @publi.Usuario.Nombre</h4>
+                            <p id="@publi.Id" class="cerrar_likes" name="@publi.Id" >X</p>
+                        </div>
+                        <div id="mostrar_likes_body_@publi.Id">
+                            
+                        </div>
+                    </dialog>
                 </div>
             </div>
+            <dialog class="@publi.Id">soy un dialog de prueba</dialog>
             <input type="hidden" value="@publi.Id" />
             <div id="publicacion_@publi.Id"></div>
             <div class="coment-wrapper">
@@ -400,10 +421,10 @@
 
                     @foreach (var item in publi.Comentarios)
             {
-                <img src="../images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
+                <img src="../images/Fotos_Usuarios/@item.Usuario.Foto.RutaFoto" alt="Foto" />
                 <div class="comment-texarea">
 
-                    <div class="contenido-comentario-container"><span>@publi.Usuario.Nombre</span><span>@publi.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
+                    <div class="contenido-comentario-container"><span>@item.Usuario.Nombre</span><span>@item.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
                 </div>
     }
         }
@@ -417,13 +438,13 @@
                 </div>
 
             </div>
-            <form method="post" id="comentario_form" action="AddComentario/Perfil">
+            <form method="post" id="comentario_form" action="/Perfil/AddComentario">
                 <input type="hidden" name="nick" value="@Model.UsuarioSesion.NickName" />
                 <input type="hidden" name="PublicacionesId" value="@publi.Id" />
                 <input type="hidden" name="Fecha_publicacion" value="@DateTime.Now" />
                 <input type="hidden" name="UsuarioId" value="@Model.UsuarioSesion.Id" />
                 <div id="post-comment" class="post-comment">
-                    <img src="../images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
+                    
                     <div class="comment-texarea">
 
 

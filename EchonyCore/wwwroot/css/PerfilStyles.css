@@ -152,9 +152,13 @@ body {
     justify-content: space-between;
 }
 
-    .botonera-publiacion p {
-        color: #2C3E50;
-    }
+.sub_botonera{
+    display:flex;
+    align-items:center;
+}
+.botonera-publiacion p {
+    color: #2C3E50;
+}
 
 .me_gusta_btn {
     padding: 5px 7px;
@@ -407,6 +411,11 @@ body {
         color: #ecf0f1;
     }
 
+    .menu a{
+        display: flex;
+        color: white;
+    }
+
     .menu li:hover {
         cursor: pointer;
         background-color: #2c3e50;
@@ -553,12 +562,11 @@ body {
         }
 
 .full-container-busqueda {
-    margin:1em auto;
-    width:90%;
-    
-    border:1px solid #ddd;
-    height:auto;
-   
+    margin: 1em auto;
+    width: 90%;
+    background-color: white;
+    border: 1px solid #ddd;
+    height: auto;
 }
 .busqueda-container {
    
@@ -571,13 +579,16 @@ body {
     margin:0 auto;
 }
 
-.busqueda-container .perfil{
-    display:flex;
-    border:1px solid #eee;
-    height:5em;
-    margin:0 auto;
-    width:50%;
+.busqueda-container .perfil {
+    display: flex;
+
+    border: 1px solid #eee;
+    height: 5em;
+    margin: 1em auto;
+    width: 50%;
+    background-color: #F9F9FA;
 }
+
 
 .perfil a {
     text-decoration: none;
@@ -600,16 +611,29 @@ body {
     margin:1em auto;
 }
 
-/*TARJETA SOLICITUD DE AMISTAD*/
-.SolicitudContainer{
-    width:50%;
-    height:auto;
-    margin:2em;
-    background-color:white;
-    border:1px solid #eee;
-    display:flex;
-    align-items:center;
+.busqueda_header{
    
+   width:100%;
+   border-bottom:1px solid #eee;
+   padding:10px;
+}
+
+.busqueda_header h3{
+    font-size:27px;
+}
+
+.perfil  .info{
+    padding-left:5px;
+}
+/*TARJETA SOLICITUD DE AMISTAD*/
+.SolicitudContainer {
+    width: 50%;
+    height: auto;
+    margin: 2em;
+    background-color: white;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
 }
 
 .SolicitudContainer img{
@@ -649,4 +673,56 @@ body {
 
 .mostrarBoton{
     display:block;
+}
+
+/*NOTIFICACIONES*/
+.notificaciones_container{
+    margin:10px;
+    padding:10px;
+    background-color:white;
+    width:70%;
+    height:auto;
+}
+
+.notificaciones_header{
+    margin-top:15px;
+    margin-bottom:15px;
+    border-bottom:1px solid #eee;
+}
+
+/*MODAL DE LIKES*/
+.dialog_likes{
+    width:40%;
+    margin:0 auto;
+    height:auto;
+    border:1px solid #eee;
+    border-radius:10px;
+}
+
+.like_tarjeta{
+  
+    width:95%;
+    margin:10px auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.dialog_likes_header{
+    display:flex;
+    justify-content:space-between;
+    width:98%;
+    margin:5px auto;
+    border-bottom:1px solid #eee;
+}
+
+.cerrar_likes {
+    font-size: 22px;
+    color: red;
+    cursor: pointer;
+}
+
+.foto_like{
+    width:50px;
+    height:50px;
 }

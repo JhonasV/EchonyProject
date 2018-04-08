@@ -20,6 +20,8 @@ namespace EchonyCore.Models
 
         public virtual Usuario Usuario { get; set; }
 
-       public virtual List<Comentarios> Comentarios { get; set; }
+        public virtual List<Comentarios> Comentarios { get; set; }
+      
+        public virtual List<Likes> Like { get; set; }
     }
 }

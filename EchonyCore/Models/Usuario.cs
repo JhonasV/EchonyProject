@@ -55,5 +55,8 @@ namespace EchonyCore.Models
         public int Privada { get; set; }
 
         public virtual Detalles Detalles { get; set; }
+
+       // public virtual List<Likes> Likes { get; set; }
+
     }
 }

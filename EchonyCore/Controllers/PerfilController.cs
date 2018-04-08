@@ -25,7 +25,8 @@ namespace EchonyCore.Controllers
         [HttpGet]
         public ActionResult Usuario(Usuario user)
         {
-
+           
+            
             /*Usuario user = new Usuario();
             user.NickName = HttpContext.Request.Query["NickName"].ToString();*/
             UsuarioViewModel model = new UsuarioViewModel();
@@ -33,7 +34,7 @@ namespace EchonyCore.Controllers
             int idSesion = (int)HttpContext.Session.GetInt32("id");
             model.UsuarioSesion = p.GetUsuarioById(new Models.Usuario { Id = idSesion });
             model.UsuarioSecundario = p.GetUsuario(user);
-            model.publicacionesDesc = new PerfilDAO().GetPubicacionesDesc(user);
+            model.publicaciones = new PerfilDAO().GetPublicacionesPrueba(user);
             Usuario u = p.GetUsuario(user);
             model.EstadoAmistad = new PerfilDAO().GetAmigos(model.UsuarioSecundario.Id,idSesion);
            
@@ -143,8 +144,8 @@ namespace EchonyCore.Controllers
         {
 
             new PerfilDAO().AddComentario(c);
-
-            return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = nick }));
+            Usuario detalles = new PerfilDAO().GetUsuario(new Usuario { NickName = nick });
+            return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = nick, Id = detalles.Id }));
         }
         public IActionResult AddFotoPublicacion(int foto_id, IFormFile foto, string nick)
         {
@@ -194,14 +195,14 @@ namespace EchonyCore.Controllers
             {
                 bool exito = dao.AgregarPublicacion(new Publicaciones { Contenido = Contenido, UsuarioId = UsuarioId, Fecha = fecha });
             }
+
+
+            Usuario u = dao.GetUsuario(new Usuario { NickName = NickName });
             
-            
-            
-            //Perfil / Usuario ? NickName = JhonasV
            
-           //return Redirect(Request.UrlReferrer.ToString());
-            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
-            //return Redirect("Perfil/Usuario?Nickname="+NickName);
+          
+            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName, Id = u.Id }));
+           
         }
         [HttpGet]
         public ActionResult Busqueda(string r)

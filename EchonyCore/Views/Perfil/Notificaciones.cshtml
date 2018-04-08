@@ -3,40 +3,47 @@
     ViewData["Title"] = "Notificaciones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<br />
-<h2>Notificaciones</h2>
-
-@if (Model.AmistadList.Count == 0)
-{
-    <h3>No tiene ninguna notificacion</h3>
-
-}
-else
-{
-
-        @foreach (var noti in Model.AmistadList)
-    {
-        <div class="SolicitudContainer">
-            <div>
-
-                <img src="~/images/Fotos_Usuarios/@noti.Emisor.Usuario.Foto.RutaFoto" />
-            </div>
-            <div class="info_solicitud">
-               
-                <h3>@noti.Emisor.Usuario.Nombre @noti.Emisor.Usuario.Apellido</h3> 
-       
-                <p>@noti.Fecha</p>                
-            </div>
-            <div class="solicitud_botonera">
-                <a href="/Social/AceptarSolicitud/@noti.Id?emisorId=@noti.Emisor.UsuarioId&receptorId=@noti.Receptor.UsuarioId">Aceptar</a>
-                <input type="button" name="Rechazar" value="Rechazar" />
-            </div>
-        </div>
-       
-        
-
-}
-
+<div class="notificaciones_container">
+    <div class="notificaciones_header">
+        <h2>Notificaciones</h2>
+    </div>
     
 
-}
+    @if (Model.AmistadList.Count == 0)
+    {
+        <h3>No tiene ninguna notificacion</h3>
+
+    }
+    else
+    {
+
+        @foreach (var noti in Model.AmistadList)
+        {
+            <div class="SolicitudContainer">
+                <div>
+
+                    <img src="~/images/Fotos_Usuarios/@noti.Emisor.Usuario.Foto.RutaFoto" />
+                </div>
+                <div class="info_solicitud">
+
+                    <h3 id="nombre_prueba">@noti.Emisor.Usuario.Nombre @noti.Emisor.Usuario.Apellido</h3>
+
+                    <p>@noti.Fecha</p>
+                </div>
+                <div class="solicitud_botonera">
+
+                    <!-- <a href="/Social/AceptarSolicitud/@noti.Id?emisorId=@noti.Emisor.UsuarioId&receptorId=@noti.Receptor.UsuarioId">Aceptar</a>-->
+
+                    <input class="pruebaBoton" type="button" name="Aceptar" value="Aceptar" id="@noti.Id" />
+                    <input type="button" name="Rechazar" value="Rechazar" />
+                </div>
+            </div>
+
+
+
+        }
+
+
+
+    }
+</div>

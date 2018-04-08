@@ -8,23 +8,13 @@ namespace EchonyCore.Models
 {
     public class SocialDAO
     {
-        public void AceptarSolicitud(SolicitudAmistad s, Receptor r, Emisor em)
+        public void AceptarSolicitud(SolicitudAmistad s)
         {
             using(EchonyEntityContext db = new EchonyEntityContext())
             {
                 try
                 {
-                   /* Amigos amigos = new Amigos()
-                    {
-                       
-                        Emisor = em,
-                        Receptor = r,
-                        Fecha = DateTime.Now
-                    };
-                    db.Amigos.Add(amigos);
-                    db.SaveChanges();*/
-                  //  SolicitudAmistad solicitud = db.SolicitudAmistad.Where(x=> x.Emisor.UsuarioId)
-
+                
                     s.Estado = 1;
                     db.SolicitudAmistad.Attach(s);
                     var entrada = db.Entry(s);
@@ -53,6 +43,68 @@ namespace EchonyCore.Models
                 {
 
                     e.ToString();
+                }
+            }
+            return lista;
+        }
+
+        public List<Likes> SetMeGusta(Likes like)
+        {
+           
+            string mensaje = "";
+            int contador = 0;
+            List<Likes> lista = new List<Likes>();
+            using(EchonyEntityContext db = new EchonyEntityContext())
+            {
+                try
+                {
+                    Likes detalles = db.Likes.Where(x => x.UsuarioId == like.UsuarioId && x.PublicacionesId == like.PublicacionesId).FirstOrDefault();
+                    if(detalles != null)
+                    {
+                        db.Likes.Remove(detalles);
+                        db.SaveChanges();
+
+                        lista = db.Likes.Where(x => x.PublicacionesId == like.PublicacionesId).Include(x => x.Usuario).ToList();
+                        contador = lista.Count();
+                        mensaje = "Like eliminado satisfactoriamente";
+                    }
+                    else
+                    {
+                        db.Likes.Add(like);
+                        db.SaveChanges();
+                        lista = db.Likes.Where(x => x.PublicacionesId == like.PublicacionesId).Include(x=> x.Usuario).ToList();
+                        contador = lista.Count();
+                        mensaje = "Like agregado satisfactoriamente";
+                    }
+                    
+                }
+                catch (Exception e)
+                {
+                    mensaje = String.Format("Excepcion al agregar el like, Error {0}", e.ToString());
+                    e.ToString();
+                }
+            }
+            return lista;
+        }
+
+        public List<Likes> getLikes(Likes l)
+        {
+            List<Likes> lista = new List<Likes>();
+            using(EchonyEntityContext db = new EchonyEntityContext())
+            {
+                try
+                {
+                    lista = lista = db.Likes.Where(x => x.PublicacionesId == l.PublicacionesId).Include(x => x.Usuario).Include(x=> x.Usuario.Foto).ToList();
+
+                    lista.ForEach(e =>
+                    {
+                        e.Usuario.Foto.Usuario = null;
+                    });
+                }
+                catch (Exception e)
+                {
+
+                    throw;
                 }
             }
             return lista;

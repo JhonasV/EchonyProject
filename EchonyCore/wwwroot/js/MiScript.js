@@ -414,6 +414,188 @@
         return false;
     }
 
+
+    //MOSTRAR SOLICITUD AMISTAD 
+ 
+        const mostrarNotificaciones = () => {
+        $.ajax({
+            method: "POST",
+            url: "/Social/ObtenerAmigos",
+            datatype: "JSON",
+            success: (data) => {
+                console.log(data);
+            },
+            error: (error) => {
+                console.log(error)
+            },
+            done: (error, resp) => {
+
+                console.log(resp)
+            }
+        });
+    }
+
+       
+
+            
+        (function mostrarNoti() {
+            try {
+                $.ajax({
+                    method: "POST",
+                    url: "/Social/ObtenerAmigos",
+                    datatype: "JSON",
+                    data: {prueba:"prueba"},
+                    success: (data) => {
+                        console.log(data);
+                    },
+                    error: (request, status, errorThrown) => {
+                        console.log(errorThrown);
+                        console.log(request);
+                        console.log(status);
+                    },
+                    complete: (error, resp) => {
+
+                        console.log(resp, error)
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+                }
+            }
+
+            )();
+
+    //ACEPTAR SOLICITUD AMISTAD
+    $(document).on("click", ".pruebaBoton", (event) => {
+       
+        let aceptar = {}
+        aceptar.Id = event.target.id;
+        $.ajax({
+            method: "POST",
+            url: "/Social/AceptarSolicitud",
+            data: aceptar,
+            datatype: "JSON",
+            success: (data) => {
+                console.log(data);
+            },
+            error: (error) => {
+                console.log(error)
+            },
+            complete: (error, resp) => {
+
+                console.log(resp)
+            }
+        });
+        event.target.remove();
+    });
+
+    /*ME GUSTA*/
+  
+    $(document).on("click", ".me_gusta_btn", (event) => {
+       
+        let like = {}
+        like.PublicacionesId = event.target.id;
+        like.UsuarioId = event.target.name;
+        $("#load_gustaBtn_" + like.PublicacionesId).attr("display", "inline-flex");
+        $("#load_gustaBtn_" + like.PublicacionesId).show();
+
+       // $("." + like.Id + "").attr("open", "true");
+
+        $.ajax({
+            method: "POST",
+            url: "/Social/MeGusta",
+            data: like,
+            datatype: "JSON",
+            success: (data) => {
+                let listaLikes = JSON.parse(data);
+                console.log(listaLikes);
+                $("." + event.target.id + "").html("(" + listaLikes.length + ")");
+               
+                $("#load_gustaBtn_" + like.PublicacionesId).hide();
+            },
+            error: (error) => {
+                console.log(error.message);
+                $("#load_gustaBtn_" + like.PublicacionesId).hide();
+            },
+            complete: (error, resp) => {
+                $("#load_gustaBtn_" + like.PublicacionesId).hide();
+                console.log(resp)
+            }
+        });
+   
+    });
+
+    $(document).on("click", ".mostrar_likes", (event) => {
+
+        let like = {}
+        like.PublicacionesId = event.target.name;
+       
+  
+
+        // $("." + like.Id + "").attr("open", "true");
+
+        $.ajax({
+            method: "POST",
+            url: "/Social/MegustaInfo",
+            data: like,
+            datatype: "JSON",
+            success: (data) => {
+                let listaLikes = JSON.parse(data);
+                console.log(listaLikes);
+                for (let i = 0; i < listaLikes.length; i++) {
+                    console.log();
+                }
+                $("#mostrar_likes_" + like.PublicacionesId).attr("open", "true");
+                $("#mostrar_likes_body_" + like.PublicacionesId).html("");
+                listaLikes.forEach(e => {
+                    console.log(e.Usuario.Foto);
+                    if (e.Usuario != null){
+                        let elemento = `
+                           <div class="like_tarjeta">
+                                <div>
+                                    <img class="foto_like"   src = "/images/Fotos_Usuarios/${e.Usuario.Foto.RutaFoto}" />
+                                </div>
+                                <div>
+                                    <h3>${e.Usuario.Nombre} ${e.Usuario.Apellido}</h3>
+                                </div>
+                            </div>
+                                `;
+                        $("#mostrar_likes_body_" + like.PublicacionesId).append(elemento);
+                    } else {
+                        let elemento = `
+                           <div class="like_tarjeta">
+                                
+                                <div>
+                                    <h3>Esta publicacion aún no tiene likes</h3>
+                                </div>
+                            </div>
+                                `;
+                        $("#mostrar_likes_body_" + like.PublicacionesId).append(elemento);
+                    }
+                   
+                    
+                })
+               
+                /*for (let i = 0; i < listaLikes.Usuario){
+                    
+                }*/
+                
+
+               
+
+                $("#load_gustaBtn_" + like.PublicacionesId).hide();
+            },
+            error: (error) => {
+                console.log(error.message);
+                $("#load_gustaBtn_" + like.PublicacionesId).hide();
+            },
+            complete: (error, resp) => {
+                $("#load_gustaBtn_" + like.PublicacionesId).hide();
+                console.log(resp)
+            }
+        });
+
+    });
     /*MODALES*/
 
     $("#btnFoto").on("click", () => {
@@ -425,5 +607,16 @@
 
     });
 
+    $("#cerrar_dialog_likes").on("click", () => {
+        $(".dialog_likes").removeAttr("open");
+    });
+
+    $(document).on("click", ".cerrar_likes", (event) => {
+        let id = event.target.id;
+     
+        $("#mostrar_likes_" +id).removeAttr("open");
+    });
+
+   
 });
 

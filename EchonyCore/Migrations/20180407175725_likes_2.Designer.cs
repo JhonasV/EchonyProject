@@ -11,9 +11,10 @@ using System;
 namespace EchonyCore.Migrations
 {
     [DbContext(typeof(EchonyEntityContext))]
-    partial class EchonyEntityContextModelSnapshot : ModelSnapshot
+    [Migration("20180407175725_likes_2")]
+    partial class likes_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,7 +113,7 @@ namespace EchonyCore.Migrations
                     b.ToTable("Fotos");
                 });
 
-            modelBuilder.Entity("EchonyCore.Models.Likes", b =>
+            modelBuilder.Entity("EchonyCore.Models.Like", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -127,7 +128,7 @@ namespace EchonyCore.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Like");
                 });
 
             modelBuilder.Entity("EchonyCore.Models.Publicaciones", b =>
@@ -271,14 +272,14 @@ namespace EchonyCore.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("EchonyCore.Models.Likes", b =>
+            modelBuilder.Entity("EchonyCore.Models.Like", b =>
                 {
                     b.HasOne("EchonyCore.Models.Publicaciones", "Publicaciones")
                         .WithMany("Like")
                         .HasForeignKey("PublicacionesId");
 
                     b.HasOne("EchonyCore.Models.Usuario", "Usuario")
-                        .WithMany("Likes")
+                        .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

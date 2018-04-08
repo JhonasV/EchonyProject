@@ -21,6 +21,12 @@
     <Compile Remove="Migrations\20180331230135_em_re.Designer.cs" />
     <Compile Remove="Migrations\20180401015111_asf2.cs" />
     <Compile Remove="Migrations\20180401015111_asf2.Designer.cs" />
+    <Compile Remove="Migrations\20180407175517_likes_2.cs" />
+    <Compile Remove="Migrations\20180407175517_likes_2.Designer.cs" />
+    <Compile Remove="Migrations\20180407190803_likes_3.cs" />
+    <Compile Remove="Migrations\20180407190803_likes_3.Designer.cs" />
+    <Compile Remove="Migrations\20180407200700_likes_publi.cs" />
+    <Compile Remove="Migrations\20180407200700_likes_publi.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +34,7 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>

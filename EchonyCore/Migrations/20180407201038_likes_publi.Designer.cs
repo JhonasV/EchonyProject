@@ -11,9 +11,10 @@ using System;
 namespace EchonyCore.Migrations
 {
     [DbContext(typeof(EchonyEntityContext))]
-    partial class EchonyEntityContextModelSnapshot : ModelSnapshot
+    [Migration("20180407201038_likes_publi")]
+    partial class likes_publi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -278,7 +279,7 @@ namespace EchonyCore.Migrations
                         .HasForeignKey("PublicacionesId");
 
                     b.HasOne("EchonyCore.Models.Usuario", "Usuario")
-                        .WithMany("Likes")
+                        .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
