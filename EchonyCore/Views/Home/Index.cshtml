@@ -4,11 +4,11 @@
     ViewBag.title = "Echony: Home";
     @using Microsoft.AspNetCore.Http
     @inject IHttpContextAccessor HttpContextAccessor
-    if (this.HttpContextAccessor.HttpContext.Session.GetString("id") == null)
+   /* if (this.HttpContextAccessor.HttpContext.Session.GetString("id") == null)
     {
         this.HttpContextAccessor.HttpContext.Response.Redirect(Url.Action("Index", "Home"));
        
-    }
+    }*/
 }
 
 

@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewData["Title"] = "PerfilSecundario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main id="cuerpo-perfil" class="perfil_wrapper">
+    <input id="EmisorId" type="hidden" name="name" value="@Model.UsuarioSesion.Id" />
+    <input id="ReceptorId" type="hidden" name="name" value="@Model.UsuarioSecundario.Id" />
+    <input id="GetNick" type="hidden" name="name" value="@Model.UsuarioSecundario.NickName" />
+  
+    <input id="Nick" type="hidden" name="name" value="@Model.UsuarioSecundario.NickName" />
+    <section class="ventana_perfil_izquierda">
+        <div class="foto-perfil-wrapper-full">
+            <div class="foto-perfil-wrapper">
+                <img class="foto-perfil-usuario" src="~/images/Fotos_Usuarios/@Model.UsuarioSecundario.Foto.RutaFoto" alt="@Model.UsuarioSecundario.NickName" />
+                <div class="arriba">
+
+                </div>
+                <div class="abajo">
+
+                    <div class="nombre-usuario-perfil">
+                        <span>@Model.UsuarioSecundario.Nombre </span>
+                        <span>@Model.UsuarioSecundario.Apellido</span>
+                        <div id="btn_sol_container">
+                            @if (Model.EstadoAmistad.Estado == 5)
+                            {
+                                <form id="envio_form" asp-action="EnviarSolicitud" method="post">
+                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
+                                    <input type="hidden" name="EmisorId" value="@Model.UsuarioSesion.Id" />
+                                    <input type="hidden" name="ReceptorId" value="@Model.UsuarioSecundario.Id" />
+
+                                    <input type="hidden" name="Estado" value="0" />
+                                    <input id="boton_enviar" type="submit" value="Enviar solicitud de amistad" />
+                                </form>
+                            }
+
+                            else if (Model.EstadoAmistad.Estado == 0)
+                            {
+
+
+
+                                <form asp-action="EliminarSolicitud" method="post">
+                                    <input type="hidden" name="Id" value="@Model.EstadoAmistad.Id" />
+                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
+                                    <input id="boton_cancelar" type="submit" name="agregar" value="Cancelar Solicitud" />
+                                </form>
+                            }
+                            else if (Model.EstadoAmistad.Estado == 1)
+                            {
+                                <form id="cancelar_amigo" asp-action="EliminarSolicitud" method="post">
+                                    <input type="hidden" name="Id" value="@Model.EstadoAmistad.Id" />
+                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
+                                    <input id="boton_eliminar_amigo" type="submit" name="agregar" value="Son Amigos" />
+                                </form>
+
+                            }
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="usuario-perfil-info">
+                <p>Información</p>
+            </div>
+            <div class="menu">
+                <ul>
+                    <li>
+
+                        <p>Email: @Model.UsuarioSecundario.Email</p>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </section>
+    @if (Model.UsuarioSecundario.Privada == 0 && Model.EstadoAmistad.Estado != 1)
+    {
+
+
+        <p class="cuenta_privada">Esta cuenta es privada</p>
+
+
+
+    }
+    else
+    {
+        <section id="principal" class="ventana_perfil_central">
+
+
+
+
+
+            <input type="hidden" id="userId" value="@Model.UsuarioSecundario.Id" />
+            <div id="publicaciones-wrapper">
+                <img style="text-align:center; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+            </div>
+
+
+        </section>
+        <section class="ventana_notificaciones"></section>
+    }
+
+</main>
+

@@ -11,9 +11,10 @@ using System;
 namespace EchonyCore.Migrations
 {
     [DbContext(typeof(EchonyEntityContext))]
-    partial class EchonyEntityContextModelSnapshot : ModelSnapshot
+    [Migration("20180415155454_ssme")]
+    partial class ssme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,26 +63,6 @@ namespace EchonyCore.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Comentarios");
-                });
-
-            modelBuilder.Entity("EchonyCore.Models.CommentReply", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ComentariosId");
-
-                    b.Property<string>("Contenido_reply");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<int>("PublicacionesId");
-
-                    b.Property<int>("UsuarioId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CommentReply");
                 });
 
             modelBuilder.Entity("EchonyCore.Models.Detalles", b =>

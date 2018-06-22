@@ -45,18 +45,14 @@ namespace EchonyCore.Models
         public List<Publicaciones> Publicaciones { get; set; }
 
         public List<Comentarios> Comentarios { get; set; }
-
-        /*public Emisor Emisor { get; set; }
-
-        public Receptor Receptor { get; set; } */
-
-     
+        
+        public List<SolicitudAmistad> Amigos { get; set; }
 
         public int Privada { get; set; }
 
         public virtual Detalles Detalles { get; set; }
 
-       // public virtual List<Likes> Likes { get; set; }
+        public virtual List<Likes> Likes { get; set; }
 
     }
 }

@@ -27,10 +27,15 @@
     <Compile Remove="Migrations\20180407190803_likes_3.Designer.cs" />
     <Compile Remove="Migrations\20180407200700_likes_publi.cs" />
     <Compile Remove="Migrations\20180407200700_likes_publi.Designer.cs" />
+    <Compile Remove="Migrations\20180514013132_commentReply.cs" />
+    <Compile Remove="Migrations\20180514013132_commentReply.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.2.3" />
+    <None Remove="Properties\PublishProfiles\echony - Web Deploy.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
@@ -39,6 +44,10 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>

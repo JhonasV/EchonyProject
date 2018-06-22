@@ -69,8 +69,7 @@ namespace EchonyCore.Models
 
                     };
 
-
-
+                    
                     /*user.Nombre = u.Nombre;
                     user.Apellido = u.Apellido;
                     user.Email = u.Email;

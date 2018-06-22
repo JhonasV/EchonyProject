@@ -66,6 +66,10 @@ namespace EchonyCore.Models
 
                         lista = db.Likes.Where(x => x.PublicacionesId == like.PublicacionesId).Include(x => x.Usuario).ToList();
                         contador = lista.Count();
+                        lista.ForEach(e =>
+                        {
+                            e.Usuario.Likes = null;
+                        });
                         mensaje = "Like eliminado satisfactoriamente";
                     }
                     else
@@ -74,6 +78,10 @@ namespace EchonyCore.Models
                         db.SaveChanges();
                         lista = db.Likes.Where(x => x.PublicacionesId == like.PublicacionesId).Include(x=> x.Usuario).ToList();
                         contador = lista.Count();
+                        lista.ForEach(e =>
+                        {
+                            e.Usuario.Likes = null;
+                        });
                         mensaje = "Like agregado satisfactoriamente";
                     }
                     
@@ -99,12 +107,13 @@ namespace EchonyCore.Models
                     lista.ForEach(e =>
                     {
                         e.Usuario.Foto.Usuario = null;
+                        e.Usuario.Likes = null;
                     });
                 }
                 catch (Exception e)
                 {
 
-                    throw;
+                    e.ToString();
                 }
             }
             return lista;

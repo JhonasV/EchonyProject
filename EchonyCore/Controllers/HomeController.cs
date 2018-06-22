@@ -24,7 +24,7 @@ namespace EchonyCore.Controllers
                 model.UsuarioSesion = user;
                
                 return View(model);
-            }
+          }
             else
             {
                 return RedirectToAction("Index", "Login");

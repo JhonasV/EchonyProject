@@ -29,11 +29,19 @@ namespace EchonyCore.Models
         public DbSet<Receptor> Receptor { get; set; }
         public DbSet<Amigos> Amigos { get; set; }
         public DbSet<Likes> Likes { get; set; }
+        public DbSet<CommentReply> CommentReply { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+         {
+
+             optionsBuilder.UseSqlServer("Data Source=JHONAS;Initial Catalog=EchonyCoreDB;Integrated Security=True;");
+         }
+
+       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            optionsBuilder.UseSqlServer("Data Source=JHONAS;Initial Catalog=EchonyCoreDB;Integrated Security=True;");
-        }
+            optionsBuilder.UseSqlServer("Server=tcp:echonyserver.database.windows.net,1433;Initial Catalog=EchonyCoreDB;Persist Security Info=False;User ID=JhonasV;Password=@hola1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        }*/
     }
 }

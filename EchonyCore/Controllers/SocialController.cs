@@ -19,14 +19,22 @@ namespace EchonyCore.Controllers
         }
 
 
-        public JsonResult AceptarSolicitud(SolicitudAmistad a)
+        public IActionResult AceptarSolicitud(SolicitudAmistad a)
         {
             SocialDAO dao = new SocialDAO();
             dao.AceptarSolicitud(a);
-            return Json("Usuario agregado");
+            return Redirect(Url.Action("Notificaciones", "Perfil"));
            // return RedirectToAction("Notificaciones", "Perfil");
         }
 
+        public IActionResult RechazarSolicitud(SolicitudAmistad a, string NickName)
+        {
+            new PerfilDAO().EliminarNotificacionAmistad(a);
+            SolicitudAmistad soli = new SolicitudAmistad();
+            soli.Estado = 5;
+
+            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
+        }
         [HttpPost]
         public JsonResult ObtenerAmigos()
         {

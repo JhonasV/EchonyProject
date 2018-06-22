@@ -13,214 +13,10 @@
         this.HttpContextAccessor.HttpContext.Response.Redirect(Url.Action("Index", "Login"));
     }
 }
-@{
-        string perfilNick = this.HttpContextAccessor.HttpContext.Request.Query["NickName"];
-    if (perfilNick !=  this.HttpContextAccessor.HttpContext.Session.GetString("nick"))
-    {
+
+ 
 <main id="cuerpo-perfil" class="perfil_wrapper">
-    <input id="EmisorId" type="hidden" name="name" value="@Model.UsuarioSesion.Id" />
-    <input id="ReceptorId" type="hidden" name="name" value="@Model.UsuarioSecundario.Id" />
-    <input id="GetNick" type="hidden" name="name" value="@Model.UsuarioSecundario.NickName" />
-    <input id="idPerfil" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Session.GetInt32("id")" />
-    <input id="Nick" type="hidden" name="name" value="@this.HttpContextAccessor.HttpContext.Request.Query["NickName"]" />
-    <section class="ventana_perfil_izquierda">
-        <div class="foto-perfil-wrapper-full">
-            <div class="foto-perfil-wrapper">
-                <img class="foto-perfil-usuario" src="~/images/Fotos_Usuarios/@Model.UsuarioSecundario.Foto.RutaFoto" alt="@this.HttpContextAccessor.HttpContext.Session.GetString("nick")" />
-                <div class="arriba">
-
-                </div>
-                <div class="abajo">
-
-                    <div class="nombre-usuario-perfil">
-                        <span>@Model.UsuarioSecundario.Nombre </span>
-                        <span>@Model.UsuarioSecundario.Apellido</span>
-                        <div id="btn_sol_container">
-                            @if (Model.EstadoAmistad.Estado == 5)
-                            {
-                                <form id="envio_form" class="envio_form" asp-action="EnviarSolicitud" method="post">
-                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
-                                    <input type="hidden" name="EmisorId" value="@Model.UsuarioSesion.Id" />
-                                    <input type="hidden" name="ReceptorId" value="@Model.UsuarioSecundario.Id" />
-
-                                    <input type="hidden" name="Estado" value="0" />
-                                    <input id="boton_enviar" type="submit" value="Enviar solicitud de amistad" />
-                                </form>
-                            }
-
-                            else if (Model.EstadoAmistad.Estado == 0)
-                            {
-
-
-
-                                <form id="cancelar_form" asp-action="EliminarSolicitud" method="post">
-                                    <input type="hidden" name="Id" value="@Model.EstadoAmistad.Id" />
-                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
-                                    <input id="boton_cancelar" type="submit" name="agregar" value="Cancelar Solicitud" />
-                                </form>
-                            }
-                            else if (Model.EstadoAmistad.Estado == 1)
-                            {
-                                <form id="cancelar_amigo" asp-action="EliminarSolicitud" method="post">
-                                    <input type="hidden" name="Id" value="@Model.EstadoAmistad.Id" />
-                                    <input type="hidden" name="NickName" value="@Model.UsuarioSecundario.NickName" />
-                                    <input id="boton_eliminar_amigo" type="submit" name="agregar" value="Son Amigos" />
-                                </form>
-
-                            }
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="usuario-perfil-info">
-                <p>Información</p>
-            </div>
-            <div class="menu">
-                <ul>
-                    <li>
-
-                        <h2>Amigos: <span>100</span></h2>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-    </section>
-    @if (Model.UsuarioSecundario.Privada == 0 && Model.EstadoAmistad.Estado != 1)
-    {
-        <div>Esta cuenta es privada</div>
-
-    }
-    else
-    {
-        <section id="principal" class="ventana_perfil_central">
-
-
-
-
-
-
-            <div id="post_container" class="post_container">
-                @{
-                    if (Model.publicaciones.Count == 0)
-                    {
-                        <div class="aviso">
-                            <p>No ha hecho su primera publicación</p>
-                        </div>
-
-                    }
-                    else
-                    {
-
-                        @foreach (var publi in Model.publicaciones)
-                        {
-
-                            <article id="post" class="post">
-                                <div class="post-info">
-                                    <div><img src="~/images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" /></div>
-                                    <div style="display:block;"><div><span>@publi.Usuario.Nombre </span><span>@publi.Usuario.Apellido </span></div> <div> <p style="color:lightslategrey;">@publi.Fecha</p></div></div>
-
-
-                                </div>
-                                <div class="post-content">
-                                    <p>@publi.Contenido</p>
-
-                                    @if (publi.Foto == null)
-                                    {
-
-
-                                    }
-                                    else
-                                    {
-                                        <div style="width:100%;height:40%; margin-top:1em;">
-                                            <img style="width:100%; height:100vh; border-radius:0;" src="~/images/Fotos_Usuarios/@publi.Foto" />
-                                        </div>
-                                    }
-
-                                </div>
-                                <div class="botonera-wrapper">
-                                    <div class="botonera-publiacion">
-
-                                          @{ 
-                        int contadorLike = 0;
-                        if (publi.Like != null) { contadorLike = publi.Like.Count(); }
-
-                        }
-                    <div><button class="me_gusta_btn" id="@publi.Id" name="@Model.UsuarioSecundario.Id">Me Gusta</button><span class="@publi.Id">(@contadorLike)</span></div>
-                                        <p>Comentarios <span>(0)</span></p>
-                                    </div>
-                                </div>
-                                <input type="hidden" value="@publi.Id" />
-                                <div id="publicacion_@publi.Id"></div>
-                                <div class="coment-wrapper">
-                                    <div id="post-comment" class="post-comment">
-                                        @{
-
-
-                                            if (publi.Comentarios != null)
-                                            {
-
-
-
-
-                                                @foreach (var item in publi.Comentarios)
-                                                {
-                                                    <img src="../images/Fotos_Usuarios/@item.Usuario.Foto.RutaFoto" alt="Foto" />
-                                                    <div class="comment-texarea">
-
-                                                        <div class="contenido-comentario-container"><span>@item.Usuario.Nombre</span><span>@item.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
-                                                    </div>
-                                                }
-                                            }
-                                          
-                                        }
-
-                                    </div>
-
-                                </div>
-                                <form method="post" id="comentario_form" action="/Perfil/AddComentario">
-                                    <input type="hidden" name="nick" value="@Model.UsuarioSecundario.NickName" />
-                                    <input type="hidden" name="PublicacionesId" value="@publi.Id" />
-                                    <input type="hidden" name="Fecha_publicacion" value="@DateTime.Now" />
-                                    <input type="hidden" name="UsuarioId" value="@Model.UsuarioSesion.Id" />
-                                    <div id="post-comment" class="post-comment">
-                                        <img src="../images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" />
-                                        <div class="comment-texarea">
-
-
-                                            <input name="Contenido_comentario" class="input-comentario" type="text" placeholder="Comentar..." />
-                                            <input class="input-foto-comentario" accept="images/*" type="file" name="foto" value="Subir foto.." />
-                                        </div>
-
-                                    </div>
-
-                                </form>
-
-                            </article>
-
-
-                        }
-                    }
-                }
-                <!-- <img id="loadContainer" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />-->
-            </div>
-        </section>
-        <section class="ventana_notificaciones">
-            <div class="notificaciones-container">
-                <h2>Amigos</h2>
-                <div> <p>La tarjetica de los amigos van aquí xD</p></div>
-                <a href="#">Ver Más...</a>
-            </div>
-        </section>
-    }
-
-</main>
-    }
-    else
-    {
+    
         <dialog id="modal_foto" class="modal_foto">
             <div class="titulo_modal">
                 <div>
@@ -243,7 +39,7 @@
                         <input type="submit" name="subir" value="Actualizar Foto" />
                     </div>
                     <div class="modal_footer">
-                        <input type="button" name="cancelar" value="Cancelar" />
+                  
                     </div>
 
                 </form>
@@ -278,28 +74,20 @@
                     </div>
                     <div class="menu">
                         <ul>
-                            <li>
-
-
-                                <img src="~/images/fotos/IconosEchony/News_48px.png" /> Noticias
-                            </li>
+                        
                             <li>
                                 <a href="@Url.Action("Notificaciones", "Perfil")"> 
-                                <img src="~/images/fotos/IconosEchony/Notification_48px.png" /> Notificaciones <span>10</span>
+                                <img src="~/images/fotos/IconosEchony/Notification_48px.png" /> Notificaciones 
                                 </a>
                             </li>
-                            <li>
-
-
-                                <img src="~/images/fotos/IconosEchony/Chat_48px.png" />  Chat
-                            </li>
+                         
                             <li>
 
                                 <a href="@Url.Action("Amigos", "Perfil")">
                                     <img src="~/images/fotos/IconosEchony/Add User Male_48px.png" />  Amigos
                                 </a>
                             </li>
-                            <li>Seguidores</li>
+                          
                         </ul>
                     </div>
                 </div>
@@ -316,10 +104,12 @@
                     <div class="post__wrapper">
 
                         <div style="width:95%; margin:0 auto;">
-                            <form asp-action="AgregarPublicacion" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="NickName" value="@Model.UsuarioSesion.NickName" />
-                                <input type="hidden" name="UsuarioId" value="@Model.UsuarioSesion.Id" />
-                                <textarea name="Contenido" class="text-estado" placeholder="Escribe algo, @Model.UsuarioSesion.Nombre"></textarea>
+                            <form id="AgregarPublicacion" asp-action="AgregarPublicacion" method="post" enctype="multipart/form-data">
+                                
+                                <input type="hidden" asp-for="Publicacion.UsuarioId" value="@Model.UsuarioSesion.Id" />
+         
+                                <textarea asp-for="Publicacion.Contenido" id="text-estado" class="text-estado" placeholder="Escribe algo, @Model.UsuarioSesion.Nombre"></textarea>
+                                <span asp-validation-for="Publicacion.Contenido"></span>
                                 <!--id="contenido-post"-->
                                 <div class="estado-botonera">
                                     <div class="botones-publicar">
@@ -329,7 +119,7 @@
                                     </div>
 
 
-                                    <img id="load" style="display:inline-flex; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+                                    <img id="load" style="display:none;" class="loader" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
 
                                 </div>
                             </form>
@@ -340,140 +130,14 @@
 
 
                 </article>
-
-                <div id="post_container" class="post_container">
-                    @{
-                if (Model.publicaciones.Count() == 0)
-                {
-                    <div class="aviso">
-                        <p>No ha hecho su primera publicación</p>
-                    </div>
-
-                        }
-                        else
-                        {
-
-            @foreach (var publi in Model.publicaciones)
-            {
-
-        <article id="post" class="post">
-            <div class="post-info">
-                <div><img src="~/images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" /></div>
-                <div style="display:block;"><div><span>@publi.Usuario.Nombre </span><span>@publi.Usuario.Apellido </span></div> <div> <p style="color:lightslategrey;">@publi.Fecha</p></div></div>
-
-
-            </div>
-            <div class="post-content">
-                <p>@publi.Contenido</p>
-
-                @if (publi.Foto == null)
-                {
-
-
-                }
-                else
-                {
-            <div style="width:100%;height:40%; margin-top:1em;">
-                <img style="width:100%; height:100vh; border-radius:0;" src="~/images/Fotos_Usuarios/@publi.Foto" />
-            </div>
-}
-
-            </div>
-            <div class="botonera-wrapper">
-                <div class="botonera-publiacion">
-                    @{ 
-                        int contadorLike = 0;
-                        if (publi.Like != null) { contadorLike = publi.Like.Count(); }
-                       
-                        }
-                    <div class="sub_botonera">
-                        <button class="me_gusta_btn" id="@publi.Id" name="@Model.UsuarioSesion.Id">Me Gusta</button>
-                        <span class="@publi.Id">(@contadorLike)</span>
-                        <button class="mostrar_likes" name="@publi.Id">Ver Likes</button>
-                        <img id="load_gustaBtn_@publi.Id" style="display:none; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
-                    </div>
-                    <p>Comentarios <span>(0)</span></p>
-                    <dialog class="dialog_likes" id="mostrar_likes_@publi.Id">
-                        <div class="dialog_likes_header">
-                            <h4>Personas que le han dado like a la publicacion de @publi.Usuario.Nombre</h4>
-                            <p id="@publi.Id" class="cerrar_likes" name="@publi.Id" >X</p>
-                        </div>
-                        <div id="mostrar_likes_body_@publi.Id">
-                            
-                        </div>
-                    </dialog>
-                </div>
-            </div>
-            <dialog class="@publi.Id">soy un dialog de prueba</dialog>
-            <input type="hidden" value="@publi.Id" />
-            <div id="publicacion_@publi.Id"></div>
-            <div class="coment-wrapper">
-                <div id="post-comment" class="post-comment">
-
-                    @{
-
-
-                if (publi.Comentarios != null)
-                {
-
-
-
-
-                    @foreach (var item in publi.Comentarios)
-            {
-                <img src="../images/Fotos_Usuarios/@item.Usuario.Foto.RutaFoto" alt="Foto" />
-                <div class="comment-texarea">
-
-                    <div class="contenido-comentario-container"><span>@item.Usuario.Nombre</span><span>@item.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
-                </div>
-    }
-        }
-        else
-        {
-
-
-        }
-                    }
-
-                </div>
-
-            </div>
-            <form method="post" id="comentario_form" action="/Perfil/AddComentario">
-                <input type="hidden" name="nick" value="@Model.UsuarioSesion.NickName" />
-                <input type="hidden" name="PublicacionesId" value="@publi.Id" />
-                <input type="hidden" name="Fecha_publicacion" value="@DateTime.Now" />
-                <input type="hidden" name="UsuarioId" value="@Model.UsuarioSesion.Id" />
-                <div id="post-comment" class="post-comment">
-                    
-                    <div class="comment-texarea">
-
-
-                        <input name="Contenido_comentario" class="input-comentario" type="text" placeholder="Comentar..." />
-                        <input class="input-foto-comentario" accept="images/*" type="file" name="foto" value="Subir foto.." />
-                    </div>
-
-                </div>
-
-            </form>
-
-        </article>
-
-
-}
-}
-                    }
-                    <!-- <img id="loadContainer" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />-->
+                <input type="hidden" id="userId" value="@Model.UsuarioSesion.Id" />
+                <div id="publicaciones-wrapper">
+                    <img  style="text-align:center; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
                 </div>
 
 
             </section>
-
-            <section class="ventana_notificaciones">
-                <div class="notificaciones-container">
-                    <h2>Amigos</h2>
-                    <div> <p>La tarjetica de los nuevos amigos van aquí xD</p></div>
-                </div>
-            </section>
+            
+           
         </main>
-                        }
-}
+

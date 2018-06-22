@@ -28,14 +28,14 @@
 
                     <h3 id="nombre_prueba">@noti.Emisor.Usuario.Nombre @noti.Emisor.Usuario.Apellido</h3>
 
-                    <p>@noti.Fecha</p>
+                  
                 </div>
                 <div class="solicitud_botonera">
 
-                    <!-- <a href="/Social/AceptarSolicitud/@noti.Id?emisorId=@noti.Emisor.UsuarioId&receptorId=@noti.Receptor.UsuarioId">Aceptar</a>-->
-
-                    <input class="pruebaBoton" type="button" name="Aceptar" value="Aceptar" id="@noti.Id" />
-                    <input type="button" name="Rechazar" value="Rechazar" />
+                   <a class="aceptar_btn" href="/Social/AceptarSolicitud/@noti.Id?emisorId=@noti.Emisor.UsuarioId&receptorId=@noti.Receptor.UsuarioId">Aceptar</a>
+                    <a class="rechazar_btn" href="/Social/RechazarSolicitud/@noti.Id?solicitudId=@noti.Id">Rechazar</a>
+                   
+                    
                 </div>
             </div>
 

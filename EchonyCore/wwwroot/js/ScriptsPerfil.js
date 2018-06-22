@@ -1,10 +1,11 @@
 ﻿$('document').ready(() => {
+    /*
     $texto = $("#contenido-post");
     $btn = $("#publicar-post");
     $idPerfil = $("#idPerfil");
     $idPerfil.hide();
 
-
+    */
 
     /* $texto.keypress(e => {
          var code = (e.keyCode ? e.keyCode : e.which);
@@ -18,7 +19,7 @@
         mostrarPublicaciones();
 
     });*/
-
+    /*
     $("#load").hide();
     $("#publicar-post").hide();
     $("#foto-post").hide();
@@ -83,7 +84,7 @@
                /* for (let i = 0; i < data.length; i++) {
                     console.log(data[i].Post_Usuario);
                 }*/
-                
+                /*
                
             },
             error: e => {
@@ -168,7 +169,7 @@
        
             }
         }
-    };
+    };*/
     
 
    //<textarea name="comentario" placeholder="Comenta esta publicación..."></textarea>

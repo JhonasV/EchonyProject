@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 
-
 namespace EchonyCore
 {
     public class Startup
@@ -21,7 +20,7 @@ namespace EchonyCore
         {
          
             Configuration = configuration;
-
+           
         }
 
         
@@ -31,18 +30,19 @@ namespace EchonyCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          
+
 
             services.AddMvc()
             .AddSessionStateTempDataProvider();
             services.AddSession();
+         
 
 
             /*services.AddDbContext<EchonyEntityContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("EchonyDB")));*/
 
         }
-
+     
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -58,7 +58,7 @@ namespace EchonyCore
             app.UseSession();
             app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

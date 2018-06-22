@@ -17,36 +17,65 @@ namespace EchonyCore.Controllers
      
 
     // GET: Perfil
-    public ActionResult Index()
+    public IActionResult Index()
         {
             return View();
         }
+        public IActionResult Perfil()
+        {
+            int idSesion = (int)HttpContext.Session.GetInt32("id");
+            UsuarioViewModel us = new UsuarioViewModel();
+            us.UsuarioSesion = new PerfilDAO().GetUsuarioById(new Usuario { Id =idSesion});
+            us.UsuarioSecundario = new PerfilDAO().GetUsuarioById(new Usuario { Id = idSesion });
+            us.publicaciones = new PerfilDAO().GetPublicacionesPrueba(new Models.Usuario { Id = idSesion });
+            us.Amigos = new PerfilDAO().GetAmigos(new Usuario {Id = idSesion });
+            return View("Perfil", us);
+        }
+
 
         [HttpGet]
-        public ActionResult Usuario(Usuario user)
+        public IActionResult Usuario(Usuario user)
         {
            
-            
-            /*Usuario user = new Usuario();
-            user.NickName = HttpContext.Request.Query["NickName"].ToString();*/
+           
             UsuarioViewModel model = new UsuarioViewModel();
             PerfilDAO p = new PerfilDAO();
+
+
             int idSesion = (int)HttpContext.Session.GetInt32("id");
+            string nickName = HttpContext.Session.GetString("nick");
+
             model.UsuarioSesion = p.GetUsuarioById(new Models.Usuario { Id = idSesion });
             model.UsuarioSecundario = p.GetUsuario(user);
             model.publicaciones = new PerfilDAO().GetPublicacionesPrueba(user);
-            Usuario u = p.GetUsuario(user);
-            model.EstadoAmistad = new PerfilDAO().GetAmigos(model.UsuarioSecundario.Id,idSesion);
+
+
+
+            if (model.UsuarioSecundario != null)
+            {
+                model.EstadoAmistad = new PerfilDAO().GetAmigos(model.UsuarioSecundario.Id, idSesion);
+            }
+
+
+            if (model.UsuarioSecundario.Id.Equals(model.UsuarioSesion.Id))
+            {
+                return View("Perfil", model);
+            }
+            else
+            {
+                return View("PerfilSecundario", model);
+            }
+           
            
             
-            if (model != null)
+           /* if (model != null)
              {
                  return View("Perfil", model);
              }
              else
              {
                  return View("Error");
-             }
+             }*/
            
 
         }
@@ -98,63 +127,34 @@ namespace EchonyCore.Controllers
              }
             
         }
-        [HttpPost]
-        public JsonResult GetPublicacion(Usuario ux)
+      
+
+     
+        public JsonResult AddComment(Comentarios c)
         {
-            if (ux == null)
-             {
-                 return Json(false);
-             }
-             else
-             {
+            c.Fecha_Publicacion = DateTime.Now;
+            if (c.Contenido_comentario != null)
+            {
+                bool exito = new PerfilDAO().AddComentario(c);
 
+                return Json(exito);
+            }
 
-                 PerfilDAO dao = new PerfilDAO();
-                 string lista = dao.GetPublicaciones(ux);
-                 return Json(lista);
-             }
-            
-
-        }
-
-        public JsonResult AddComentarioFuera(int idUsuario, int idPublicacion, string comentario)
-        {
-            /* Comentarios com = new Comentarios
-             {
-                 UsuarioId = idUsuario,
-                 PublicacionesId = idPublicacion,
-                 Contenido_comentario = comentario,
-                 Fecha_Publicacion = new DateTime()
-             };
-             if (com == null)
-             {
-                 return Json(false);
-             }
-             else
-             {
-                 PerfilDAO dao = new PerfilDAO();
-                 dao.AddComentario(com);
-                 return Json("Publicacion agregada");
-             }*/
             return Json(false);
+            
+    
         }
 
-
-        public ActionResult AddComentario(Comentarios c, string nick)
-        {
-
-            new PerfilDAO().AddComentario(c);
-            Usuario detalles = new PerfilDAO().GetUsuario(new Usuario { NickName = nick });
-            return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = nick, Id = detalles.Id }));
-        }
         public IActionResult AddFotoPublicacion(int foto_id, IFormFile foto, string nick)
         {
 
             
             PerfilDAO dao = new PerfilDAO();
+            Usuario u = new Usuario();
+            u = dao.GetUsuario(new Usuario { NickName = nick});
             if (!ModelState.IsValid)
             {
-                return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = nick }));
+                return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = u.NickName, Id = u.Id}));
             }
             //\wwwroot\images\Fotos_Usuarios\20180321212835.png
             var ruta = "wwwroot\\images\\Fotos_Usuarios\\" + foto.FileName;
@@ -166,44 +166,62 @@ namespace EchonyCore.Controllers
             }
             
             
-            return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = nick }));
+            return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = u.NickName, Id = u.Id }));
 
         }
 
 
-        public ActionResult AgregarPublicacion(string Contenido, int UsuarioId, string NickName, IFormFile foto)
+        public JsonResult AgregarPublicacion(UsuarioViewModel model, IFormFile foto)
         {
             PerfilDAO dao = new PerfilDAO();
             DateTime fecha = DateTime.Now;
-
-
+            bool exito = false;
+            model.Publicacion.Fecha = fecha;
             var ruta = "";
             if(foto != null)
             {
                 ruta = "wwwroot\\images\\Fotos_Usuarios\\" + foto.FileName;
                 using (var stream = new FileStream(ruta, FileMode.Create))
                 {
-
-                    foto.CopyTo(stream);
-                  
-                    
-
-                    bool exito = dao.AgregarPublicacion(new Publicaciones { Contenido = Contenido, UsuarioId = UsuarioId, Fecha = fecha, Foto = foto.FileName });
+                    foto.CopyTo(stream);                 
+                     exito = dao.AgregarPublicacion(model.Publicacion);
                 }
             }
-            else
-            {
-                bool exito = dao.AgregarPublicacion(new Publicaciones { Contenido = Contenido, UsuarioId = UsuarioId, Fecha = fecha });
-            }
-
-
-            Usuario u = dao.GetUsuario(new Usuario { NickName = NickName });
-            
-           
-          
-            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName, Id = u.Id }));
-           
+            else if(model.Publicacion.Contenido != null)
+            {     
+                    exito = dao.AgregarPublicacion(model.Publicacion);
+            }      
+            return Json(exito);          
         }
+        
+        public PartialViewResult Publicaciones(int userId)
+        {
+            PerfilDAO dao = new PerfilDAO();
+            int idSesion = (int)HttpContext.Session.GetInt32("id");
+            PublicacionesViewModel model = new PublicacionesViewModel();
+            model.ListaPublicaciones = dao.GetPublicaciones(userId); ;
+            model.UsuarioSesion = dao.GetUsuarioById(new Usuario { Id = idSesion });
+            model.Usuario = dao.GetUsuarioById(new Usuario { Id = userId });
+            model.ListaComentarios = dao.GetAllComentarios();
+            model.ListaReplies = dao.GetAllReplies();
+            return PartialView(model);
+        }
+
+        public JsonResult AddReply(CommentReply cr)
+        {
+            PerfilDAO dao = new PerfilDAO();
+            
+
+            
+            if (cr.Contenido_reply != null)
+            {
+                cr.Fecha = DateTime.Now;              
+                return Json(dao.AddReply(cr));             
+            }       
+            return Json(false);
+        }
+
+
         [HttpGet]
         public ActionResult Busqueda(string r)
         {
@@ -227,7 +245,7 @@ namespace EchonyCore.Controllers
           
         }
         [HttpPost]
-        public ActionResult EnviarSolicitud(SolicitudAmistad a, string NickName, int EmisorId, int ReceptorId)
+        public IActionResult EnviarSolicitud(SolicitudAmistad a, string NickName, int EmisorId, int ReceptorId)
         {
             Emisor e = new Emisor
             {
@@ -248,13 +266,13 @@ namespace EchonyCore.Controllers
         }
         
        
-        public JsonResult EliminarSolicitud(SolicitudAmistad a)
+        public IActionResult EliminarSolicitud(SolicitudAmistad a, string NickName)
         {
             new PerfilDAO().EliminarNotificacionAmistad(a);
             SolicitudAmistad soli = new SolicitudAmistad();
              soli.Estado = 5;
-            string solicitud = JsonConvert.SerializeObject(soli);
-            return Json(solicitud);
+        
+            return Redirect(Url.Action("Usuario", new Usuario { NickName = NickName }));
         }
 
         public IActionResult Notificaciones()
@@ -317,7 +335,7 @@ namespace EchonyCore.Controllers
             return Json(solicitud);
         }
 
-        public ActionResult Amigos()
+        public IActionResult Amigos()
         {
             PerfilDAO d = new PerfilDAO();
             UsuarioViewModel model = new UsuarioViewModel();

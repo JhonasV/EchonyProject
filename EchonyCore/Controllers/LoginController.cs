@@ -73,6 +73,7 @@ namespace EchonyCore.Controllers
         [HttpPost]
         public IActionResult Autorizacion(UsuarioViewModel user)
         {
+            
             Usuario u = new Usuario()
             {
                 Email = user.UsuarioSesion.Email,
@@ -87,6 +88,7 @@ namespace EchonyCore.Controllers
                 UsuarioViewModel model = new UsuarioViewModel();
                 model.UsuarioSesion = u;
                 return View("Index", model);
+               
             }
             else
             {
@@ -95,7 +97,7 @@ namespace EchonyCore.Controllers
                 HttpContext.Session.SetString("email", detalles.Email);
                 
                
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Perfil", "Perfil");
             }
 
 

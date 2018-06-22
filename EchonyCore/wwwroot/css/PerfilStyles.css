@@ -19,21 +19,20 @@ body {
 }
 
 .ventana_perfil_izquierda {
-    flex: 0.3;
+    flex: 0.20;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     overflow: auto;
+
 }
 
 .ventana_perfil_central {
-    flex: 0.8;
-    overflow: auto;
-    
+    flex: 0.6;
 }
 
 .ventana_notificaciones {
     flex: 0.3;
-    overflow: hidden;
+    
 }
 
     .ventana_notificaciones .notificaciones-container {
@@ -135,15 +134,31 @@ body {
 
 }
 
- .post:hover {
-        
-        background-color: #F9F9F9;
-        
+
+
+.publicacion_modal{
+    width:70%;
+    margin:0 auto;
+    height:20em;
+    border:1px solid #eee;
+    border-radius:10px;
+
+}
+.header_modal_publicacion {
+    display:flex;
+    width:97%;
+    margin:0 auto;
+    justify-content:flex-end;
+}
+
+    .header_modal_publicacion p{
+        cursor:pointer;
+        color:red;
     }
- .hover_botonera{
-     display:block;
-     transition:0.3s;
- }
+    .hover_botonera {
+        display: block;
+        transition: 0.3s;
+    }
 .botonera-publiacion {
     margin:5px 40px;
     display: flex;
@@ -162,7 +177,7 @@ body {
 
 .me_gusta_btn {
     padding: 5px 7px;
-    border: 0;
+    border: none;
     font-weight: bold;
     color: white;
     background-color: #1DA1F2;
@@ -173,17 +188,33 @@ body {
 
     .me_gusta_btn:hover {
         border-radius: 3px;
-        border: 1px solid #eee;
+        border: none;
         cursor: pointer;
         color: #1DA1F2;
         background-color: white;
     }
 
+.gusta {
+    padding: 5px 7px;
+    border: 0;
+    font-weight: bold;
+    color: white;
+    background-color: #e74c3c;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
 
-.post-info{
-    display:flex;
-    align-items:center;
-  border-bottom:1px solid #eee;
+    .gusta:hover {
+        border-radius: 3px;
+        border: 1px solid #eee;
+        cursor: pointer;
+        color: #e74c3c;
+        background-color: white;
+    }
+.post-info {
+    display: flex;
+    align-items: center;
+  
 }
 
 
@@ -222,7 +253,7 @@ body {
 
 .botonera-wrapper {
     width: 100%;
-    border-top: 1px solid #eee;
+    
     border-bottom: 1px solid #eee;
 }
 .coment-wrapper {
@@ -253,12 +284,13 @@ body {
 }
 .comment-texarea {
     width: 95%;
+    margin-top:5px;
     height: auto;
+    display:flex;
 }
 
     .comment-texarea textarea {
         padding: 7px 0 0 7px;
-       
         border-radius: 10px;
         margin: 10px;
         background-color: white;
@@ -317,6 +349,7 @@ body {
 /*VENTANA IZQUIERDA*/
 .ventana_izquierda_wrapper{
     overflow:auto;
+
 }
 .foto-perfil-wrapper {
     position: relative;
@@ -394,8 +427,9 @@ body {
 
 .menu {
     background-color: #34495e;
-    display:flex;
-    height:50vh;
+    
+    height: 100vh;
+  
 }
 
 .menu ul{
@@ -409,11 +443,13 @@ body {
         padding: 10px;
         transition: 0.3s;
         color: #ecf0f1;
+        width:100%;
     }
 
     .menu a{
         display: flex;
         color: white;
+        width:100%;
     }
 
     .menu li:hover {
@@ -725,4 +761,97 @@ body {
 .foto_like{
     width:50px;
     height:50px;
+}
+
+/*Botones sociales*/
+#boton_enviar {
+    margin-right:5px;
+    border: 0;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color:white;
+    background-color: #2980b9;
+    cursor:pointer;
+}
+
+
+#boton_cancelar {
+    margin-right: 5px;
+    border: 0;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color: #c0392b;
+    cursor: pointer;
+}
+
+#boton_eliminar_amigo {
+    margin-right: 5px;
+    border: 0;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color: #27ae60;
+    cursor: pointer;
+}
+
+.aceptar_btn {
+    margin-right: 5px;
+    border: 0;
+    padding: 10px;
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color: #27ae60;
+    cursor: pointer;
+}
+
+.rechazar_btn {
+    margin-right: 5px;
+    border: 0;
+    padding: 10px;
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color: #c0392b;
+    cursor: pointer;
+}
+
+
+.mostrar_likes {
+    border: 0;
+    background-color: #2c3e50;
+    font-weight:bold;
+    color:white;
+    padding:3px;
+}
+
+
+/*Loader Styles*/
+.loader {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    margin-top: 5px;
+}
+
+/*Replt Style*/
+.responder{
+    color:cornflowerblue;
+    font-size:14px;
+}
+
+.responder:hover{
+    text-decoration:underline;
+    cursor:pointer;
 }
