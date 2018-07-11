@@ -1,5 +1,1 @@
-# EchonyProject
-Esta es una red social sencilla hecha en ASP.NET Core 2, Razor Pages y JQuery.
-
-
-
+# Red Social sencilla con ASP.NET CORE 2, Razor Pages y JQuery
