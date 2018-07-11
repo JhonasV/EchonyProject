@@ -1,4 +1,4 @@
-﻿@model EchonyCore.Models.UsuarioViewModel
+﻿@model UsuarioViewModel
 @{
 /**/
 
@@ -35,7 +35,7 @@
                     <input type="hidden" name="foto_id" value="@Model.UsuarioSesion.Id" />
                     <div class="botones-modal">
                         <input class="subir-foto" required id="subir-foto" type="file" name="foto" value="Subir Foto" accept="image/*" />
-                        <span asp-validation-for="UsuarioSesion.Foto.Img"></span>
+                        <!--<span asp-validation-for="UsuarioSesion.Foto.Img"></span>-->
                         <input type="submit" name="subir" value="Actualizar Foto" />
                     </div>
                     <div class="modal_footer">
@@ -141,3 +141,4 @@
            
         </main>
 
+    </main>

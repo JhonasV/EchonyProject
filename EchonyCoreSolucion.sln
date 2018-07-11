@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchonyCore", "EchonyCore\EchonyCore.csproj", "{583E5AB1-31AC-4C8A-8D55-24D843635E0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{A1E1C350-31EC-44B0-B6DC-22FF816642EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{9DF41367-CE47-422B-ADA4-99197236456B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{583E5AB1-31AC-4C8A-8D55-24D843635E0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{583E5AB1-31AC-4C8A-8D55-24D843635E0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{583E5AB1-31AC-4C8A-8D55-24D843635E0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1E1C350-31EC-44B0-B6DC-22FF816642EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1E1C350-31EC-44B0-B6DC-22FF816642EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1E1C350-31EC-44B0-B6DC-22FF816642EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1E1C350-31EC-44B0-B6DC-22FF816642EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DF41367-CE47-422B-ADA4-99197236456B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DF41367-CE47-422B-ADA4-99197236456B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DF41367-CE47-422B-ADA4-99197236456B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DF41367-CE47-422B-ADA4-99197236456B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

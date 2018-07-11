@@ -1,4 +1,4 @@
-﻿
+﻿@model UsuarioViewModel
 @{
     ViewData["Title"] = "PerfilSecundario";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +8,7 @@
     <input id="EmisorId" type="hidden" name="name" value="@Model.UsuarioSesion.Id" />
     <input id="ReceptorId" type="hidden" name="name" value="@Model.UsuarioSecundario.Id" />
     <input id="GetNick" type="hidden" name="name" value="@Model.UsuarioSecundario.NickName" />
-  
+
     <input id="Nick" type="hidden" name="name" value="@Model.UsuarioSecundario.NickName" />
     <section class="ventana_perfil_izquierda">
         <div class="foto-perfil-wrapper-full">

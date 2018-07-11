@@ -1,6 +1,7 @@
-﻿using EchonyCore.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model.Domain;
+using Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,12 @@ namespace EchonyCore.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly IUsuarioService _usuarioService;
+        public HomeController(IUsuarioService usuarioService)
+        {
+            _usuarioService = usuarioService;
+        }
         // GET: Home
         public IActionResult Index()
         {
@@ -19,17 +26,15 @@ namespace EchonyCore.Controllers
            
          if(u.NickName != null)
             {
-                Usuario user = new PerfilDAO().GetUsuario(u);
+                Usuario user = _usuarioService.GetUsuario(u);
                 UsuarioViewModel model = new UsuarioViewModel();
                 model.UsuarioSesion = user;
                
                 return View(model);
-          }
-            else
+          }else
             {
                 return RedirectToAction("Index", "Login");
-            }
-            
+            }            
         }
     }
 }

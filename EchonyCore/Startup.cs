@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EchonyCore.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Model;
+using Service;
 
 namespace EchonyCore
 {
@@ -35,8 +35,19 @@ namespace EchonyCore
             services.AddMvc()
             .AddSessionStateTempDataProvider();
             services.AddSession();
-         
 
+            var connection = Configuration.GetConnectionString("EchonyDB");
+            services.AddDbContext<EchonyDbContext>(options => options.UseSqlServer(connection));
+            //My dependecies
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<IPublicacionesService, PublicacionesService>();
+            services.AddTransient<IComentariosService, ComentariosService>();
+            services.AddTransient<ICommentReplyService, CommentReplyService>();
+            services.AddTransient<IFotoService, FotoService>();
+            services.AddTransient<ISolicitudAmistadService, SolicitudAmistadService>();
+            services.AddTransient<INotificacionService, NotificacionService>();
+            services.AddTransient<ILikesService, LikesService>();
 
             /*services.AddDbContext<EchonyEntityContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("EchonyDB")));*/

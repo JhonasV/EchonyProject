@@ -218,6 +218,7 @@
 
     $("#cerrar_modal").on("click", () => {
         $("#modal_foto").removeAttr("open");
+    });
 
     });
    

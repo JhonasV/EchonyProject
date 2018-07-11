@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EchonyCore.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model.Domain;
+using Service;
 
 namespace EchonyCore.Controllers
 {
-    public class LoginController : Controller
-    {
+    public class LoginController : Controller {
+
+        private readonly IAccountService _accountService;
+        public LoginController(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
+
         // GET: Login
         public IActionResult Index()
         {
@@ -29,9 +36,9 @@ namespace EchonyCore.Controllers
         [HttpPost]
         public IActionResult AddUsuario(Usuario u)
         {
-           ConnectionDao con = new ConnectionDao();
+           
 
-            bool existe = con.Registro(u);
+            bool existe = _accountService.Registro(u);
             if (existe)
             {
                 u.Mensaje = "El correo eléctronico introducido ya está en uso";
@@ -56,8 +63,8 @@ namespace EchonyCore.Controllers
         public IActionResult EmailConfirm()
         {
            String codigo = HttpContext.Request.Query["code"].ToString();
-             
-            bool confirmacion = new ConnectionDao().ConfirmadorCuentas(codigo);
+
+            bool confirmacion = _accountService.ConfirmadorCuentas(codigo);
             if (confirmacion)
             {
                 return View("Mensaje");
@@ -79,8 +86,8 @@ namespace EchonyCore.Controllers
                 Email = user.UsuarioSesion.Email,
                 Clave = user.UsuarioSesion.Clave
             };
-           ConnectionDao con = new ConnectionDao();
-            Usuario detalles = con.Verificacion(u);
+          
+            Usuario detalles =_accountService.Verificacion(u);
             if (detalles == null)
             {
                 u.Mensaje = "Email y/o Contraseña inválido";

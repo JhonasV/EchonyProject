@@ -2,34 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20180325184144_privada.cs" />
-    <Compile Remove="Migrations\20180325184144_privada.Designer.cs" />
-    <Compile Remove="Migrations\20180325185002_privada.cs" />
-    <Compile Remove="Migrations\20180325185002_privada.Designer.cs" />
-    <Compile Remove="Migrations\20180325185824_cans.cs" />
-    <Compile Remove="Migrations\20180325185824_cans.Designer.cs" />
-    <Compile Remove="Migrations\20180327031936_var_navigacional_usuario_comentarios.cs" />
-    <Compile Remove="Migrations\20180327031936_var_navigacional_usuario_comentarios.Designer.cs" />
-    <Compile Remove="Migrations\20180331202622_emisor_receptor.cs" />
-    <Compile Remove="Migrations\20180331202622_emisor_receptor.Designer.cs" />
-    <Compile Remove="Migrations\20180331225659_re_em.cs" />
-    <Compile Remove="Migrations\20180331225659_re_em.Designer.cs" />
-    <Compile Remove="Migrations\20180331230135_em_re.cs" />
-    <Compile Remove="Migrations\20180331230135_em_re.Designer.cs" />
-    <Compile Remove="Migrations\20180401015111_asf2.cs" />
-    <Compile Remove="Migrations\20180401015111_asf2.Designer.cs" />
-    <Compile Remove="Migrations\20180407175517_likes_2.cs" />
-    <Compile Remove="Migrations\20180407175517_likes_2.Designer.cs" />
-    <Compile Remove="Migrations\20180407190803_likes_3.cs" />
-    <Compile Remove="Migrations\20180407190803_likes_3.Designer.cs" />
-    <Compile Remove="Migrations\20180407200700_likes_publi.cs" />
-    <Compile Remove="Migrations\20180407200700_likes_publi.Designer.cs" />
-    <Compile Remove="Migrations\20180514013132_commentReply.cs" />
-    <Compile Remove="Migrations\20180514013132_commentReply.Designer.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\echony - Web Deploy.pubxml" />
@@ -38,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="1.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
@@ -48,6 +23,155 @@
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="wwwroot\lib\signalr\dist\browser\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\signalr\signalr.js" />
+    <None Include="wwwroot\lib\signalr\signalr.js.map" />
+    <None Include="wwwroot\lib\signalr\signalr.min.js" />
+    <None Include="wwwroot\lib\signalr\signalr.min.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\AbortController.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\AbortController.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\browser-index.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\browser-index.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\Errors.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\Errors.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HandshakeProtocol.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HandshakeProtocol.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HttpClient.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HttpClient.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HttpConnection.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HttpConnection.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HubConnection.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HubConnection.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HubConnectionBuilder.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\HubConnectionBuilder.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\IConnection.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\IConnection.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\IHttpConnectionOptions.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\IHttpConnectionOptions.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\IHubProtocol.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\IHubProtocol.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\ILogger.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\ILogger.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\index.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\index.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\ITransport.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\ITransport.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\JsonHubProtocol.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\JsonHubProtocol.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\Loggers.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\Loggers.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\LongPollingTransport.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\LongPollingTransport.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\ServerSentEventsTransport.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\ServerSentEventsTransport.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\Stream.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\Stream.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\TextMessageFormat.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\TextMessageFormat.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\Utils.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\Utils.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\WebSocketTransport.js" />
+    <None Include="wwwroot\lib\signalr\dist\cjs\WebSocketTransport.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\AbortController.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\AbortController.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\browser-index.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\browser-index.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\Errors.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\Errors.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HandshakeProtocol.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HandshakeProtocol.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HttpClient.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HttpClient.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HttpConnection.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HttpConnection.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HubConnection.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HubConnection.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HubConnectionBuilder.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\HubConnectionBuilder.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\IConnection.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\IConnection.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\IHttpConnectionOptions.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\IHttpConnectionOptions.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\IHubProtocol.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\IHubProtocol.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\ILogger.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\ILogger.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\index.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\index.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\ITransport.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\ITransport.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\JsonHubProtocol.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\JsonHubProtocol.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\Loggers.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\Loggers.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\LongPollingTransport.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\LongPollingTransport.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\ServerSentEventsTransport.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\ServerSentEventsTransport.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\Stream.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\Stream.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\TextMessageFormat.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\TextMessageFormat.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\Utils.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\Utils.js.map" />
+    <None Include="wwwroot\lib\signalr\dist\esm\WebSocketTransport.js" />
+    <None Include="wwwroot\lib\signalr\dist\esm\WebSocketTransport.js.map" />
+    <None Include="wwwroot\lib\signalr\README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\AbortController.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\browser-index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\Errors.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\HandshakeProtocol.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\HttpClient.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\HttpConnection.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\HubConnection.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\HubConnectionBuilder.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\IConnection.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\IHttpConnectionOptions.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\IHubProtocol.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\ILogger.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\ITransport.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\JsonHubProtocol.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\Loggers.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\LongPollingTransport.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\ServerSentEventsTransport.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\Stream.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\TextMessageFormat.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\Utils.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\WebSocketTransport.d.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\AbortController.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\browser-index.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\Errors.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HandshakeProtocol.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HttpClient.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HttpConnection.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HubConnection.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HubConnectionBuilder.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\IConnection.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\IHttpConnectionOptions.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\IHubProtocol.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\ILogger.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\index.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\ITransport.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\JsonHubProtocol.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\Loggers.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\LongPollingTransport.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\ServerSentEventsTransport.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\Stream.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\TextMessageFormat.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\Utils.ts" />
+    <TypeScriptCompile Include="wwwroot\lib\signalr\src\WebSocketTransport.ts" />
   </ItemGroup>
 
 </Project>
