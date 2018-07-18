@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Model.Domain
 {
-    public class ChatHub
+    public class ChatHub 
     {
     }
 }

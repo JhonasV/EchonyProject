@@ -49,6 +49,10 @@ namespace EchonyCore
             services.AddTransient<INotificacionService, NotificacionService>();
             services.AddTransient<ILikesService, LikesService>();
 
+            services.AddSingleton<ChatMessage>();
+
+            services.AddCors(option => option.AddPolicy("CorsPolicy", p => p.AllowAnyHeader()));
+            services.AddSignalR();
             /*services.AddDbContext<EchonyEntityContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("EchonyDB")));*/
 
@@ -69,7 +73,8 @@ namespace EchonyCore
             app.UseSession();
             app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
-            
+            app.UseCors("CorsPolicy");
+            app.UseSignalR(option => option.MapHub<ChatHub>("chatHub"));
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
