@@ -28,7 +28,7 @@ namespace Service
 
             try
                 {
-                    return _context.Comentarios.Include(x => x.Usuario.Foto).ToList();
+                    return _context.Comentarios.Include(x => x.Usuario).ToList();
                 }
                 catch (Exception)
                 {

@@ -33,7 +33,13 @@ namespace Service
                     //_dbmsParentSections.ForEach(x => x.Children = x.Children.OrderBy(y => y.Order).ToList());
                     Publicaciones p = new Publicaciones();
 
-                    user = _context.Usuario.Where(x => x.NickName == u.NickName).Include(x => x.Foto).Include(x => x.Publicaciones).Include(x => x.Comentarios).Include(x => x.Likes).FirstOrDefault();
+                    user = _context.Usuario
+                    .Where(x => x.NickName == u.NickName)
+                    //.Include(x => x.Foto)
+                    .Include(x => x.Publicaciones)
+                    .Include(x => x.Comentarios)
+                    .Include(x => x.Likes)
+                    .FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -50,7 +56,13 @@ namespace Service
            
                 try
                 {
-                    user = _context.Usuario.Where(x => x.Id == u.Id).Include(x => x.Foto).Include(x => x.Publicaciones).Include(x => x.Comentarios).Include(x => x.Foto).FirstOrDefault();
+                    user = _context.Usuario
+                    .Where(x => x.Id == u.Id)
+                    //.Include(x => x.Foto)
+                    .Include(x => x.Publicaciones)
+                    .Include(x => x.Comentarios)
+                    //.Include(x => x.Foto)
+                    .FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -66,7 +78,9 @@ namespace Service
             List<Usuario> lista = new List<Usuario>();          
                 try
                 {
-                    lista = (from u in _context.Usuario where u.Nombre.Contains(r) || u.Apellido.Contains(r) select u).Include(x => x.Foto).ToList();
+                    lista = (from u in _context.Usuario where u.Nombre.Contains(r) || u.Apellido.Contains(r) select u)
+                    //.Include(x => x.Foto)
+                    .ToList();
                 }
                 catch (Exception e)
                 {

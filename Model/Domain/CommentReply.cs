@@ -13,7 +13,7 @@ namespace Model.Domain
        
         public int PublicacionesId { get; set; }
         public int ComentariosId { get; set; }
-
+        public int UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Publicaciones Publicaciones { get; set; }
     }

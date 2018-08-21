@@ -62,7 +62,7 @@ namespace EchonyCore.Controllers
           
 
             int idSesion = (int)HttpContext.Session.GetInt32("id");
-            string nickName = HttpContext.Session.GetString("nick");
+           // string nickName = HttpContext.Session.GetString("nick");
 
             model.UsuarioSesion = _usuarioService.GetUsuarioById(new Usuario { Id = idSesion });
             model.UsuarioSecundario = _usuarioService.GetUsuario(user);
@@ -112,27 +112,31 @@ namespace EchonyCore.Controllers
             
     
         }
-
-        public IActionResult AddFotoPublicacion(int foto_id, IFormFile foto, string nick)
-        {
-
-            
-           
+        [HttpPost]
+        public JsonResult AddFotoPublicacion(IFormFile foto, int id)
+        {  
             Usuario u = new Usuario();
-            u = _usuarioService.GetUsuario(new Usuario { NickName = nick});
+            u = _usuarioService.GetUsuarioById(new Usuario { Id = id});
             if (!ModelState.IsValid)
             {
-                return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = u.NickName, Id = u.Id}));
+                return Json(false);
+               // return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = u.NickName, Id = u.Id}));
             }
             //\wwwroot\images\Fotos_Usuarios\20180321212835.png
             var ruta = "wwwroot\\images\\Fotos_Usuarios\\" + foto.FileName;
             using(var stream = new FileStream(ruta, FileMode.Create))
             {
+                Usuario user = new Usuario();
+                user.Id = id;
+                user.Avatar = foto.FileName;
+                
                 foto.CopyTo(stream);
-                _fotoService.AddFotoPerfil(new Foto { Id = foto_id, RutaFoto = foto.FileName});
+                _fotoService.AddFotoPerfil(user);
+                //_fotoService.AddFotoPerfil(new Foto { Id = foto_id, RutaFoto = foto.FileName});
                 //_fotoService.AddFotoPerfil(new Foto { Id = foto_id, Img = foto , RutaFoto = foto.FileName});
-            }                     
-            return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = u.NickName, Id = u.Id }));
+            }
+            return Json(foto.FileName);
+            //return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = u.NickName, Id = u.Id }));
         }
 
         public JsonResult AgregarPublicacion(UsuarioViewModel model, IFormFile foto)
@@ -172,14 +176,14 @@ namespace EchonyCore.Controllers
             model.ListaReplies = _replyService.GetAllReplies();
             return PartialView(model);
         }
-
-        public JsonResult AddReply(CommentReply cr)
+        /*Usar un PublicacionesViewModel y testear lo que llega por parametro*/
+        public JsonResult AddReply(PublicacionesViewModel model)
         {
            
-            if (cr.Contenido_reply != null)
+            if (model.CommentReply.Contenido_reply != null)
             {
-                cr.Fecha = DateTime.Now;              
-                return Json(_replyService.AddReply(cr));             
+                             
+                return Json(_replyService.AddReply(model.CommentReply));             
             }       
             return Json(false);
         }

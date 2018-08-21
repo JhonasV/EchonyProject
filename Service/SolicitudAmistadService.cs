@@ -32,8 +32,13 @@ namespace Service
                 try
                 {
                    
-                    lista = _context.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.Id && x.Estado == 0).Include(x => x.Emisor.Usuario).Include(x => x.Emisor.Usuario.Foto)
-                        .Include(x => x.Receptor.Usuario).Include(x => x.Receptor.Usuario.Foto).ToList();
+                    lista = _context.SolicitudAmistad
+                        .Where(x => x.Receptor.UsuarioId == r.Id && x.Estado == 0)
+                        .Include(x => x.Emisor.Usuario)
+                        //.Include(x => x.Emisor.Usuario.Foto)
+                        .Include(x => x.Receptor.Usuario)
+                        //.Include(x => x.Receptor.Usuario.Foto)
+                        .ToList();
                 }
                 catch (Exception e)
                 {
@@ -50,8 +55,13 @@ namespace Service
                 try
                 {
                     //lista = db.SolicitudAmistad.Where(x => x.ReceptorId == a.ReceptorId).ToList();
-                    lista = _context.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.Id && x.Estado == 1).Include(x => x.Emisor.Usuario).Include(x => x.Emisor.Usuario.Foto)
-                        .Include(x => x.Receptor.Usuario).Include(x => x.Receptor.Usuario.Foto).ToList();
+                    lista = _context.SolicitudAmistad
+                        .Where(x => x.Receptor.UsuarioId == r.Id && x.Estado == 1)
+                        .Include(x => x.Emisor.Usuario)
+                        //.Include(x => x.Emisor.Usuario.Foto)
+                        .Include(x => x.Receptor.Usuario)
+                        //.Include(x => x.Receptor.Usuario.Foto)
+                        .ToList();
                 }
                 catch (Exception e)
                 {
@@ -67,9 +77,13 @@ namespace Service
             List<SolicitudAmistad> lista = new List<SolicitudAmistad>();          
             try
             {                   
-                lista = _context.SolicitudAmistad.Where(x => x.Receptor.UsuarioId == r.UsuarioId || x.Emisor.UsuarioId == r.UsuarioId && x.Estado == 1)
-                    .Include(x => x.Emisor.Usuario).Include(x => x.Emisor.Usuario.Foto)
-                    .Include(x => x.Receptor.Usuario).Include(x => x.Receptor.Usuario.Foto).ToList();
+                lista = _context.SolicitudAmistad
+                    .Where(x => x.Receptor.UsuarioId == r.UsuarioId || x.Emisor.UsuarioId == r.UsuarioId && x.Estado == 1)
+                    .Include(x => x.Emisor.Usuario)
+                    //.Include(x => x.Emisor.Usuario.Foto)
+                    .Include(x => x.Receptor.Usuario)
+                    //.Include(x => x.Receptor.Usuario.Foto)
+                    .ToList();
             }
             catch (Exception e)
             {

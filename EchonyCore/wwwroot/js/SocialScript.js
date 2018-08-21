@@ -17,10 +17,34 @@
         } 
     })
 
+    $("#AgregarPublicacion").submit(() => {
+        $('body').loadingModal({ text: 'Agregando publicación...', 'animation': 'wanderingCubes' });
+    })
+
     $("#AgregarPublicacion").ajaxForm((data) => {  
         if (data) {
             publicacionTextCleaner();
             CargadorPublicaciones();
+            //toastr.success('La publicación se ha agregado exitosamente!', 'Aviso');
+            $('body').loadingModal('hide');
+        }
+    })
+
+    $("#form-fotos").submit(() => {
+        $('body').loadingModal({ text: 'Actualizando foto de perfil...', 'animation': 'wanderingCubes' });
+    })
+
+    $("#form-fotos").ajaxForm((data) => {
+        if (data) {
+            let avatar = `/images/Fotos_Usuarios/${data}`;
+            /*$("#foto-perfil").attr("src", avatar);
+            $("#foto-modal").attr("src", avatar);
+            $("#nav-foto").attr("src", avatar);*/
+            $(".pic").attr("src", avatar);
+            $('body').loadingModal('hide');
+           // toastr.success('La foto se ha actualizado exitosamente!', 'Actualización foto de perfil');
+            $("#foto-form-reset").click();
+
         }
     })
 /*

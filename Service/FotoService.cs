@@ -8,7 +8,7 @@ namespace Service
 {
     public interface IFotoService
     {
-        string AddFotoPerfil(Foto f);
+        string AddFotoPerfil(Usuario user);
     }
 
     public class FotoService : IFotoService
@@ -21,7 +21,7 @@ namespace Service
             _context = context;
         }
 
-        public string AddFotoPerfil(Foto f)
+        /*public string AddFotoPerfil(Foto f)
         {
             string mensaje = "La foto no fue actualizada";
           
@@ -44,7 +44,33 @@ namespace Service
 
             
             return mensaje;
-        }
+        }*/
+        public string AddFotoPerfil(Usuario user)
+        {
+            string mensaje = "La foto no fue actualizada";
 
+            try
+            {
+                Usuario details = _context.Usuario.Find(user.Id);
+                details.Avatar = user.Avatar;
+                
+
+
+                _context.Usuario.Update(details);
+                _context.SaveChanges();
+
+
+                mensaje = "La foto fue actualizada";
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
+            return mensaje;
+        }
     }
 }

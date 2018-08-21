@@ -33,7 +33,7 @@
         if (user.Id == Model.UsuarioSesion.Id)
         {
             <div class="perfil">
-                <div>  <img src="~/images/Fotos_Usuarios/@user.Foto.RutaFoto" /></div>
+                <div>  <img src="~/images/Fotos_Usuarios/@user.Avatar" /></div>
                 <div class="info">
                     <div><a href="@Url.Action("Usuario", "Perfil", new Usuario {NickName = user.NickName, Id = user.Id})"><span>@user.Nombre </span> <span>@user.Apellido</span></a></div>
 
@@ -45,7 +45,7 @@
     else
     {
         <div class="perfil">
-            <div>  <img src="~/images/Fotos_Usuarios/@user.Foto.RutaFoto" /></div>
+            <div>  <img src="~/images/Fotos_Usuarios/@user.Avatar" /></div>
             <div class="info">
                 <div><a href="@Url.Action("Usuario", "Perfil", new Usuario {NickName = user.NickName, Id = user.Id})"><span>@user.Nombre </span> <span>@user.Apellido</span></a></div>
             

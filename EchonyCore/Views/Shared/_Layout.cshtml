@@ -1,16 +1,22 @@
 ﻿@model UsuarioViewModel
+@{ 
+    if(Model == null)
+    {
+        Url.Action("Login", "Index");
+    }
+}
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+
     <link href="~/css/estilos.css" rel="stylesheet" />
     <link href="~/css/LoginStyle.css" rel="stylesheet" />
     <link href="~/css/PerfilStyles.css" rel="stylesheet" />
     <link href="~/css/musica.css" rel="stylesheet" />
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <link href="~/css/jquery.loader.css" rel="stylesheet" />
-
+    <link href="~/lib/jquery-load-modal/jquery.loadingModal.min.css" rel="stylesheet" />
     <title>@ViewBag.title</title>
 </head>
 <body>
@@ -71,11 +77,17 @@
                         </div>
                         <div class="foto_usuario_container">
 
-                            <img src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Foto.RutaFoto" alt="" class="foto_usuario">
+                            <img id="nav-foto" src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Avatar" alt="" class="foto_usuario pic">
 
                         </div>
-
-                        <h3 class="opcion">...</h3>
+                        <nav class="nav__desplegable">
+                            <ul class="menu__desplegable">
+                                <li>Configuración</li>
+                                <li>Cerrar Sesión</li>
+                            </ul>
+                        </nav>
+                        <input type="checkbox" id="tuggle-menu"/>
+                        <label for="tuggle-menu" class="opcion">...</label>
                     </div>
                 </div>
 
@@ -98,6 +110,9 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/jquery.loader.min.js"></script>
+
+    <script src="~/lib/jquery-load-modal/jquery.loadingModal.min.js"></script>
     <script src="~/lib/signalr/signalr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
 </html>

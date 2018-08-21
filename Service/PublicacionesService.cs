@@ -49,7 +49,14 @@ namespace Service
           
                 try
                 {
-                    detalles = _context.Publicaciones.Where(x => x.Usuario.Id == userId).Include(x => x.Usuario).Include(x => x.Usuario.Foto).Include(x => x.Like).Include(x => x.Comentarios).OrderByDescending(x => x.Id).ToList();
+                    detalles = _context.Publicaciones
+                    .Where(x => x.Usuario.Id == userId)
+                    .Include(x => x.Usuario)
+                    //.Include(x => x.Usuario.Foto)
+                    .Include(x => x.Like)
+                    .Include(x => x.Comentarios)
+                    .OrderByDescending(x => x.Id)
+                    .ToList();
                 //_context.Publicaciones.Where(x => x.UsuarioId == userId).Include(x => x.Usuario.Foto).OrderByDescending(x => x.Fecha).ToList();
             }
                 catch (Exception e)
@@ -67,7 +74,14 @@ namespace Service
            
                 try
                 {
-                    lista = _context.Publicaciones.Where(x => x.Usuario.Id == u.Id).Include(x => x.Usuario).Include(x => x.Usuario.Foto).Include(x => x.Like).Include(x => x.Comentarios).OrderByDescending(x => x.Id).ToList();
+                    lista = _context.Publicaciones
+                    .Where(x => x.Usuario.Id == u.Id)
+                    .Include(x => x.Usuario)
+                    //.Include(x => x.Usuario.Foto)
+                    .Include(x => x.Like)
+                    .Include(x => x.Comentarios)
+                    .OrderByDescending(x => x.Id)
+                    .ToList();
                 }
                 catch (Exception)
                 {

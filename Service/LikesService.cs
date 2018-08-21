@@ -71,10 +71,14 @@ namespace Service
            
                 try
                 {
-                    lista = lista = _context.Likes.Where(x => x.PublicacionesId == l.PublicacionesId).Include(x => x.Usuario).Include(x => x.Usuario.Foto).ToList();
+                    lista = lista = _context.Likes
+                    .Where(x => x.PublicacionesId == l.PublicacionesId)
+                    .Include(x => x.Usuario)
+                    //.Include(x => x.Usuario.Foto)
+                    .ToList();
                     lista.ForEach(e =>
                     {
-                        e.Usuario.Foto.Usuario = null;
+                        //e.Usuario.Foto.Usuario = null;
                         e.Usuario.Likes = null;
                     });
                 }

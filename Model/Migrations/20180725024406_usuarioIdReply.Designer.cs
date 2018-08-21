@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Model;
 
 namespace Model.Migrations
 {
     [DbContext(typeof(EchonyDbContext))]
-    partial class EchonyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180725024406_usuarioIdReply")]
+    partial class usuarioIdReply
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,13 +81,9 @@ namespace Model.Migrations
 
                     b.Property<int>("PublicacionesId");
 
-                    b.Property<int>("UsuarioId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PublicacionesId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("CommentReply");
                 });
@@ -127,6 +125,17 @@ namespace Model.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Emisor");
+                });
+
+            modelBuilder.Entity("Model.Domain.Foto", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<string>("RutaFoto");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Fotos");
                 });
 
             modelBuilder.Entity("Model.Domain.Likes", b =>
@@ -219,8 +228,6 @@ namespace Model.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<string>("Avatar");
-
                     b.Property<string>("Clave")
                         .IsRequired()
                         .HasMaxLength(30);
@@ -285,11 +292,6 @@ namespace Model.Migrations
                         .WithMany()
                         .HasForeignKey("PublicacionesId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Model.Domain.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Model.Domain.Emisor", b =>
@@ -302,6 +304,14 @@ namespace Model.Migrations
                     b.HasOne("Model.Domain.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Model.Domain.Foto", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario", "Usuario")
+                        .WithOne("Foto")
+                        .HasForeignKey("Model.Domain.Foto", "Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -75,6 +75,7 @@ namespace Service
                         Codigo = new Correo().GetCodigo(8),
                         NickName = u.NickName,
                         ConfirmacionClave = u.ConfirmacionClave,
+                        Avatar = "ImagenDefault.png"
                     };
 
                     cor.Destino = user.Email;
@@ -86,7 +87,7 @@ namespace Service
 
                     _context.Usuario.Add(user);
                     _context.SaveChanges();
-
+/*
                     Foto foto = new Foto
                     {
                         Id = user.Id,
@@ -95,7 +96,7 @@ namespace Service
                     };
 
                     _context.Fotos.Add(foto);
-                    _context.SaveChanges();
+                    _context.SaveChanges();*/
                 }
             }
             catch (Exception)

@@ -150,28 +150,6 @@
     <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\TextMessageFormat.d.ts" />
     <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\Utils.d.ts" />
     <TypeScriptCompile Include="wwwroot\lib\signalr\dist\esm\WebSocketTransport.d.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\AbortController.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\browser-index.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\Errors.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HandshakeProtocol.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HttpClient.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HttpConnection.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HubConnection.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\HubConnectionBuilder.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\IConnection.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\IHttpConnectionOptions.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\IHubProtocol.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\ILogger.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\index.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\ITransport.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\JsonHubProtocol.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\Loggers.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\LongPollingTransport.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\ServerSentEventsTransport.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\Stream.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\TextMessageFormat.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\Utils.ts" />
-    <TypeScriptCompile Include="wwwroot\lib\signalr\src\WebSocketTransport.ts" />
   </ItemGroup>
 
 </Project>

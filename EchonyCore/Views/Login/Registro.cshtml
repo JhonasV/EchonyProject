@@ -13,7 +13,7 @@
         @using (Html.BeginForm("AddUsuario", "Login", FormMethod.Post, new { @Class = "formulario_registro" }))
         {
             <div class="form_header">
-                <div class="form_titulo">
+                <div class="form_titulo_registro">
                     <h3>UNETE A ECHONY</h3>
                 </div>
             </div>
@@ -81,8 +81,8 @@
 
             </div>
             <h2 style="text-align:center;color:red;background-color:#F5DA55;">@Html.DisplayFor(model => model.Mensaje)</h2>
-            <div class="form_footer">
-                <div class="boton">
+            <div class="form_footer_registro">
+                <div class="boton_registro">
                     <button class="btn btn-registro" type="submit">Acceder</button>
                 </div>
 

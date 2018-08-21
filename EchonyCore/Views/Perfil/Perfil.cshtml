@@ -28,14 +28,14 @@
             </div>
             <div class="cuerpo_modal">
                 <span style="text-align:center;">Foto Actual</span>
-                <img class="foto_modal" src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Foto.RutaFoto" alt="Alternate Text" />
+                <img id="foto-modal" class="foto_modal pic" src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Avatar" alt="Alternate Text" />
                 <form id="form-fotos" action="/Perfil/AddFotoPublicacion" method="post" enctype="multipart/form-data">
-                    <!--enctype="multipart/form-data"-->
-                    <input type="hidden" name="nick" value="@Model.UsuarioSesion.NickName" />
-                    <input type="hidden" name="foto_id" value="@Model.UsuarioSesion.Id" />
+                    <!--enctype="multipart/form-data"-->                
+                    <input type="hidden" name="id" value="@Model.UsuarioSesion.Id" />
                     <div class="botones-modal">
                         <input class="subir-foto" required id="subir-foto" type="file" name="foto" value="Subir Foto" accept="image/*" />
                         <!--<span asp-validation-for="UsuarioSesion.Foto.Img"></span>-->
+                        <input style="display:none;" id="foto-form-reset" type="reset" />
                         <input type="submit" name="subir" value="Actualizar Foto" />
                     </div>
                     <div class="modal_footer">
@@ -57,7 +57,7 @@
 
 
                         <img class="btnFoto" id="btnFoto" src="~/images/fotos/photo-camera.png" />
-                        <img class="foto-perfil" src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Foto.RutaFoto" alt="@Model.UsuarioSesion.NickName" />
+                        <img id="foto-perfil" class="foto-perfil pic" src="~/images/Fotos_Usuarios/@Model.UsuarioSesion.Avatar" alt="@Model.UsuarioSesion.NickName" />
                         <div class="arriba">
 
                         </div>

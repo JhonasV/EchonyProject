@@ -20,123 +20,170 @@
             {
 
 
-                <article id="@publi.Id" class="post">
-                    <div class="post-info">
-                        <div><img src="/images/Fotos_Usuarios/@publi.Usuario.Foto.RutaFoto" alt="Foto" /></div>
+            <article id="@publi.Id" class="post">
+                <div class="post-info">
+                    @if (Model.UsuarioSesion.Id.Equals(publi.UsuarioId))
+                    {
+                        <div><img class="pic" src="/images/Fotos_Usuarios/@publi.Usuario.Avatar" alt="Foto" /></div>
                         <div style="display:block;"><div><span>@publi.Usuario.Nombre </span><span>@publi.Usuario.Apellido </span></div> <div> <p style="color:lightslategrey;">@publi.Fecha</p></div></div>
 
+                    }
+                    else
+                    {
+                        <div><img src="/images/Fotos_Usuarios/@publi.Usuario.Avatar" alt="Foto" /></div>
+                        <div style="display:block;"><div><span>@publi.Usuario.Nombre </span><span>@publi.Usuario.Apellido </span></div> <div> <p style="color:lightslategrey;">@publi.Fecha</p></div></div>
+                    }
 
-                    </div>
-                    <div class="post-content">
-                        <p>@publi.Contenido</p>
 
-                        @if (publi.Foto != null)
-                        {
-                            <div style="width:100%;height:40%; margin-top:1em;">
-                                <img style="width:100%; height:100vh; border-radius:0;" src="@publi.Foto" />
-                            </div>
+                </div>
+                <div class="post-content">
+                    <p>@publi.Contenido</p>
+
+                    @if (publi.Foto != null)
+                    {
+                        <div style="width:100%;height:40%; margin-top:1em;">
+                            <img style="width:100%; height:100vh; border-radius:0;" src="@publi.Foto" />
+                        </div>
+
+                    }
+
+
+                </div>
+                <div class="botonera-wrapper">
+                    <div class="botonera-publiacion">
+                        @{
+                            int contadorLike = 0;
+                            if (publi.Like != null) { contadorLike = publi.Like.Count(); }
 
                         }
-                           
-                            <img src="~/images/ 20180708175547.jpeg" />
-                    </div>
-                    <div class="botonera-wrapper">
-                        <div class="botonera-publiacion">
-                            @{
-                                int contadorLike = 0;
-                                if (publi.Like != null) { contadorLike = publi.Like.Count(); }
-
-                            }
-                            <div class="sub_botonera">
-                                <button class="me_gusta_btn" id="@publi.Id" name="@Model.UsuarioSesion.Id">Me Gusta</button>
-                                <span class="@publi.Id">(@contadorLike)</span>
-                                <button class="mostrar_likes" name="@publi.Id">Ver Likes</button>
-                                <img id="load_gustaBtn_@publi.Id" style="display:none; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+                        <div class="sub_botonera">
+                            <button class="me_gusta_btn" id="@publi.Id" name="@Model.UsuarioSesion.Id">Me Gusta</button>
+                            <span class="@publi.Id">(@contadorLike)</span>
+                            <button class="mostrar_likes" name="@publi.Id">Ver Likes</button>
+                            <img id="load_gustaBtn_@publi.Id" style="display:none; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+                        </div>
+                        <p> <span></span></p>
+                        <dialog class="dialog_likes" id="mostrar_likes_@publi.Id">
+                            <div class="dialog_likes_header">
+                                <h4>Personas que le han dado like a la publicacion de @publi.Usuario.Nombre</h4>
+                                <p id="@publi.Id" class="cerrar_likes" name="@publi.Id">X</p>
                             </div>
-                            <p> <span></span></p>
-                            <dialog class="dialog_likes" id="mostrar_likes_@publi.Id">
-                                <div class="dialog_likes_header">
-                                    <h4>Personas que le han dado like a la publicacion de @publi.Usuario.Nombre</h4>
-                                    <p id="@publi.Id" class="cerrar_likes" name="@publi.Id">X</p>
-                                </div>
-                                <div id="mostrar_likes_body_@publi.Id">
+                            <div id="mostrar_likes_body_@publi.Id">
 
-                                </div>
-                            </dialog>
-                        </div>
+                            </div>
+                        </dialog>
                     </div>
-                    <dialog class="@publi.Id">soy un dialog de prueba</dialog>
-                    <input type="hidden" value="@publi.Id" />
+                </div>
+                <!--<dialog class="@publi.Id">soy un dialog de prueba</dialog>-->
+                <form class="addReply" asp-action="addReply" asp-controller="Perfil" method="post">
+                    <input type="hidden" asp-for="Publicacion.Id" value="@publi.Id" />
                     <div id="publicacion_@publi.Id"></div>
-                    <div class="coment-wrapper">
-                        <div id="post-comment" class="post-comment">
-
-                            @{
-
-
-                                if (Model.ListaComentarios != null)
-                                {
-
-
-
-
-                                    @foreach (var item in Model.ListaComentarios)
-                                    {
-                                        if (item.PublicacionesId.Equals(publi.Id))
-                                        {
-                                            <div class="comment-texarea">
-                                                <img src="/images/Fotos_Usuarios/@item.Usuario.Foto.RutaFoto" alt="Foto" />
-                                                <div class="contenido-comentario-container"><span>@item.Usuario.Nombre</span><span>@item.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
-                                               <br />
-                                               
-                                            </div>
-                                             <div class="reply_container">
-                                                    <p class="responder" id="@item.Id">Responder</p>
-                                                   @foreach(var replies in Model.ListaReplies) {
-                                                       if(replies.PublicacionesId.Equals(publi.Id) && replies.ComentariosId.Equals(item.Id))
-                                                       {
-
-
-                                                      
-                                                    <div style="margin-left:1em;" class="comment-texarea">
-                                                        <img src="/images/Fotos_Usuarios/@replies.Usuario.Foto.RutaFoto" alt="Foto" />
-                                                        <div class="contenido-comentario-container"><span>@replies.Usuario.Nombre</span><span>@replies.Usuario.Apellido</span><p>@replies.Contenido_reply</p></div>
-                                                     
-
-                                                    </div>
-                                                     }
-                                                   }
-                                                    <input type="hidden" value="@publi.Id" class="input_responde_publi_@item.Id" />
-                                                    <input style="display:none" type="text" class="input_responde_@item.Id input_responde" id="@item.Id" placeholder="Respondele a @item.Usuario.NickName" value="@@@item.Usuario.NickName" />
-                                                </div>
-                                        }
-                                    }
-                                }
-
-                            }
-
-                        </div>
-
-                    </div>
-
-
-
-                    <input type="hidden" asp-for="Comentarios.PublicacionesId" value="@publi.Id" />
-
-                    <input type="hidden" class="user_comment_@publi.Id" asp-for="Comentarios.UsuarioId" id="@Model.UsuarioSesion.Id" value="@Model.UsuarioSesion.Id" />
+                    <input style="display:none;" type="submit"value="" />
+                </form>
+                <div class="coment-wrapper">
                     <div id="post-comment" class="post-comment">
 
-                        <div class="comment-texarea">
+                        @{
 
 
-                            <input asp-for="Comentarios.Contenido_comentario" class="input-comentario input-data_@publi.Id" id="@publi.Id" type="text" placeholder="Comentar..." />
-                            <input type="reset" id="comment_cleaner" style="display:none" />
-                        </div>
+                            if (Model.ListaComentarios != null)
+                            {
+
+
+
+
+                                @foreach (var item in Model.ListaComentarios)
+                                {
+                                    if (item.PublicacionesId.Equals(publi.Id))
+                                    {
+                                        if (Model.UsuarioSesion.Id.Equals(item.UsuarioId))
+                                        {
+                                            <div class="comment-texarea">
+                                                <img class="pic" src="/images/Fotos_Usuarios/@item.Usuario.Avatar" alt="Foto" />
+                                                <div class="contenido-comentario-container"><span>@item.Usuario.Nombre</span><span>@item.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
+                                                <br />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="comment-texarea">
+                                                <img src="/images/Fotos_Usuarios/@item.Usuario.Avatar" alt="Foto" />
+                                                <div class="contenido-comentario-container"><span>@item.Usuario.Nombre</span><span>@item.Usuario.Apellido</span><p>@item.Contenido_comentario</p></div>
+                                                <br />
+
+                                            </div>
+
+                                        }
+
+                                        <div class="reply_container">
+                                            <p class="responder" id="@item.Id">Responder</p>
+                                            @foreach (var replies in Model.ListaReplies)
+                                            {
+                                                if (replies.PublicacionesId.Equals(publi.Id) && replies.ComentariosId.Equals(item.Id))
+                                                {
+
+                                                    if (Model.UsuarioSesion.Id.Equals(replies.UsuarioId))
+                                                    {
+
+                                                        <div style="margin-left:1em;" class="comment-texarea">
+                                                            <img class="pic" src="/images/Fotos_Usuarios/@replies.Usuario.Avatar" alt="Foto" />
+                                                            <div class="contenido-comentario-container"><span>@replies.Usuario.Nombre</span><span>@replies.Usuario.Apellido</span><p>@replies.Contenido_reply</p></div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div style="margin-left:1em;" class="comment-texarea">
+                                                            <img src="/images/Fotos_Usuarios/@replies.Usuario.Avatar" alt="Foto" />
+                                                            <div class="contenido-comentario-container"><span>@replies.Usuario.Nombre</span><span>@replies.Usuario.Apellido</span><p>@replies.Contenido_reply</p></div>
+
+
+                                                        </div>
+
+                                                    }
+
+
+                                                }
+                                            }
+                                                        <form class="addReply" asp-action="addReply" asp-controller="Perfil" method="post">
+                                                            <input type="hidden" asp-for="CommentReply.PublicacionesId" value="@publi.Id" />
+                                                            <input type="hidden" asp-for="CommentReply.ComentariosId"   value="@item.Id" />
+                                                            <input type="hidden" asp-for="CommentReply.UsuarioId" value="@Model.UsuarioSesion.Id" />
+                                                            <input asp-for="CommentReply.Contenido_reply" style="display:none" type="text" class="input_responde_@item.Id input_addreply" id="@item.Id" placeholder="Respondele a @item.Usuario.NickName" value="@@@item.Usuario.NickName " />
+                                                            <input style="display:none;" type="submit"  />
+                                                        </form>
+                                                            </div>
+                                        /*
+                                         <input type="hidden" value="@publi.Id" class="input_responde_publi_@item.Id" />
+                                            <input style="display:none" type="text" class="input_responde_@item.Id input_responde" id="@item.Id" placeholder="Respondele a @item.Usuario.NickName" value="@@@item.Usuario.NickName" />
+                                         */
+                                    }
+                                }
+                            }
+
+                        }
 
                     </div>
 
+                </div>
 
-                </article>
+
+
+                <input type="hidden" asp-for="Comentarios.PublicacionesId" value="@publi.Id" />
+
+                <input type="hidden" class="user_comment_@publi.Id" asp-for="Comentarios.UsuarioId" id="@Model.UsuarioSesion.Id" value="@Model.UsuarioSesion.Id" />
+                <div id="post-comment" class="post-comment">
+
+                    <div class="comment-texarea">
+
+
+                        <input asp-for="Comentarios.Contenido_comentario" class="input-comentario input-data_@publi.Id" id="@publi.Id" type="text" placeholder="Comentar..." />
+                        <input type="reset" id="comment_cleaner" style="display:none" />
+                    </div>
+
+                </div>
+
+
+            </article>
             }
         }
     }
@@ -144,6 +191,8 @@
 
 <script>
     $(document).ready(() => {
+
+
         const CargadorPublicaciones = () => {
             if (userId) {
                 $("#publicaciones-wrapper").load(`/Perfil/Publicaciones/?userId=${@Model.Usuario.Id}`);
@@ -207,17 +256,17 @@
     })
 
         //Reply
-    let commentIdGlobal = "";
+   let commentIdGlobal = "";
     $(document).on("click", ".responder", (e) => {
         let commentId = e.target.id;
         let input_reply = $(`.input_responde_${commentId}`);
 
         input_reply.removeAttr("style");
-
+        input_reply.focus();
         commentIdGlobal = commentId;
 
     })
-
+    /*
     $(document).on("keypress", ".input_responde", (e) => {
         let commentId2 = e.target.id;
         if (e.keyCode === 13 || e.which === 13) {
@@ -227,7 +276,7 @@
             PublicacionesId: $(`.input_responde_publi_${commentId2}`).val(),
             Contenido_reply: input_reply2.val(),
             UsuarioId: @Model.UsuarioSesion.Id,
-            ComentariosId: commentIdGlobal
+           /* ComentariosId: commentIdGlobal
 
         }
         if (dataReply.Contenido_reply !== "", dataReply.Contenido_reply !== "undefined") {
@@ -235,12 +284,17 @@
                 $.post("/Perfil/AddReply", dataReply, (cb) => {
                     if (cb) {
                         CargadorPublicaciones();
+                        dataReply = {}
                     }
                 })
             }
         }
-    })
-
+        })*/
+        $('.addReply').ajaxForm(reply => {
+            if (reply) {
+                CargadorPublicaciones();
+            }
+        });
        
     })
 </script>

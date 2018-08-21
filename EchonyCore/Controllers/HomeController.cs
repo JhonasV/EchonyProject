@@ -30,7 +30,7 @@ namespace EchonyCore.Controllers
                 UsuarioViewModel model = new UsuarioViewModel();
                 model.UsuarioSesion = user;
                
-                return View(model);
+                return RedirectToAction("Perfil", "Perfil");
           }else
             {
                 return RedirectToAction("Index", "Login");

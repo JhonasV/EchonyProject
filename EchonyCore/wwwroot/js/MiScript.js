@@ -158,12 +158,12 @@
                 $("#mostrar_likes_" + like.PublicacionesId).attr("open", "true");
                 $("#mostrar_likes_body_" + like.PublicacionesId).html("");
                 listaLikes.forEach(e => {
-                    console.log(e.Usuario.Foto);
+                    console.log(e.Usuario.Avatar);
                     if (e.Usuario != null){
                         let elemento = `
                            <div class="like_tarjeta">
                                 <div>
-                                    <img class="foto_like"   src = "/images/Fotos_Usuarios/${e.Usuario.Foto.RutaFoto}" />
+                                    <img class="foto_like"   src = "/images/Fotos_Usuarios/${e.Usuario.Avatar}" />
                                 </div>
                                 <div>
                                     <h3>${e.Usuario.Nombre} ${e.Usuario.Apellido}</h3>

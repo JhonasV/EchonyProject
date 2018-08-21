@@ -39,14 +39,18 @@ namespace Model.Domain
         [Required(ErrorMessage = "La Confirmacion de la Contraseña es obligatoria")]
         [Compare("Clave", ErrorMessage = "Las Contraseñas no coinciden")]
         public string ConfirmacionClave { get; set; }
-
-        public virtual Foto Foto { get; set; }
-
-        public List<Publicaciones> Publicaciones { get; set; }
-
-        public List<Comentarios> Comentarios { get; set; }
         
-        public List<SolicitudAmistad> Amigos { get; set; }
+        public string Avatar { get; set; }
+
+        //public virtual Foto Foto { get; set; }
+
+        public virtual List<Publicaciones> Publicaciones { get; set; }
+
+        public virtual List<Comentarios> Comentarios { get; set; }
+        
+        public virtual List<SolicitudAmistad> Amigos { get; set; }
+
+       
 
         public int Privada { get; set; }
 

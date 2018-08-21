@@ -51,8 +51,9 @@ namespace EchonyCore
 
             services.AddSingleton<ChatMessage>();
 
-            services.AddCors(option => option.AddPolicy("CorsPolicy", p => p.AllowAnyHeader()));
-            services.AddSignalR();
+            services.AddCors(option => option.AddPolicy("CorsPolicy", p => 
+            p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+           // services.AddSignalR();
             /*services.AddDbContext<EchonyEntityContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("EchonyDB")));*/
 
@@ -71,10 +72,10 @@ namespace EchonyCore
                 app.UseExceptionHandler("/Shared/Error");
             }
             app.UseSession();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
-            app.UseSignalR(option => option.MapHub<ChatHub>("chatHub"));
+           // app.UseSignalR(option => option.MapHub<ChatHub>("chatHub"));
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

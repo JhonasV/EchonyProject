@@ -2,7 +2,7 @@
 @{
     @using Microsoft.AspNetCore.Http
     @inject IHttpContextAccessor HttpContextAccessor
-   // if (this.HttpContextAccessor.HttpContext.Session.GetInt32("id").ToString() != null) { this.HttpContextAccessor.HttpContext.Response.Redirect(Url.Action("Index", "Home")); }
+    // if (this.HttpContextAccessor.HttpContext.Session.GetInt32("id").ToString() != null) { this.HttpContextAccessor.HttpContext.Response.Redirect(Url.Action("Index", "Home")); }
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.title = "Echony: Index";
 }
@@ -10,81 +10,86 @@
 
 
 <main>
-    <div class="body">
+    <div class="content-wrapper">
         <div class="index_izquierda">
 
 
-           
+
 
             <img src="~/images/fotos/1.jpg" class="img-login" />
         </div>
         <div class="container">
             <div class="login-container">
-                @using (Html.BeginForm("Autorizacion", "Login", FormMethod.Post, new { @Class = "formulario", id = "login-form" }))
-    {
-            <div class="form_header">
-                <div class="form_titulo">
-                    <h2>Ingresa a Echony</h2>
-                </div>
-            </div>
-            <div class="form_body">
-                <div class="fila">
+                <form asp-action="Autorizacion" asp-controller="Login" class="formulario" id="login-form" method="post">
+                    <div class="form_header">
+                        <div class="form_titulo">
+                            <h2>Ingresa a Echony</h2>
+                        </div>
+                    </div>
+                    <div class="form_body">
+                        <div class="fila">
 
-                    <div class="columna">
-                        @Html.EditorFor(model => model.UsuarioSesion.Email, new { htmlAttributes = new { placeholder = "Correo Eléctronico", @Class = "input-login input-size-m", id="input-email" } })
-                      
+                            <div class="columna">
+
+                                <input type="email" asp-for="UsuarioSesion.Email" placeholder="Correo Eléctronico" class="input-login input-size-m" id="input-email" />
+                            </div>
+                        </div>
+
+                        <div class="fila">
+
+
+                            <span style="color:red; text-align:center;" asp-validation-for="UsuarioSesion.Email"></span>
+                        </div>
+
+                        <div class="fila">
+
+                            <div class="columna">
+
+                                <input type="password" asp-for="UsuarioSesion.Clave" placeholder="Contraseña" class="input-login input-size-m" id="input-password" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="fila">
+
+                            <span style="color:red;text-align:center;" asp-validation-for="UsuarioSesion.Clave"></span>
+                        </div>
+                    </div>
+
+                    <div class="form_footer">
+                        <div class="fila">
+
+                            <div class="boton">
+                                <button class="btn" type="submit">Acceder</button>
+
+                            </div>
+
+
+
+                            <div class="registro_ask"><p>¿Aún no tienes una cuenta? <span class="span_login"><a class="link-registro" href="@Url.Action("Registro")">Registrate</a></span></p></div>
+
+
+                        </div>
+                        <span id="login-message"></span>
+
+
+
+                        @if (Model != null)
+                        {
+                            @if(Model.UsuarioSesion.Mensaje != null) { 
+                            <h3 style="text-align:center;color:white;background-color:#F04723; font-size:25px">@Model.UsuarioSesion.Mensaje</h3>
+                            }
+                        }
+
+
+
+                    </div>
+                </form>
+
+
+
+            </div>
         </div>
-                </div>
-
-                <div class="fila">
-
-                    <h3 style="text-align:center;">@Html.ValidationMessageFor(model => model.UsuarioSesion.Email, "", new { style = "color:red;" })</h3>
-                    
-                </div>
-
-                <div class="fila">
-
-                    <div class="columna">
-                        @Html.EditorFor(model => model.UsuarioSesion.Clave, new { htmlAttributes = new { placeholder = "Contraseña", @Class = "input-login input-size-m", id="input-password" } })
-                        
-
-                    </div>
-
-                </div>
-
-                <div class="fila">
-                    <h3 style="text-align:center;">@Html.ValidationMessageFor(model => model.UsuarioSesion.Clave, "", new { style = "color:red;" })</h3>
-                    
-                </div>
-            </div>
-
-            <div class="form_footer">
-                <div class="fila">
-
-                    <div class="boton">
-                        <button class="btn" type="submit">Acceder</button>
-
-                    </div>
-
-
-
-                    <div class="registro_ask"><p>¿Aún no tienes una cuenta? <span class="span_login"><a class="link-registro" href="@Url.Action("Registro")">Registrate</a></span></p></div>
-
-
-                </div>
-                <span id="login-message"></span>
-
-                <h2 style="text-align:center;color:white;background-color:#F04723;
-                        font-size:25px; ">
-                    @Html.DisplayFor(model => model.UsuarioSesion.Mensaje)
-                </h2>
-
-
-            </div>
-}
-                
-                
-                </div>
-            </div>
     </div>
 </main>

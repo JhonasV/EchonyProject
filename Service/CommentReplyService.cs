@@ -26,7 +26,11 @@ namespace Service
         {
               try
                 {
-                    return _context.CommentReply.Include(x => x.Publicaciones).Include(x => x.Usuario.Foto).ToList();
+                    return _context.CommentReply
+                    .Include(x => x.Publicaciones)
+                    //.Include(x => x.Usuario.Foto)
+                    .Include(x=> x.Usuario)
+                    .ToList();
                 }
                 catch (Exception)
                 {
@@ -37,11 +41,16 @@ namespace Service
         }
 
         public bool AddReply(CommentReply cr)
-        {           
+        {
+            CommentReply comment = new CommentReply();
                 try
                 {
+                    
+                    cr.Fecha = DateTime.Now;
                     _context.CommentReply.Add(cr);
                     _context.SaveChanges();
+
+                   comment.Id = cr.Id;
                     return true;
                 }
                 catch (Exception)
