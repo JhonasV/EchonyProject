@@ -42,7 +42,7 @@ src='https://github.com/JhonasV/EchonyProject/blob/HolaMundo/screenshots/EchonyC
 <br/>
 <img
 width='80%'
-src='https://github.com/JhonasV/EchonyProject/blob/HolaMundo/screenshots/EchonyCore3.PNG'/>
+src='https://github.com/JhonasV/EchonyProject/blob/HolaMundo/screenshots/EchonyCore7.PNG'/>
 <br/>
 
 
