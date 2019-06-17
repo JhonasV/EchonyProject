@@ -9,7 +9,7 @@
 
 # Features 
 * Login/Register
-* Register IMAIL Confirmation
+* Register with EMAIL Confirmation
 * Posts
 * Friend request
 * Users search bar
