@@ -17,18 +17,18 @@
         } 
     })
 
-    $("#AgregarPublicacion").submit(() => {
-        $('body').loadingModal({ text: 'Agregando publicación...', 'animation': 'wanderingCubes' });
-    })
+    //$("#AgregarPublicacion").submit(() => {
+    //    $('body').loadingModal({ text: 'Agregando publicación...', 'animation': 'wanderingCubes' });
+    //})
 
-    $("#AgregarPublicacion").ajaxForm((data) => {  
-        if (data) {
-            publicacionTextCleaner();
-            CargadorPublicaciones();
-            //toastr.success('La publicación se ha agregado exitosamente!', 'Aviso');
-            $('body').loadingModal('hide');
-        }
-    })
+    //$("#AgregarPublicacion").ajaxForm((data) => {  
+    //    if (data) {
+    //        publicacionTextCleaner();
+    //        CargadorPublicaciones();
+    //        //toastr.success('La publicación se ha agregado exitosamente!', 'Aviso');
+    //        $('body').loadingModal('hide');
+    //    }
+    //})
 
     $("#form-fotos").submit(() => {
         $('body').loadingModal({ text: 'Actualizando foto de perfil...', 'animation': 'wanderingCubes' });
@@ -78,7 +78,7 @@
         }
     });*/
 
-    window.load = CargadorPublicaciones();
+    //window.load = CargadorPublicaciones();
 
 
 

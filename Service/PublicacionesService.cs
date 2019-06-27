@@ -13,6 +13,7 @@ namespace Service
     {
         void AddPublicacion(Publicaciones p);
         List<Publicaciones> GetPublicaciones(int userId);
+        List<Publicaciones> GetPublicaciones();
         List<Publicaciones> GetPublicacionesPrueba(Usuario u);
         bool AgregarPublicacion(Publicaciones p);
     }
@@ -108,6 +109,30 @@ namespace Service
                 Console.Write(e);
             }
             return false;
+        }
+
+        public List<Publicaciones> GetPublicaciones()
+        {
+            List<Publicaciones> detalles = new List<Publicaciones>();
+
+            try
+            {
+                detalles = _context.Publicaciones
+                .Include(x => x.Usuario)
+                //.Include(x => x.Usuario.Foto)
+                .Include(x => x.Like)
+                .Include(x => x.Comentarios)
+                .OrderByDescending(x => x.Id)
+                .ToList();
+                //_context.Publicaciones.Where(x => x.UsuarioId == userId).Include(x => x.Usuario.Foto).OrderByDescending(x => x.Fecha).ToList();
+            }
+            catch (Exception e)
+            {
+
+                e.ToString();
+            }
+
+            return detalles;
         }
     }
 }

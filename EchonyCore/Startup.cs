@@ -33,7 +33,13 @@ namespace EchonyCore
 
 
             services.AddMvc()
-            .AddSessionStateTempDataProvider();
+            .AddSessionStateTempDataProvider()
+             .AddJsonOptions(options =>
+             {
+                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+;
+             });
+
             services.AddSession();
 
             var connection = Configuration.GetConnectionString("EchonyDB");

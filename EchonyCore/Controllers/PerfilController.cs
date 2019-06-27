@@ -138,8 +138,8 @@ namespace EchonyCore.Controllers
             return Json(foto.FileName);
             //return Redirect(Url.Action("Usuario", "Perfil", new Usuario { NickName = u.NickName, Id = u.Id }));
         }
-
-        public JsonResult AgregarPublicacion(UsuarioViewModel model, IFormFile foto)
+        [HttpPost]
+        public IActionResult AgregarPublicacion([FromBody] UsuarioViewModel model, [FromBody]  IFormFile foto, [FromBody]  Publicaciones publi)
         {
             string photoName = DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpeg";
             DateTime fecha = DateTime.Now;
@@ -161,9 +161,35 @@ namespace EchonyCore.Controllers
             {     
                     exito = _publiService.AgregarPublicacion(model.Publicacion);
             }      
-            return Json(exito);          
+            return Ok(exito);          
         }
-        
+
+        [HttpPost]
+        public IActionResult AddPublication([FromBody] UsuarioViewModel model, [FromBody]  IFormFile foto, [FromBody]  Publicaciones publi)
+        {
+            string photoName = DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpeg";
+            DateTime fecha = DateTime.Now;
+            bool exito = false;
+            model.Publicacion.Fecha = fecha;
+            var ruta = "";
+            if (foto != null)
+            {
+                ruta = $"wwwroot/images/{photoName}";
+                using (var stream = new FileStream(ruta, FileMode.Create))
+                {
+                    foto.CopyTo(stream);
+                    string rutaBd = $"/images/{photoName}";
+                    model.Publicacion.Foto = rutaBd;
+                    exito = _publiService.AgregarPublicacion(model.Publicacion);
+                }
+            }
+            else if (model.Publicacion.Contenido != null)
+            {
+                exito = _publiService.AgregarPublicacion(model.Publicacion);
+            }
+            return Ok(exito);
+        }
+
         public PartialViewResult Publicaciones(int userId)
         {
             
@@ -176,6 +202,13 @@ namespace EchonyCore.Controllers
             model.ListaReplies = _replyService.GetAllReplies();
             return PartialView(model);
         }
+
+        public IActionResult GetAllPosts()
+        {
+            var posts = _publiService.GetPublicaciones();
+            return Ok(posts);
+        }
+
         /*Usar un PublicacionesViewModel y testear lo que llega por parametro*/
         public JsonResult AddReply(PublicacionesViewModel model)
         {

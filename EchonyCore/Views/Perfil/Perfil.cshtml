@@ -15,7 +15,7 @@
 }
 
  
-<main id="cuerpo-perfil" class="perfil_wrapper">
+<main id="cuerpo-perfil" class="perfil_wrapper app">
     
         <dialog id="modal_foto" class="modal_foto">
             <div class="titulo_modal">
@@ -102,25 +102,24 @@
                         </div>
                     </div>
                     <div class="post__wrapper">
-
                         <div style="width:95%; margin:0 auto;">
-                            <form id="AgregarPublicacion" asp-action="AgregarPublicacion" method="post" enctype="multipart/form-data">
+                            <form v-on:submit.prevent="savePost" id="AgregarPublicacion" asp-action="AgregarPublicacion" method="post" enctype="multipart/form-data">
                                 
-                                <input type="hidden" asp-for="Publicacion.UsuarioId" value="@Model.UsuarioSesion.Id" />
-         
-                                <textarea asp-for="Publicacion.Contenido" id="text-estado" class="text-estado" placeholder="Escribe algo, @Model.UsuarioSesion.Nombre"></textarea>
+                                <input type="hidden" v-model="newPost.userId" asp-for="Publicacion.UsuarioId" value="@Model.UsuarioSesion.Id" />
+         <!-- id="text-estado" -->
+                                <textarea asp-for="Publicacion.Contenido" v-model="cotenido"  class="text-estado" placeholder="Escribe algo, @Model.UsuarioSesion.Nombre"></textarea>
                                 <span asp-validation-for="Publicacion.Contenido"></span>
                                 <!--id="contenido-post"-->
                                 <div class="estado-botonera">
                                     <div class="botones-publicar">
                                         <button type="submit" class="btn" id="publicar-post">Publicar</button>
-                                        <input type="file" name="foto" id="foto-post" value="Subir Foto..." />
+                                        <input type="file" v-on:change="fileOnChange" name="foto" id="foto-post" value="Subir Foto..." />
 
                                     </div>
 
 
                                     <img id="load" style="display:none;" class="loader" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
-
+                                 
                                 </div>
                             </form>
                         </div>
@@ -132,7 +131,68 @@
                 </article>
                 <input type="hidden" id="userId" value="@Model.UsuarioSesion.Id" />
                 <div id="publicaciones-wrapper">
-                    <img  style="text-align:center; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+                    <div v-if="!isLoaded">
+                        <img style="text-align:center; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+                    </div>
+                    <div v-else>
+
+
+                        <div v-for="post in posts" class="post">
+                            <div class="post-info">
+
+                                @*<div v-if="@Model.UsuarioSesion == post.usuarioid">*@
+
+
+                                <div><img class="pic" v-bind:src="'/images/Fotos_Usuarios/'+post.usuario.avatar" alt="Foto" /></div>
+                                <div style="display:block;"><div><span>{{post.usuario.nombre}} </span><span>{{post.usuario.apellido}}</span></div> <div> <p style="color:lightslategrey;">{{post.fecha}}</p></div></div>
+                                @*</div>*@
+                                @*<div v-else>
+                    <div><img v-bind:src="'/images/Fotos_Usuarios/'+post.usuario.avatar" alt="Foto" /></div>
+                    <div style="display:block;"><div><span>{{post.usuario.nombre}} </span><span>{{post.usuario.apellido}} </span></div> <div> <p style="color:lightslategrey;">{{post.fecha}}p></div></div>
+                </div>*@
+
+
+
+                            </div>
+                            <div class="post-content">
+                                <p>{{post.contenido}}</p>
+
+
+                                <div v-if="post.foto !== null">
+                                    <div style="width:100%;height:40%; margin-top:1em;">
+                                        <img style="width:100%; height:100vh; border-radius:0;" v-bind:src=post.foto />
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </div>
+                            <div class="botonera-wrapper">
+                                <div class="botonera-publiacion">
+                                    @*:name="currentUser"*@
+                                    <div class="sub_botonera">
+                                        <button class="me_gusta_btn" :id="post.id">Me Gusta</button>
+                                        <span :class="post.id">({{post.like.length || 0}})</span>
+                                        <button class="mostrar_likes" :name="post.id">Ver Likes</button>
+                                        <img :id="'load_gustaBtn_'+post.id" style="display:none; width:30px; height:30px;padding:0; margin:0; margin-top:5px;" src="~/images/fotos/ajax-loader.gif" alt="Cargando..." />
+                                    </div>
+                                    <p> <span></span></p>
+                                    <dialog class="dialog_likes" :id="'mostrar_likes_body_'+post.id">
+                                        <div class="dialog_likes_header">
+                                            <h4>Personas que le han dado like a la publicacion de {{post.usuario.nombre}}</h4>
+                                            <p :id="post.id" class="cerrar_likes" :name="post.id">X</p>
+                                        </div>
+                                        <div :id="'mostrar_likes_body_'+post.id">
+
+                                        </div>
+                                    </dialog>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
 
@@ -142,3 +202,67 @@
         </main>
 
     </main>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+    new Vue({
+        el: '.app',
+        data: {
+            message: 'Hello Vue.js!',
+            posts: [],
+            isLoaded: false,
+            newPost: {
+                userId:'',
+                foto:'',
+                cotenido:''
+            },
+            cotenido:''
+        },
+        methods: {
+            getAllPosts: function () {
+                fetch('/Perfil/GetAllPosts')
+                    .then(res => res.json())
+                    .then(res => {
+                        this.posts = res;
+                        this.isLoaded = true;
+                    });
+            },
+            savePost: function(){
+                this.newPost.contenido = this.cotenido;
+                console.log(this.newPost.userId);
+                console.log(this.newPost.contenido);
+                console.log(this.newPost.foto);
+
+                let post = {
+                    foto: this.newPost.foto,
+                    UsuarioId: this.newPost.userId,
+                    Contenido: this.newPost.contenido
+                }
+
+                let config = {
+                    headers:{
+                        "content-type": "application/json"
+                    },
+                    method:'post',
+                    body:JSON.stringify(post)
+                }
+                fetch('/Perfil/AgregarPublicacion', config)
+                .then(res => res.json())
+                .then(res => {
+                    if(res.exito) this.getAllPosts();
+                })
+            },
+            fileOnChange: function(e){
+               this.newPost.foto = e.target.files[0]; 
+            },
+            getCurrentUserId: function(){
+                this.newPost.userId = document.getElementById('userId').value || null;
+            }
+        },
+        mounted: function() {
+            this.getAllPosts();
+            this.getCurrentUserId();
+        }
+    })
+</script>
